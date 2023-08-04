@@ -26,7 +26,7 @@ With this application, users can:
 - Ant Design
 - CSS
 
-To manage the project used board Jira.
+The project is managed using Jira board.
 
 For backend in project used Commercetools.
 
@@ -67,8 +67,20 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### `npm run lint`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+With ESLint analyze the code that must comply with the rules of writing the project code.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Will show you where the code does not match.
+
+### `npm run lint:fix`
+
+To fix the code writing errors that were identified using ESLint, in accordance with the rules of writing the project code.
+
+### `npm run format`
+
+To format all files supported by Prettier, in accordance with the rules of writing the project code.
+
+### `npm run deploy`
+
+To deploy production version of project on GitHub Pages.
