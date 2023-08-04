@@ -1,6 +1,34 @@
-# Getting Started with Create React App
+# eCommerce Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a project for the final task in RSSchool, eCommerce Application for online postcard store.
+
+Application with beautiful concise, minimalistic postcards and envelopes for money for any occasion. The application is very convenient to use.
+
+With this application, users can:
+
+- Log in and register
+- Manage profile
+- View the product catalog
+- View details of product
+- Order postcards
+
+### On this project working a team of developers:
+
+- [Nikita Bykovsky](https://github.com/nikitatopodin)
+- [Maria Bogdanova](https://github.com/mashabogdanova)
+- [Ilya Khokhanov](https://github.com/ilyakhokhanov)
+
+### The technology stack used on project:
+
+- TypeScript
+- React
+- Redux, Redux-Toolkit
+- Ant Design
+- CSS
+
+To manage the project used board Jira.
+
+For backend in project used Commercetools.
 
 ## Available Scripts
 
