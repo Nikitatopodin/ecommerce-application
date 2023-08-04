@@ -1,4 +1,4 @@
-/* eslint-disable */ 
+/* eslint-disable */
 module.exports = {
   env: {
     browser: true,
@@ -11,16 +11,17 @@ module.exports = {
   },
   extends: [
     "standard",
-    "eslint:recommended",
     "plugin:react/recommended",
-    "prettier",
-    "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
     "airbnb",
-    "airbnb-typescript"
+    "airbnb-typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
-  plugins: ["react", "@typescript-eslint", "react-hooks"],
+  plugins: ["react", "@typescript-eslint", "react-hooks", "prettier"],
   rules: {
+    "prettier/prettier": "error",
     "@typescript-eslint/no-explicit-any": 2,
   },
   settings: {
