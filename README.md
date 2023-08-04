@@ -1,6 +1,34 @@
-# Getting Started with Create React App
+# eCommerce Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a project for the final task in RSSchool, eCommerce Application for online postcard store.
+
+Application with beautiful concise, minimalistic postcards and envelopes for money for any occasion. The application is very convenient to use.
+
+With this application, users can:
+
+- Log in and register
+- Manage profile
+- View the product catalog
+- View details of product
+- Order postcards
+
+### On this project working a team of developers:
+
+- [Nikita Bykovsky](https://github.com/nikitatopodin)
+- [Maria Bogdanova](https://github.com/mashabogdanova)
+- [Ilya Khokhanov](https://github.com/ilyakhokhanov)
+
+### The technology stack used on project:
+
+- TypeScript
+- React
+- Redux, Redux-Toolkit
+- Ant Design
+- CSS
+
+The project is managed using Jira board.
+
+For backend in project used Commercetools.
 
 ## Available Scripts
 
@@ -39,8 +67,28 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### `npm run lint`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+With ESLint analyze the code that must comply with the rules of writing the project code.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Will show you where the code does not match.
+
+### `npm run lint:fix`
+
+To fix the code writing errors that were identified using ESLint, in accordance with the rules of writing the project code.
+
+### `npm run format`
+
+To format all files supported by Prettier, in accordance with the rules of writing the project code.
+
+### `npm run deploy`
+
+To deploy production version of project on GitHub Pages.
+
+## Setup and Running
+
+- Clone this repo: `$ git clone https://github.com/Nikitatopodin/ecommerce-application.git`
+- Go to downloaded folder: `$ cd ecommerce-application`
+- Install dependencies: `$ npm install --legacy-peer-deps`
+- Start server: `$ npm start`
+- Now you can open in browser to the address: [http://localhost:3000](http://localhost:3000)
