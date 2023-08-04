@@ -84,3 +84,11 @@ To format all files supported by Prettier, in accordance with the rules of writi
 ### `npm run deploy`
 
 To deploy production version of project on GitHub Pages.
+
+## Setup and Running
+
+- Clone this repo: `$ git clone https://github.com/Nikitatopodin/ecommerce-application.git`
+- Go to downloaded folder: `$ cd ecommerce-application`
+- Install dependencies: `$ npm install --legacy-peer-deps`
+- Start server: `$ npm start`
+- Now you can open in browser to the address: [http://localhost:3000](http://localhost:3000)
