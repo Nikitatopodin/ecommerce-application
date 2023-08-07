@@ -13,7 +13,7 @@ function App() {
       <ButtonComponent
         type={undefined}
         title="sdf"
-        isDisabled={false}
+        disabled={false}
         onClick={onClickHandler}
       />
       <InputComponent

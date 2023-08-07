@@ -10,8 +10,8 @@ interface IProps {
   onBlur: (e: React.FocusEvent<HTMLElement>) => void;
 }
 
-function InputComponent({ ...props }: IProps) {
-  return props.isPasswordType ? (
+function InputComponent({ isPasswordType, ...props }: IProps) {
+  return isPasswordType ? (
     <Input.Password {...props} iconRender={PasswordIcon} />
   ) : (
     <Input {...props} />
