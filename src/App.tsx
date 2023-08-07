@@ -1,9 +1,20 @@
 import React from 'react';
 import './App.css';
-import { Button } from 'antd';
+import ButtonComponent from './components/button/ButtonComponent';
 
 function App() {
-  return <Button type="primary">Test Button</Button>;
+  const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(e.target);
+  };
+
+  return (
+    <ButtonComponent
+      type={undefined}
+      title="sdf"
+      isDisabled={false}
+      onClick={onClickHandler}
+    />
+  );
 }
 
 export default App;
