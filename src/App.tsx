@@ -1,9 +1,30 @@
 import React from 'react';
 import './App.css';
-import { Button } from 'antd';
+import ButtonComponent from './components/button/ButtonComponent';
+import InputComponent from './components/input/InputComponent';
 
 function App() {
-  return <Button type="primary">Test Button</Button>;
+  const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(e.target);
+  };
+
+  return (
+    <>
+      <ButtonComponent
+        type={undefined}
+        title="sdf"
+        disabled={false}
+        onClick={onClickHandler}
+      />
+      <InputComponent
+        status=""
+        placeholder="sdf"
+        isPasswordType
+        onInput={() => console.log('Input')}
+        onBlur={() => console.log('Blur')}
+      />
+    </>
+  );
 }
 
 export default App;
