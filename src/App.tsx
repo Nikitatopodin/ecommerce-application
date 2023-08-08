@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import ButtonComponent from './components/button/ButtonComponent';
 import InputComponent from './components/input/InputComponent';
+import Registration from './pages/registration/Registration';
 
 function App() {
   const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,6 +24,7 @@ function App() {
         onInput={() => console.log('Input')}
         onBlur={() => console.log('Blur')}
       />
+      <Registration />
     </>
   );
 }
