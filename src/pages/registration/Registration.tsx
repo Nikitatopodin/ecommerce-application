@@ -36,6 +36,11 @@ const tailFormItemLayout = {
   },
 };
 
+const ruleOnlyLetters = {
+  pattern: /^[a-zA-Z ]+$/,
+  message: 'Must contain only characters',
+};
+
 interface IRegistrationForm {
   email: string;
   firstName: string;
@@ -56,6 +61,7 @@ interface IRegistrationForm {
 function Registration(): JSX.Element {
   const [form] = Form.useForm();
   const [oneAdress, setOneAdress] = useState(true);
+  // const [formState, setFormState] = useState({});
 
   const onFinish = (values: IRegistrationForm) => {
     console.log('Received values of form: ', values);
@@ -95,7 +101,7 @@ function Registration(): JSX.Element {
           },
         ]}
       >
-        <Input placeholder="E-mail" value="hi" />
+        <Input placeholder="E-mail" />
       </Form.Item>
 
       <Form.Item
@@ -150,6 +156,7 @@ function Registration(): JSX.Element {
             message: 'Please input your first name',
             whitespace: true,
           },
+          ruleOnlyLetters,
         ]}
       >
         <Input placeholder="First name" />
@@ -165,6 +172,7 @@ function Registration(): JSX.Element {
             message: 'Please input your last name',
             whitespace: true,
           },
+          ruleOnlyLetters,
         ]}
       >
         <Input placeholder="Last name" />
@@ -180,6 +188,16 @@ function Registration(): JSX.Element {
             required: true,
             message: 'Please select time!',
           },
+          () => ({
+            validator(_, value) {
+              if (Date.now() - value.$d.getTime() > 378432000000) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                new Error('Store has been available since 12 age'),
+              );
+            },
+          }),
         ]}
       >
         <DatePicker />
@@ -194,7 +212,7 @@ function Registration(): JSX.Element {
           defaultChecked={oneAdress}
           onChange={() => setOneAdress(!oneAdress)}
         >
-          Use the same address for both billing and shipping
+          Use the same address for both billing and shipping default
         </Checkbox>
       </Form.Item>
 
@@ -227,6 +245,31 @@ function Registration(): JSX.Element {
             message: 'Please input postal code',
             whitespace: true,
           },
+          {
+            pattern: /^[0-9]+$/,
+            message: 'Must contain only characters',
+          },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (getFieldValue('country') === 'usa') {
+                if (value.length === 5) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error('Postal code must contain 5 digits'),
+                );
+              }
+              if (getFieldValue('country') === 'russia') {
+                if (value.length === 6) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error('Postal code must contain 6 digits'),
+                );
+              }
+              return Promise.resolve();
+            },
+          }),
         ]}
       >
         <Input placeholder="Postal code" />
@@ -242,6 +285,7 @@ function Registration(): JSX.Element {
             message: 'Please input city',
             whitespace: true,
           },
+          ruleOnlyLetters,
         ]}
       >
         <Input placeholder="City" />
@@ -256,6 +300,10 @@ function Registration(): JSX.Element {
             required: true,
             message: 'Please input street',
             whitespace: true,
+          },
+          {
+            pattern: /^[a-zA-Z0-9-'"]+$/,
+            message: 'Must contain only characters',
           },
         ]}
       >
@@ -290,6 +338,31 @@ function Registration(): JSX.Element {
                 message: 'Please input postal code',
                 whitespace: true,
               },
+              {
+                pattern: /^[0-9]+$/,
+                message: 'Must contain only characters',
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (getFieldValue('countryBilling') === 'usa') {
+                    if (value.length === 5) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error('Postal code must contain 5 digits'),
+                    );
+                  }
+                  if (getFieldValue('countryBilling') === 'russia') {
+                    if (value.length === 6) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error('Postal code must contain 6 digits'),
+                    );
+                  }
+                  return Promise.resolve();
+                },
+              }),
             ]}
           >
             <Input placeholder="Postal code" />
@@ -304,6 +377,7 @@ function Registration(): JSX.Element {
                 message: 'Please input city',
                 whitespace: true,
               },
+              ruleOnlyLetters,
             ]}
           >
             <Input placeholder="City" />
@@ -317,6 +391,10 @@ function Registration(): JSX.Element {
                 required: true,
                 message: 'Please input street',
                 whitespace: true,
+              },
+              {
+                pattern: /^[a-zA-Z0-9-'"]+$/,
+                message: 'Must contain only characters',
               },
             ]}
           >
