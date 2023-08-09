@@ -4,7 +4,8 @@ import { Button } from 'antd';
 interface IProps {
   type: 'link' | 'text' | 'default' | 'primary' | 'dashed' | undefined;
   title: string;
-  disabled: boolean;
+  htmlType?: 'submit' | 'button' | 'reset' | undefined;
+  disabled?: boolean;
   onClick?: MouseEventHandler<HTMLElement>;
 }
 
@@ -13,6 +14,8 @@ function ButtonComponent({ title, ...props }: IProps): ReactElement {
 }
 
 ButtonComponent.defaultProps = {
+  htmlType: undefined,
+  disabled: false,
   onClick: undefined,
 };
 
