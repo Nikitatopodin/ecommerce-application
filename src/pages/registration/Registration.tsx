@@ -9,6 +9,8 @@ import {
   Row,
   Col,
 } from 'antd';
+// import { signUp } from '../../services/API/ct';
+import { IRegistrationForm } from '../../types/types';
 
 const { Option } = Select;
 
@@ -36,23 +38,6 @@ const tailFormItemLayout = {
   },
 };
 
-interface IRegistrationForm {
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  confirm: string;
-  birthday: object;
-  city: string;
-  country: string;
-  postalCode: string;
-  street: string;
-  cityBilling?: string;
-  countryBilling?: string;
-  postalCodeBilling?: string;
-  streetBilling?: string;
-}
-
 function Registration(): JSX.Element {
   const [form] = Form.useForm();
   const [isAdressSingle, setIsAdressSingle] = useState(true);
@@ -60,6 +45,7 @@ function Registration(): JSX.Element {
 
   const onFinish = (values: IRegistrationForm) => {
     console.log('Received values of form: ', values);
+    // signUp().then(console.log).catch(console.log);
   };
 
   return (
