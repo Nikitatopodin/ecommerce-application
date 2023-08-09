@@ -36,11 +36,6 @@ const tailFormItemLayout = {
   },
 };
 
-const ruleOnlyLetters = {
-  pattern: /^[a-zA-Z ]+$/,
-  message: 'Must contain only characters',
-};
-
 interface IRegistrationForm {
   email: string;
   firstName: string;
@@ -60,7 +55,7 @@ interface IRegistrationForm {
 
 function Registration(): JSX.Element {
   const [form] = Form.useForm();
-  const [oneAdress, setOneAdress] = useState(true);
+  const [isAdressSingle, setIsAdressSingle] = useState(true);
   // const [formState, setFormState] = useState({});
 
   const onFinish = (values: IRegistrationForm) => {
@@ -82,9 +77,7 @@ function Registration(): JSX.Element {
       }}
       scrollToFirstError
     >
-      <Form.Item {...tailFormItemLayout}>
-        <h1>Create Account</h1>
-      </Form.Item>
+      <h1 style={{ textAlign: 'center' }}>Create Account</h1>
 
       <Form.Item
         name="email"
@@ -93,7 +86,7 @@ function Registration(): JSX.Element {
         rules={[
           {
             type: 'email',
-            message: 'The input is not valid E-mail!',
+            message: 'Please enter a valid email address',
           },
           {
             required: true,
@@ -137,7 +130,7 @@ function Registration(): JSX.Element {
                 return Promise.resolve();
               }
               return Promise.reject(
-                new Error('The new password that you entered do not match!'),
+                new Error('Passwords do not match, please try again'),
               );
             },
           }),
@@ -156,7 +149,10 @@ function Registration(): JSX.Element {
             message: 'Please input your first name',
             whitespace: true,
           },
-          ruleOnlyLetters,
+          {
+            pattern: /^[a-zA-Z ]+$/,
+            message: 'First name must contain only characters',
+          },
         ]}
       >
         <Input placeholder="First name" />
@@ -172,7 +168,10 @@ function Registration(): JSX.Element {
             message: 'Please input your last name',
             whitespace: true,
           },
-          ruleOnlyLetters,
+          {
+            pattern: /^[a-zA-Z ]+$/,
+            message: 'Last name must contain only characters',
+          },
         ]}
       >
         <Input placeholder="Last name" />
@@ -209,17 +208,15 @@ function Registration(): JSX.Element {
         wrapperCol={{ offset: 8, span: 16 }}
       >
         <Checkbox
-          defaultChecked={oneAdress}
-          onChange={() => setOneAdress(!oneAdress)}
+          defaultChecked={isAdressSingle}
+          onChange={() => setIsAdressSingle(!isAdressSingle)}
         >
           Use the same address for both billing and shipping default
         </Checkbox>
       </Form.Item>
 
-      {!oneAdress && (
-        <Form.Item {...tailFormItemLayout}>
-          <h3>Address for shipping</h3>
-        </Form.Item>
+      {!isAdressSingle && (
+        <h3 style={{ textAlign: 'center' }}>Address for shipping</h3>
       )}
 
       <Form.Item
@@ -285,7 +282,10 @@ function Registration(): JSX.Element {
             message: 'Please input city',
             whitespace: true,
           },
-          ruleOnlyLetters,
+          {
+            pattern: /^[a-zA-Z ]+$/,
+            message: 'City must contain only characters',
+          },
         ]}
       >
         <Input placeholder="City" />
@@ -303,18 +303,16 @@ function Registration(): JSX.Element {
           },
           {
             pattern: /^[a-zA-Z0-9-'"]+$/,
-            message: 'Must contain only characters',
+            message: 'Street must contain only characters',
           },
         ]}
       >
         <Input placeholder="Street" />
       </Form.Item>
 
-      {!oneAdress && (
+      {!isAdressSingle && (
         <>
-          <Form.Item {...tailFormItemLayout}>
-            <h3>Address for billing</h3>
-          </Form.Item>
+          <h3 style={{ textAlign: 'center' }}>Address for billing</h3>
 
           <Form.Item
             name="countryBilling"
@@ -377,7 +375,10 @@ function Registration(): JSX.Element {
                 message: 'Please input city',
                 whitespace: true,
               },
-              ruleOnlyLetters,
+              {
+                pattern: /^[a-zA-Z ]+$/,
+                message: 'City must contain only characters',
+              },
             ]}
           >
             <Input placeholder="City" />
@@ -394,7 +395,7 @@ function Registration(): JSX.Element {
               },
               {
                 pattern: /^[a-zA-Z0-9-'"]+$/,
-                message: 'Must contain only characters',
+                message: 'Street must contain only characters',
               },
             ]}
           >
