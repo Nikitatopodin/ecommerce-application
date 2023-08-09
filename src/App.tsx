@@ -1,9 +1,9 @@
 import React from 'react';
+import Main from './pages/main';
 import './App.css';
-import { Button } from 'antd';
 
-function App() {
-  return <Button type="primary">Test Button</Button>;
+function App(): JSX.Element {
+  return <Main />;
 }
 
 export default App;
