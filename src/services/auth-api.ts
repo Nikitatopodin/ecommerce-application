@@ -7,7 +7,7 @@ function loginUser(userData: CustomerSignin) {
     projectKey: 'final-task',
   });
 
-  apiRoot
+  return apiRoot
     .me()
     .login()
     .post({ body: userData })
@@ -15,7 +15,7 @@ function loginUser(userData: CustomerSignin) {
     .then(({ body }) => {
       console.log('success', JSON.stringify(body));
     })
-    .catch(console.error);
+    .catch((error) => error);
 }
 
 export default loginUser;

@@ -1,8 +1,9 @@
-import React from 'react';
-import { Button, Col, Form, FormInstance, Input, Row } from 'antd';
+import React, { useState } from 'react';
+import { Button, Col, Form, FormInstance, Input, Row, Typography } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import loginUser from '../services/auth-api';
 import formValidation from '../utils/formValidation';
+import { ResponseCodes } from '../services/BuildClient';
 
 interface IFormStyles {
   [key: string]: { [key: string]: string | number };
@@ -24,10 +25,15 @@ const formStyles: IFormStyles = {
 function Login(): JSX.Element {
   const [form] = Form.useForm();
   const formRef = React.useRef<FormInstance>(null);
+  const [isLoginError, setLoginError] = useState(false);
 
   const onReset = () => formRef.current?.resetFields();
-  const onFinish = (values: CustomerSignin) => {
-    loginUser(values);
+  const onFinish = async (values: CustomerSignin) => {
+    const response = await loginUser(values);
+    const errorMessage = response.body.errors[0].code;
+    if (errorMessage === ResponseCodes.loginError) {
+      setLoginError(true);
+    }
   };
 
   return (
@@ -40,6 +46,7 @@ function Login(): JSX.Element {
       style={formStyles.form}
       wrapperCol={{ span: 16 }}
       labelCol={{ span: 6 }}
+      onChange={() => setLoginError(false)}
     >
       <h1 style={formStyles.title}>Log in</h1>
 
@@ -49,7 +56,7 @@ function Login(): JSX.Element {
         hasFeedback
         rules={formValidation.email}
       >
-        <Input placeholder="E-mail" id="login-email"/>
+        <Input placeholder="E-mail" id="login-email" />
       </Form.Item>
 
       <Form.Item
@@ -58,7 +65,15 @@ function Login(): JSX.Element {
         hasFeedback
         rules={formValidation.password}
       >
-        <Input.Password placeholder="Password" id="login-password"/>
+        <Input.Password placeholder="Password" id="login-password" />
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 6 }}>
+        {isLoginError && (
+          <Typography.Text type="danger">
+            Sorry, the provided account doesn&apos;t exist. Please check the
+            username or password or consider creating a new account
+          </Typography.Text>
+        )}
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
