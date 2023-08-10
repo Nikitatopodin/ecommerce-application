@@ -9,8 +9,9 @@ import {
   Row,
   Col,
 } from 'antd';
-// import { signUp } from '../../services/API/ct';
+import { logIn, signUp } from '../../services/API/apiRequest';
 import { IRegistrationForm } from '../../types/types';
+import convertFormData from '../../utils/convertFormData';
 
 const { Option } = Select;
 
@@ -44,8 +45,13 @@ function Registration(): JSX.Element {
   // const [formState, setFormState] = useState({});
 
   const onFinish = (values: IRegistrationForm) => {
-    console.log('Received values of form: ', values);
-    // signUp().then(console.log).catch(console.log);
+    signUp(convertFormData(values))
+      .then(() =>
+        logIn(values.email, values.password)
+          .then(console.log)
+          .catch(console.log),
+      )
+      .catch(console.log);
   };
 
   return (
@@ -175,11 +181,13 @@ function Registration(): JSX.Element {
           },
           () => ({
             validator(_, value) {
-              if (Date.now() - value.$d.getTime() > 378432000000) {
+              if (Date.now() - value.$d.getTime() > 378691200000) {
                 return Promise.resolve();
               }
               return Promise.reject(
-                new Error('Store has been available since 12 age'),
+                new Error(
+                  'Sorry, only users aged 12 or older can create an account',
+                ),
               );
             },
           }),
@@ -189,7 +197,7 @@ function Registration(): JSX.Element {
       </Form.Item>
 
       <Form.Item
-        name="remember"
+        name="oneAddress"
         valuePropName="checked"
         wrapperCol={{ offset: 8, span: 16 }}
       >
@@ -212,8 +220,8 @@ function Registration(): JSX.Element {
         rules={[{ required: true, message: 'Please select your country!' }]}
       >
         <Select placeholder="Please select a country">
-          <Option value="usa">U.S.A</Option>
-          <Option value="russia">Russia</Option>
+          <Option value="US">U.S.A</Option>
+          <Option value="RU">Russia</Option>
         </Select>
       </Form.Item>
 
@@ -234,7 +242,7 @@ function Registration(): JSX.Element {
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
-              if (getFieldValue('country') === 'usa') {
+              if (getFieldValue('country') === 'US') {
                 if (value.length === 5) {
                   return Promise.resolve();
                 }
@@ -242,7 +250,7 @@ function Registration(): JSX.Element {
                   new Error('Postal code must contain 5 digits'),
                 );
               }
-              if (getFieldValue('country') === 'russia') {
+              if (getFieldValue('country') === 'RU') {
                 if (value.length === 6) {
                   return Promise.resolve();
                 }
@@ -307,8 +315,8 @@ function Registration(): JSX.Element {
             rules={[{ required: true, message: 'Please select your country!' }]}
           >
             <Select placeholder="Please select a country">
-              <Option value="usa">U.S.A</Option>
-              <Option value="russia">Russia</Option>
+              <Option value="US">U.S.A</Option>
+              <Option value="RU">Russia</Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -328,7 +336,7 @@ function Registration(): JSX.Element {
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (getFieldValue('countryBilling') === 'usa') {
+                  if (getFieldValue('countryBilling') === 'US') {
                     if (value.length === 5) {
                       return Promise.resolve();
                     }
@@ -336,7 +344,7 @@ function Registration(): JSX.Element {
                       new Error('Postal code must contain 5 digits'),
                     );
                   }
-                  if (getFieldValue('countryBilling') === 'russia') {
+                  if (getFieldValue('countryBilling') === 'RU') {
                     if (value.length === 6) {
                       return Promise.resolve();
                     }
@@ -398,9 +406,7 @@ function Registration(): JSX.Element {
             </Button>
           </Col>
           <Col span={6}>
-            <Button type="primary" htmlType="submit">
-              Log in
-            </Button>
+            <Button type="primary">Log in</Button>
           </Col>
         </Row>
       </Form.Item>

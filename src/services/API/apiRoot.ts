@@ -4,9 +4,7 @@ import {
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-
 import { apiDataUser } from './apiData';
-import { IRegistrationForm } from '../../types/types';
 
 const projectKey = apiDataUser.PROJECT_KEY;
 const scopes = [apiDataUser.SCOPES];
@@ -38,24 +36,4 @@ const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: apiDataUser.PROJECT_KEY,
 });
 
-const signUp = (data: IRegistrationForm) => {
-  return apiRoot
-    .me()
-    .signup()
-    .post({
-      body: data,
-    })
-    .execute();
-};
-
-const logIn = (email: string, password: string) => {
-  return apiRoot
-    .me()
-    .login()
-    .post({
-      body: { email, password },
-    })
-    .execute();
-};
-
-export { signUp, logIn };
+export default apiRoot;
