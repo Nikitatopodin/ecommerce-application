@@ -8,10 +8,13 @@ import {
   Checkbox,
   Row,
   Col,
+  Typography,
 } from 'antd';
 import { logIn, signUp } from '../../services/API/apiRequest';
 import { IRegistrationForm } from '../../types/types';
 import convertFormData from '../../utils/convertFormData';
+
+const signupError = 'DuplicateField';
 
 const { Option } = Select;
 
@@ -42,7 +45,7 @@ const tailFormItemLayout = {
 function Registration(): JSX.Element {
   const [form] = Form.useForm();
   const [isAdressSingle, setIsAdressSingle] = useState(true);
-  // const [formState, setFormState] = useState({});
+  const [isSignupError, setIsSignupError] = useState(false);
 
   const onFinish = (values: IRegistrationForm) => {
     signUp(convertFormData(values))
@@ -51,7 +54,11 @@ function Registration(): JSX.Element {
           .then(console.log)
           .catch(console.log),
       )
-      .catch(console.log);
+      .catch((err) => {
+        if (err.body.errors[0].code === signupError) {
+          setIsSignupError(true);
+        }
+      });
   };
 
   return (
@@ -85,9 +92,19 @@ function Registration(): JSX.Element {
             message: 'Please input your E-mail!',
           },
         ]}
+        validateStatus={isSignupError ? 'error' : ''}
       >
-        <Input placeholder="E-mail" />
+        <Input placeholder="E-mail" onChange={() => setIsSignupError(false)} />
       </Form.Item>
+
+      {isSignupError && (
+        <Form.Item {...tailFormItemLayout}>
+          <Typography.Text type="danger">
+            An account with such an email already exists, you can use another
+            email or log in to your account
+          </Typography.Text>
+        </Form.Item>
+      )}
 
       <Form.Item
         name="password"
