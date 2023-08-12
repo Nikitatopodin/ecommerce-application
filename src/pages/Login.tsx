@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, FormInstance, Input, Row, Typography } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
-import loginUser from '../services/auth-api';
-import formValidation from '../utils/formValidation';
-import { ResponseCodes } from '../services/BuildClient';
+import loginUser from '../services/authApi';
+import { ResponseCodes } from '../services/apiRoot';
+import { fieldsProps } from '../utils/formProps';
 
 interface IFormStyles {
   [key: string]: { [key: string]: string | number };
@@ -50,21 +50,11 @@ function Login(): JSX.Element {
     >
       <h1 style={formStyles.title}>Log in</h1>
 
-      <Form.Item
-        name="email"
-        label="E-mail"
-        hasFeedback
-        rules={formValidation.email}
-      >
+      <Form.Item {...fieldsProps.email.props}>
         <Input placeholder="E-mail" id="login-email" />
       </Form.Item>
 
-      <Form.Item
-        name="password"
-        label="Password"
-        hasFeedback
-        rules={formValidation.password}
-      >
+      <Form.Item {...fieldsProps.password.props}>
         <Input.Password placeholder="Password" id="login-password" />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 6 }}>
