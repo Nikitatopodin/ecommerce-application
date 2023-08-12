@@ -10,7 +10,7 @@ import {
   Col,
   Typography,
 } from 'antd';
-import { logIn, signUp } from '../../services/API/apiRequest';
+import { logIn, signUp } from '../../services/apiRequest';
 import { IRegistrationForm } from '../../types/types';
 import convertFormData from '../../utils/convertFormData';
 import { fieldsProps, tailFormItemLayout } from './fieldsProps';
@@ -23,7 +23,7 @@ const { Option } = Select;
 function Registration(): JSX.Element {
   const [form] = Form.useForm();
   const [isAdressSingle, setIsAdressSingle] = useState(true);
-  const [isSignupError, setIsSignupError] = useState(false);
+  const [isSignupError, setSignupError] = useState(false);
 
   const onFinish = (values: IRegistrationForm) => {
     signUp(convertFormData(values))
@@ -33,8 +33,9 @@ function Registration(): JSX.Element {
           .catch(console.log),
       )
       .catch((err) => {
-        if (err.body.errors[0].code === signupError) {
-          setIsSignupError(true);
+        const errorMessage = err.body.errors[0].code;
+        if (errorMessage === signupError) {
+          setSignupError(true);
         }
       });
   };
@@ -47,7 +48,7 @@ function Registration(): JSX.Element {
         {...fieldsProps.email.props}
         validateStatus={isSignupError ? 'error' : ''}
       >
-        <Input placeholder="E-mail" onChange={() => setIsSignupError(false)} />
+        <Input placeholder="E-mail" onChange={() => setSignupError(false)} />
       </Form.Item>
 
       {isSignupError && (
