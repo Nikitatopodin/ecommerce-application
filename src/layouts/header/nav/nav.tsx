@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import './nav.css';
+import { useNavigate } from 'react-router-dom';
 
 const userIconStyle: React.CSSProperties = {
   fontSize: '24px',
@@ -10,16 +12,30 @@ const userIconStyle: React.CSSProperties = {
 
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
+  display: 'flex',
+  justifyContent: 'space-between',
 };
 
 const profileStyle: React.CSSProperties = {
   marginLeft: 'auto',
 };
 
+const logoStyle: React.CSSProperties = {
+  color: '#000',
+  fontSize: '20px',
+  marginRight: 'auto',
+};
+
 const items: MenuProps['items'] = [
   {
+    label: 'IN MEMORIES',
+    key: 'logo',
+    style: logoStyle,
+    className: 'logo',
+  },
+  {
     label: 'Home',
-    key: 'home',
+    key: '/',
   },
   {
     label: 'About us',
@@ -42,16 +58,12 @@ const items: MenuProps['items'] = [
         type: 'group',
         children: [
           {
-            label: 'Profile',
-            key: 'profile',
-          },
-          {
             label: 'Log in',
-            key: 'setting:1',
+            key: 'login',
           },
           {
             label: 'Sign up',
-            key: 'setting:2',
+            key: 'registration',
           },
         ],
       },
@@ -60,10 +72,18 @@ const items: MenuProps['items'] = [
 ];
 
 export default function NavComponent(): JSX.Element {
-  const [current, setCurrent] = useState('mail');
+  const [current, setCurrent] = useState('/');
+
+  const navigate = useNavigate();
 
   const onClick: MenuProps['onClick'] = (e) => {
-    setCurrent(e.key);
+    if (e.key === 'logo') {
+      setCurrent('/');
+      navigate('/');
+    } else {
+      setCurrent(e.key);
+      navigate(e.key);
+    }
   };
 
   return (
