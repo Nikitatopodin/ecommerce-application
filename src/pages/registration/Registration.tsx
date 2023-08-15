@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   DatePicker,
@@ -15,6 +17,8 @@ import { IRegistrationForm } from '../../types/types';
 import convertFormData from '../../utils/convertFormData';
 import { fieldsProps, tailFormItemLayout } from './fieldsProps';
 import BillingAddress from './BillingAddress';
+import { RootState } from '../../redux/store';
+import { loginReducer } from '../../redux/slices/authorizationSlice';
 
 const signupError = 'DuplicateField';
 
@@ -25,11 +29,22 @@ function Registration(): JSX.Element {
   const [isAdressSingle, setIsAdressSingle] = useState(true);
   const [isSignupError, setSignupError] = useState(false);
 
+  const navigate = useNavigate();
+
+  const authorization = useSelector<RootState>(
+    (state) => state.authorization.isLoggedIn,
+  );
+
+  const dispatch = useDispatch();
+
   const onFinish = (values: IRegistrationForm) => {
     signUp(convertFormData(values))
       .then(() =>
         logIn(values.email, values.password)
-          .then(console.log)
+          .then(() => {
+            dispatch(loginReducer());
+            navigate('/');
+          })
           .catch(console.log),
       )
       .catch((err) => {
@@ -37,8 +52,15 @@ function Registration(): JSX.Element {
         if (errorMessage === signupError) {
           setSignupError(true);
         }
+        console.log(err);
       });
   };
+
+  useEffect(() => {
+    if (authorization) {
+      navigate('/');
+    }
+  }, [authorization]);
 
   return (
     <Form {...fieldsProps.form.props} form={form} onFinish={onFinish}>
@@ -180,7 +202,9 @@ function Registration(): JSX.Element {
             </Button>
           </Col>
           <Col span={6}>
-            <Button type="primary">Log in</Button>
+            <Button type="primary" onClick={() => navigate('/login')}>
+              Log in
+            </Button>
           </Col>
         </Row>
       </Form.Item>
