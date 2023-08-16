@@ -42,7 +42,7 @@ function Registration(): JSX.Element {
       .then(() =>
         logIn(values.email, values.password)
           .then(() => {
-            dispatch(loginReducer());
+            dispatch(loginReducer(true));
             navigate('/');
           })
           .catch(console.log),

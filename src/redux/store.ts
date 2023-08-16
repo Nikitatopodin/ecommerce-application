@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import authorizationReducer from './slices/authorizationSlice';
+import authorization from './slices/authorizationSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
-  authorization: authorizationReducer,
+  authorization,
 });
 
 const setupStore = () => {

@@ -6,15 +6,12 @@ const authorizationSlice = createSlice({
     isLoggedIn: false,
   },
   reducers: {
-    loginReducer(state) {
-      state.isLoggedIn = true;
-    },
-    logoutReducer(state) {
-      state.isLoggedIn = false;
+    loginReducer(state, action) {
+      state.isLoggedIn = action.payload;
     },
   },
 });
 
-export const { loginReducer, logoutReducer } = authorizationSlice.actions;
+export const { loginReducer } = authorizationSlice.actions;
 
 export default authorizationSlice.reducer;
