@@ -2,15 +2,7 @@ import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/sr
 import apiRoot from './apiRoot';
 
 function loginUser(userData: CustomerSignin) {
-  return apiRoot
-    .me()
-    .login()
-    .post({ body: userData })
-    .execute()
-    .then(({ body }) => {
-      console.log('success', JSON.stringify(body));
-    })
-    .catch((error) => error);
+  return apiRoot.me().login().post({ body: userData }).execute();
 }
 
 export default loginUser;

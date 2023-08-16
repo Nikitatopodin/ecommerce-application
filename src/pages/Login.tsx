@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, FormInstance, Input, Row, Typography } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
-import loginUser from '../services/authApi';
+import { useNavigate } from 'react-router-dom';
+import signIn from '../services/authApi';
 import { ResponseCodes } from '../services/apiRoot';
 import { fieldsProps } from '../utils/formProps';
+import { useAppDispatch } from '../hooks/hooks';
+import { loginReducer } from '../redux/slices/authorizationSlice';
 
 interface IFormStyles {
   [key: string]: { [key: string]: string | number };
@@ -26,14 +29,22 @@ function Login(): JSX.Element {
   const [form] = Form.useForm();
   const formRef = React.useRef<FormInstance>(null);
   const [isLoginError, setLoginError] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
-    const response = await loginUser(values);
-    const errorMessage = response?.body.errors[0].code;
-    if (errorMessage === ResponseCodes.loginError) {
-      setLoginError(true);
-    }
+    signIn(values)
+      .then(() => {
+        dispatch(loginReducer(true));
+        navigate('/');
+      })
+      .catch((err) => {
+        const errorMessage = err.body.errors[0].code;
+        if (errorMessage === ResponseCodes.loginError) {
+          setLoginError(true);
+        }
+      });
   };
 
   return (
