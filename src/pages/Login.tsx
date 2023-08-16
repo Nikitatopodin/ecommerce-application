@@ -30,7 +30,7 @@ function Login(): JSX.Element {
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
     const response = await loginUser(values);
-    const errorMessage = response.body.errors[0].code;
+    const errorMessage = response?.body.errors[0].code;
     if (errorMessage === ResponseCodes.loginError) {
       setLoginError(true);
     }
