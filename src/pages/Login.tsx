@@ -77,7 +77,7 @@ function Login(): JSX.Element {
         )}
       </Form.Item>
 
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+      <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
         <Row gutter={16}>
           <Col>
             <Button type="primary" htmlType="submit" id="login-submit-button">
@@ -87,6 +87,11 @@ function Login(): JSX.Element {
           <Col>
             <Button htmlType="button" onClick={onReset} id="login-reset-button">
               Reset
+            </Button>
+          </Col>
+          <Col>
+            <Button type="link" onClick={() => navigate('/registration')}>
+              Create account
             </Button>
           </Col>
         </Row>
