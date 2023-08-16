@@ -1,32 +1,10 @@
 import React from 'react';
 import './App.css';
-import ButtonComponent from './components/button/ButtonComponent';
-import InputComponent from './components/input/InputComponent';
-import Registration from './pages/registration/Registration';
+import { RouterProvider } from 'react-router-dom';
+import router from './services/router/router';
 
-function App() {
-  const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e.target);
-  };
-
-  return (
-    <>
-      <ButtonComponent
-        type={undefined}
-        title="sdf"
-        disabled={false}
-        onClick={onClickHandler}
-      />
-      <InputComponent
-        status=""
-        placeholder="sdf"
-        isPasswordType
-        onInput={() => console.log('Input')}
-        onBlur={() => console.log('Blur')}
-      />
-      <Registration />
-    </>
-  );
+function App(): JSX.Element {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
