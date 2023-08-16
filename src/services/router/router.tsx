@@ -7,7 +7,7 @@ import {
 import Main from '../../pages/MainPage';
 import ErrorPage from '../../pages/ErrorPage';
 import Login from '../../pages/Login';
-import Registration from '../../pages/registration/Registration';
+import Registration from '../../pages/RegistrationPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

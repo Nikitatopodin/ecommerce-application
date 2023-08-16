@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Select } from 'antd';
-import { fieldsProps } from './fieldsProps';
+import { fieldsProps } from '../fieldsProps';
 
 const { Option } = Select;
 

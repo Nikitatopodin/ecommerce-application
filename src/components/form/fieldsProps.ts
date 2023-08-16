@@ -32,7 +32,7 @@ export const fieldsProps = {
       style: {
         margin: '0 auto',
         maxWidth: 600,
-        padding: '10px 50px 10px 0',
+        padding: '10px 50px 10px 50px',
         border: 'solid 1px #f0f0f0',
         borderRadius: '.5em',
       },

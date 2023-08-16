@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const authorizationSlice = createSlice({
   name: 'authorization',
   initialState: {
-    isLoggedIn: false,
+    isAuthorized: false,
   },
   reducers: {
     loginReducer(state, action) {
-      state.isLoggedIn = action.payload;
+      state.isAuthorized = action.payload;
     },
   },
 });
