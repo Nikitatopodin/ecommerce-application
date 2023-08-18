@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button, Col, Form, FormInstance, Input, Row, Typography } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { useNavigate } from 'react-router-dom';
-import signIn from '../services/apiLogIn';
-import { ResponseCodes } from '../services/apiRoot';
+import signIn from '../services/login/apiLogIn';
+import { ResponseCodes } from '../services/login/apiRoot';
 import { useAppDispatch } from '../hooks/hooks';
 import { loginReducer } from '../redux/slices/authorizationSlice';
 import { fieldsProps } from '../components/form/fieldsProps';
@@ -17,9 +17,15 @@ function LoginPage(): JSX.Element {
 
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
+    const data = {
+      isAuthorized: true,
+      email: values.email,
+      password: values.password,
+    };
+
     signIn(values)
       .then(() => {
-        dispatch(loginReducer(true));
+        dispatch(loginReducer(data));
         navigate('/');
       })
       .catch((err) => {

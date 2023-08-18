@@ -1,7 +1,8 @@
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
-import apiRoot from './apiRoot';
+import createApiRoot from './apiRoot';
 
 function logIn(userData: CustomerSignin) {
+  const apiRoot = createApiRoot(userData.email, userData.password);
   return apiRoot.me().login().post({ body: userData }).execute();
 }
 

@@ -11,15 +11,15 @@ import {
   Col,
   Typography,
 } from 'antd';
-import signUp from '../../../services/apiSignUp';
+import signUp from '../../../services/signup/apiSignUp';
 import { IRegistrationForm } from '../../../types/types';
 import convertFormData from '../../../utils/convertFormData';
 import { fieldsProps, tailFormItemLayout } from '../fieldsProps';
 import BillingAddress from './BillingAddress';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
-import { ResponseCodes } from '../../../services/apiRoot';
+import { ResponseCodes } from '../../../services/signup/apiRoot';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import logIn from '../../../services/apiLogIn';
+import logIn from '../../../services/login/apiLogIn';
 
 const { Option } = Select;
 
@@ -198,7 +198,7 @@ function RegistrationForm(): JSX.Element {
         <Row>
           <Col>
             <Button type="primary" htmlType="submit">
-              Register
+              Sign Up
             </Button>
           </Col>
           <Col>
@@ -206,7 +206,7 @@ function RegistrationForm(): JSX.Element {
               style={{ margin: '0 10px' }}
               onClick={() => navigate('/login')}
             >
-              Log in
+              Sign In
             </Button>
           </Col>
         </Row>

@@ -1,16 +1,19 @@
 import {
   ClientBuilder,
-  type AuthMiddlewareOptions,
   type HttpMiddlewareOptions,
+  AnonymousAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import apiDataUser from './apiData';
+import apiDataUser from '../apiData';
 
+export enum ResponseCodes {
+  signupError = 'DuplicateField',
+}
 
 const projectKey = apiDataUser.PROJECT_KEY;
 const scopes = [apiDataUser.SCOPES];
 
-const authMiddlewareOptions: AuthMiddlewareOptions = {
+const options: AnonymousAuthMiddlewareOptions = {
   host: apiDataUser.AUTH_URL,
   projectKey: apiDataUser.PROJECT_KEY,
   credentials: {
@@ -28,7 +31,7 @@ const httpMiddlewareOptions: HttpMiddlewareOptions = {
 
 const ctpClient = new ClientBuilder()
   .withProjectKey(projectKey)
-  .withClientCredentialsFlow(authMiddlewareOptions)
+  .withAnonymousSessionFlow(options)
   .withHttpMiddleware(httpMiddlewareOptions)
   .withLoggerMiddleware()
   .build();
