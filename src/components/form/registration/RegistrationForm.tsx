@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   DatePicker,
@@ -12,49 +11,28 @@ import {
   Col,
   Typography,
 } from 'antd';
-import { logIn, signUp } from '../../services/apiRequest';
-import { IRegistrationForm } from '../../types/types';
-import convertFormData from '../../utils/convertFormData';
-import { fieldsProps, tailFormItemLayout } from './fieldsProps';
+import signUp from '../../../services/apiSignUp';
+import { IRegistrationForm } from '../../../types/types';
+import convertFormData from '../../../utils/convertFormData';
+import { fieldsProps, tailFormItemLayout } from '../fieldsProps';
 import BillingAddress from './BillingAddress';
-import { RootState } from '../../redux/store';
-import { loginReducer } from '../../redux/slices/authorizationSlice';
-
-const signupError = 'DuplicateField';
+import { loginReducer } from '../../../redux/slices/authorizationSlice';
+import { ResponseCodes } from '../../../services/apiRoot';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+import logIn from '../../../services/apiLogIn';
 
 const { Option } = Select;
 
-function Registration(): JSX.Element {
+function RegistrationForm(): JSX.Element {
   const [form] = Form.useForm();
-  const [isAdressSingle, setIsAdressSingle] = useState(true);
+  const [isAddressSingle, setAddressSingle] = useState(true);
   const [isSignupError, setSignupError] = useState(false);
-
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const authorization = useSelector<RootState>(
-    (state) => state.authorization.isLoggedIn,
+  const authorization = useAppSelector(
+    (state) => state.authorization.isAuthorized,
   );
-
-  const dispatch = useDispatch();
-
-  const onFinish = (values: IRegistrationForm) => {
-    signUp(convertFormData(values))
-      .then(() =>
-        logIn(values.email, values.password)
-          .then(() => {
-            dispatch(loginReducer(true));
-            navigate('/');
-          })
-          .catch(console.log),
-      )
-      .catch((err) => {
-        const errorMessage = err.body.errors[0].code;
-        if (errorMessage === signupError) {
-          setSignupError(true);
-        }
-        console.log(err);
-      });
-  };
 
   useEffect(() => {
     if (authorization) {
@@ -62,8 +40,30 @@ function Registration(): JSX.Element {
     }
   }, [authorization]);
 
+  const onFinish = (values: IRegistrationForm) => {
+    signUp(convertFormData(values))
+      .then(() =>
+        logIn(values)
+          .then(() => {
+            dispatch(loginReducer(true));
+          })
+          .catch(console.log),
+      )
+      .catch((err) => {
+        const errorMessage = err.body.errors[0].code;
+        if (errorMessage === ResponseCodes.signupError) {
+          setSignupError(true);
+        }
+        console.log(err);
+      });
+  };
+
   return (
-    <Form {...fieldsProps.form.props} form={form} onFinish={onFinish}>
+    <Form
+      {...fieldsProps.registrationForm.props}
+      form={form}
+      onFinish={onFinish}
+    >
       <h1 style={{ textAlign: 'center' }}>Create Account</h1>
 
       <Form.Item
@@ -136,14 +136,14 @@ function Registration(): JSX.Element {
 
       <Form.Item {...fieldsProps.oneAddress.props}>
         <Checkbox
-          defaultChecked={isAdressSingle}
-          onChange={() => setIsAdressSingle(!isAdressSingle)}
+          defaultChecked={isAddressSingle}
+          onChange={() => setAddressSingle(!isAddressSingle)}
         >
           Use the same address for both billing and shipping default
         </Checkbox>
       </Form.Item>
 
-      {!isAdressSingle && (
+      {!isAddressSingle && (
         <h3 style={{ textAlign: 'center' }}>Address for shipping</h3>
       )}
 
@@ -192,17 +192,20 @@ function Registration(): JSX.Element {
         <Input placeholder="Street" />
       </Form.Item>
 
-      {!isAdressSingle && <BillingAddress />}
+      {!isAddressSingle && <BillingAddress />}
 
       <Form.Item {...tailFormItemLayout}>
-        <Row gutter={16}>
-          <Col span={6}>
+        <Row>
+          <Col>
             <Button type="primary" htmlType="submit">
               Register
             </Button>
           </Col>
-          <Col span={6}>
-            <Button type="primary" onClick={() => navigate('/login')}>
+          <Col>
+            <Button
+              style={{ margin: '0 10px' }}
+              onClick={() => navigate('/login')}
+            >
               Log in
             </Button>
           </Col>
@@ -212,4 +215,4 @@ function Registration(): JSX.Element {
   );
 }
 
-export default Registration;
+export default RegistrationForm;

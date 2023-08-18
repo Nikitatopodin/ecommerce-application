@@ -4,10 +4,11 @@ import {
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { apiDataUser } from './apiData';
+import apiDataUser from './apiData';
 
 export enum ResponseCodes {
   loginError = 'InvalidCredentials',
+  signupError = 'DuplicateField',
 }
 
 const projectKey = apiDataUser.PROJECT_KEY;

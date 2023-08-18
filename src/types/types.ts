@@ -17,9 +17,4 @@ interface IRegistrationForm {
   streetBilling?: string;
 }
 
-interface ILogIn {
-  email: string;
-  password: string;
-}
-
-export type { IRegistrationForm, ILogIn };
+export type { IRegistrationForm };

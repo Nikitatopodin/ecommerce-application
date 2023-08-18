@@ -17,13 +17,7 @@ const titleStyle: React.CSSProperties = {
   fontSize: '2.5vw',
 };
 
-// interface IMainProps {
-//   children?: React.ReactNode;
-// }
-
 export default function MainComponent() {
-  // const { children } = props;
-
   return (
     <Content style={mainStyle}>
       <Typography>
@@ -32,7 +26,6 @@ export default function MainComponent() {
           AND WILL BE REMEMBERED BY YOUR CLIENTS
         </Title>
       </Typography>
-      {/* {children} */}
     </Content>
   );
 }

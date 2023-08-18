@@ -2,30 +2,13 @@ import React, { useState } from 'react';
 import { Button, Col, Form, FormInstance, Input, Row, Typography } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { useNavigate } from 'react-router-dom';
-import signIn from '../services/authApi';
+import signIn from '../services/apiLogIn';
 import { ResponseCodes } from '../services/apiRoot';
-import { fieldsProps } from '../utils/formProps';
 import { useAppDispatch } from '../hooks/hooks';
 import { loginReducer } from '../redux/slices/authorizationSlice';
+import { fieldsProps } from '../components/form/fieldsProps';
 
-interface IFormStyles {
-  [key: string]: { [key: string]: string | number };
-}
-
-const formStyles: IFormStyles = {
-  form: {
-    maxWidth: 600,
-    margin: '30vh auto',
-    padding: '5em',
-    border: 'solid 1px #f0f0f0',
-    borderRadius: '.5em',
-  },
-  title: {
-    textAlign: 'center',
-  },
-};
-
-function Login(): JSX.Element {
+function LoginPage(): JSX.Element {
   const [form] = Form.useForm();
   const formRef = React.useRef<FormInstance>(null);
   const [isLoginError, setLoginError] = useState(false);
@@ -49,17 +32,13 @@ function Login(): JSX.Element {
 
   return (
     <Form
-      name="login"
+      {...fieldsProps.loginForm.props}
       form={form}
       ref={formRef}
       onFinish={onFinish}
-      initialValues={{ remember: true }}
-      style={formStyles.form}
-      wrapperCol={{ span: 16 }}
-      labelCol={{ span: 6 }}
       onChange={() => setLoginError(false)}
     >
-      <h1 style={formStyles.title}>Log in</h1>
+      <h1 style={{ textAlign: 'center' }}>Log in</h1>
 
       <Form.Item {...fieldsProps.email.props}>
         <Input placeholder="E-mail" id="login-email" />
@@ -100,4 +79,4 @@ function Login(): JSX.Element {
   );
 }
 
-export default Login;
+export default LoginPage;

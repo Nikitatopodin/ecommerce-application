@@ -1,4 +1,4 @@
-import formValidation from '../../utils/formValidation';
+import formValidation from './formValidation';
 
 const formItemLayout = {
   labelCol: {
@@ -25,14 +25,29 @@ export const tailFormItemLayout = {
 };
 
 export const fieldsProps = {
-  form: {
+  loginForm: {
+    props: {
+      name: 'login',
+      style: {
+        maxWidth: 600,
+        margin: '30vh auto',
+        padding: '5em',
+        border: 'solid 1px #f0f0f0',
+        borderRadius: 'npm .5em',
+      },
+      wrapperCol: { span: 16 },
+      labelCol: { span: 6 },
+      initialValues: { remember: true },
+    },
+  },
+  registrationForm: {
     props: {
       name: 'register',
       ...formItemLayout,
       style: {
         margin: '0 auto',
         maxWidth: 600,
-        padding: '10px 50px 10px 0',
+        padding: '10px 50px',
         border: 'solid 1px #f0f0f0',
         borderRadius: '.5em',
       },
@@ -125,7 +140,7 @@ export const fieldsProps = {
     props: {
       name: 'oneAddress',
       valuePropName: 'checked',
-      wrapperCol: { offset: 8, span: 16 },
+      ...tailFormItemLayout,
     },
   },
   country: {
