@@ -1,11 +1,10 @@
 import React, { FormEvent } from 'react';
 import { Input } from 'antd';
 import PasswordIcon from './password-icon/PasswordIcon';
-import ButtonComponent from "../button/ButtonComponent";
 
 interface IProps {
   placeholder: string;
-  isPasswordType?: boolean;
+  isPasswordType: boolean;
   status?: '' | 'warning' | 'error' | undefined;
   onInput: (e: FormEvent<HTMLInputElement>) => void;
   onBlur: (e: React.FocusEvent<HTMLElement>) => void;
@@ -20,7 +19,7 @@ function InputComponent({ isPasswordType, ...props }: IProps) {
 }
 
 InputComponent.defaultProps = {
-  status: undefined
+  status: undefined,
 };
 
 export default InputComponent;

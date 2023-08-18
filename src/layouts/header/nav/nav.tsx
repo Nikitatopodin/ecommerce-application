@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import './nav.css';
+import './Nav.css';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../../hooks/hooks';
+import { loginReducer } from '../../../redux/slices/authorizationSlice';
+import { activeMenuItemsReducer } from '../../../redux/slices/navMenuSlice';
 
 const userIconStyle: React.CSSProperties = {
   fontSize: '24px',
@@ -26,63 +30,81 @@ const logoStyle: React.CSSProperties = {
   marginRight: 'auto',
 };
 
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  style?: React.CSSProperties,
+  icon?: React.ReactNode,
+  className?: string,
+  children?: MenuItem[],
+  type?: 'group',
+): MenuItem {
+  return {
+    label,
+    key,
+    icon,
+    children,
+    type,
+    style,
+    className,
+  } as MenuItem;
+}
+
+const nonAuthSubMenu = getItem(
+  '',
+  'subMenu',
+  profileStyle,
+  <UserOutlined style={userIconStyle} />,
+  undefined,
+  [getItem('Log in', 'login'), getItem('Sign up', 'registration')],
+);
+
+const authSubMenu = getItem(
+  '',
+  'subMenu',
+  profileStyle,
+  <UserOutlined style={userIconStyle} />,
+  undefined,
+  [getItem('Log out', 'logout')],
+);
+
 const items: MenuProps['items'] = [
-  {
-    label: 'IN MEMORIES',
-    key: 'logo',
-    style: logoStyle,
-    className: 'logo',
-  },
-  {
-    label: 'Home',
-    key: '/',
-  },
-  {
-    label: 'About us',
-    key: 'about_us',
-  },
-  {
-    label: 'Catalogue',
-    key: 'catalogue',
-  },
-  {
-    label: 'Contacts',
-    key: 'contacts',
-  },
-  {
-    key: 'SubMenu',
-    style: profileStyle,
-    icon: <UserOutlined style={userIconStyle} />,
-    children: [
-      {
-        type: 'group',
-        children: [
-          {
-            label: 'Log in',
-            key: 'login',
-          },
-          {
-            label: 'Sign up',
-            key: 'registration',
-          },
-        ],
-      },
-    ],
-  },
+  getItem('IN MEMORIES', 'logo', logoStyle, undefined, 'logo'),
+  getItem('Home', ''),
+  getItem('About us', 'aboutUs'),
+  getItem('Catalogue', 'catalogue'),
+  getItem('Contacts', 'contacts'),
 ];
 
 export default function NavComponent(): JSX.Element {
   const [current, setCurrent] = useState('/');
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const authorization = useAppSelector(
+    (state) => state.authorization.isAuthorized,
+  );
+  const activeItem = useAppSelector((state) => state.navMenu.activeKey);
+  useEffect(() => {
+    setCurrent(activeItem);
+  }, [activeItem]);
 
   const onClick: MenuProps['onClick'] = (e) => {
     if (e.key === 'logo') {
-      setCurrent('/');
+      dispatch(activeMenuItemsReducer(''));
+      setCurrent('');
+      navigate('/');
+    } else if (e.key === 'logout') {
+      dispatch(loginReducer(false));
+      dispatch(activeMenuItemsReducer(''));
+      setCurrent('');
       navigate('/');
     } else {
+      dispatch(activeMenuItemsReducer(e.key));
       setCurrent(e.key);
-      navigate(e.key);
+      navigate(`/${e.key}`);
     }
   };
 
@@ -91,7 +113,7 @@ export default function NavComponent(): JSX.Element {
       onClick={onClick}
       selectedKeys={[current]}
       mode="horizontal"
-      items={items}
+      items={[...items!, authorization ? authSubMenu : nonAuthSubMenu]}
       style={menuStyle}
     />
   );
