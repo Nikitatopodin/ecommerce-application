@@ -21,11 +21,13 @@ const menuStyle: React.CSSProperties = {
 
 const profileStyle: React.CSSProperties = {
   marginLeft: 'auto',
+  marginRight: '1vw',
 };
 
 const logoStyle: React.CSSProperties = {
   color: '#000',
   fontSize: '20px',
+  marginLeft: '1vw',
   marginRight: 'auto',
 };
 
