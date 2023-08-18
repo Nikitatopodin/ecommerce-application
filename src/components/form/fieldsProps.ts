@@ -1,4 +1,4 @@
-import formValidation from '../../utils/formValidation';
+import formValidation from './formValidation';
 
 const formItemLayout = {
   labelCol: {
@@ -47,7 +47,7 @@ export const fieldsProps = {
       style: {
         margin: '0 auto',
         maxWidth: 600,
-        padding: '10px 50px 10px 50px',
+        padding: '10px 50px',
         border: 'solid 1px #f0f0f0',
         borderRadius: '.5em',
       },
@@ -140,7 +140,7 @@ export const fieldsProps = {
     props: {
       name: 'oneAddress',
       valuePropName: 'checked',
-      wrapperCol: { offset: 8, span: 16 },
+      ...tailFormItemLayout,
     },
   },
   country: {

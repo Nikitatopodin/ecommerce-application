@@ -5,7 +5,7 @@ import MainComponent from '../layouts/main/Main';
 function Main(): JSX.Element {
   return (
     <Space direction="vertical" style={{ width: '100%' }} size={[0, 48]}>
-        <MainComponent />
+      <MainComponent />
     </Space>
   );
 }
