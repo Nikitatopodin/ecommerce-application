@@ -3,11 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 const authorizationSlice = createSlice({
   name: 'authorization',
   initialState: {
-    isAuthorized: false,
+    isAuthorized: JSON.parse(localStorage.getItem('isAuthorized') || 'false'),
   },
   reducers: {
     loginReducer(state, action) {
       state.isAuthorized = action.payload;
+      localStorage.setItem('isAuthorized', action.payload);
     },
   },
 });
