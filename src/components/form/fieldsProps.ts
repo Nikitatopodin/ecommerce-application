@@ -25,7 +25,22 @@ export const tailFormItemLayout = {
 };
 
 export const fieldsProps = {
-  form: {
+  loginForm: {
+    props: {
+      name: 'login',
+      style: {
+        maxWidth: 600,
+        margin: '30vh auto',
+        padding: '5em',
+        border: 'solid 1px #f0f0f0',
+        borderRadius: 'npm .5em',
+      },
+      wrapperCol: { span: 16 },
+      labelCol: { span: 6 },
+      initialValues: { remember: true },
+    },
+  },
+  registrationForm: {
     props: {
       name: 'register',
       ...formItemLayout,

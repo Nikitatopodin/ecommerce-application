@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   Route,
   createRoutesFromElements,
@@ -9,15 +8,16 @@ import {
 } from 'react-router-dom';
 import Main from '../../pages/MainPage';
 import ErrorPage from '../../pages/ErrorPage';
-import Login from '../../pages/Login';
+import LoginPage from '../../pages/LoginPage';
 import Registration from '../../pages/RegistrationPage';
-import PrivateRoute from './privateRoute';
+import PrivateRoute from './PrivateRoute';
 import HeaderComponent from '../../layouts/header/Header';
 import FooterComponent from '../../layouts/footer/Footer';
 import { activeMenuItemsReducer } from '../../redux/slices/navMenuSlice';
+import { useAppDispatch } from '../../hooks/hooks';
 
 function Layout() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   useEffect(() => {
     const activeMenuItem = location.pathname.slice(1);
@@ -40,7 +40,7 @@ const router = createBrowserRouter(
         path="/login"
         element={
           <PrivateRoute>
-            <Login />
+            <LoginPage />
           </PrivateRoute>
         }
       />

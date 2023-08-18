@@ -24,7 +24,7 @@ const { Option } = Select;
 
 function RegistrationForm(): JSX.Element {
   const [form] = Form.useForm();
-  const [isAdressSingle, setAdressSingle] = useState(true);
+  const [isAddressSingle, setAddressSingle] = useState(true);
   const [isSignupError, setSignupError] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -58,7 +58,11 @@ function RegistrationForm(): JSX.Element {
   };
 
   return (
-    <Form {...fieldsProps.form.props} form={form} onFinish={onFinish}>
+    <Form
+      {...fieldsProps.registrationForm.props}
+      form={form}
+      onFinish={onFinish}
+    >
       <h1 style={{ textAlign: 'center' }}>Create Account</h1>
 
       <Form.Item
@@ -131,14 +135,14 @@ function RegistrationForm(): JSX.Element {
 
       <Form.Item {...fieldsProps.oneAddress.props}>
         <Checkbox
-          defaultChecked={isAdressSingle}
-          onChange={() => setAdressSingle(!isAdressSingle)}
+          defaultChecked={isAddressSingle}
+          onChange={() => setAddressSingle(!isAddressSingle)}
         >
           Use the same address for both billing and shipping default
         </Checkbox>
       </Form.Item>
 
-      {!isAdressSingle && (
+      {!isAddressSingle && (
         <h3 style={{ textAlign: 'center' }}>Address for shipping</h3>
       )}
 
@@ -187,7 +191,7 @@ function RegistrationForm(): JSX.Element {
         <Input placeholder="Street" />
       </Form.Item>
 
-      {!isAdressSingle && <BillingAddress />}
+      {!isAddressSingle && <BillingAddress />}
 
       <Form.Item {...tailFormItemLayout}>
         <Row gutter={16}>
@@ -197,7 +201,7 @@ function RegistrationForm(): JSX.Element {
             </Button>
           </Col>
           <Col span={8}>
-            <Button type="default" onClick={() => navigate('/login')}>
+            <Button type="link" onClick={() => navigate('/login')}>
               Log in
             </Button>
           </Col>

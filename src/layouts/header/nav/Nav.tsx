@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './Nav.css';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { activeMenuItemsReducer } from '../../../redux/slices/navMenuSlice';
 
@@ -81,7 +80,7 @@ const items: MenuProps['items'] = [
 export default function NavComponent(): JSX.Element {
   const [current, setCurrent] = useState('/');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const authorization = useAppSelector(
     (state) => state.authorization.isAuthorized,
