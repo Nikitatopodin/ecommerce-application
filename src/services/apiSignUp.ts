@@ -11,14 +11,4 @@ const signUp = (data: MyCustomerDraft) => {
     .execute();
 };
 
-const logIn = (email: string, password: string) => {
-  return apiRoot
-    .me()
-    .login()
-    .post({
-      body: { email, password },
-    })
-    .execute();
-};
-
-export { signUp, logIn };
+export default signUp;

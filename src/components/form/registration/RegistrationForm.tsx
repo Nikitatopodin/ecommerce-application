@@ -11,7 +11,7 @@ import {
   Col,
   Typography,
 } from 'antd';
-import { logIn, signUp } from '../../../services/apiRequest';
+import signUp from '../../../services/apiSignUp';
 import { IRegistrationForm } from '../../../types/types';
 import convertFormData from '../../../utils/convertFormData';
 import { fieldsProps, tailFormItemLayout } from '../fieldsProps';
@@ -19,6 +19,7 @@ import BillingAddress from './BillingAddress';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { ResponseCodes } from '../../../services/apiRoot';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+import logIn from '../../../services/apiLogIn';
 
 const { Option } = Select;
 
@@ -42,7 +43,7 @@ function RegistrationForm(): JSX.Element {
   const onFinish = (values: IRegistrationForm) => {
     signUp(convertFormData(values))
       .then(() =>
-        logIn(values.email, values.password)
+        logIn(values)
           .then(() => {
             dispatch(loginReducer(true));
           })

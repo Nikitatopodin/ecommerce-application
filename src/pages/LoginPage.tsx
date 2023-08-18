@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Col, Form, FormInstance, Input, Row, Typography } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { useNavigate } from 'react-router-dom';
-import signIn from '../services/authApi';
+import signIn from '../services/apiLogIn';
 import { ResponseCodes } from '../services/apiRoot';
 import { useAppDispatch } from '../hooks/hooks';
 import { loginReducer } from '../redux/slices/authorizationSlice';
