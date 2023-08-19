@@ -203,6 +203,7 @@ function RegistrationForm(): JSX.Element {
           </Col>
           <Col>
             <Button
+              type="link"
               style={{ margin: '0 10px' }}
               onClick={() => navigate('/login')}
             >

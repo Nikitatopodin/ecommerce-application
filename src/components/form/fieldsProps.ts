@@ -24,17 +24,19 @@ export const tailFormItemLayout = {
   },
 };
 
+const formStyle = {
+  maxWidth: 600,
+  margin: '5vh auto',
+  padding: '2.5em 3em',
+  border: 'solid 1px #f0f0f0',
+  borderRadius: '.5em',
+};
+
 export const fieldsProps = {
   loginForm: {
     props: {
       name: 'login',
-      style: {
-        maxWidth: 600,
-        margin: '30vh auto',
-        padding: '5em',
-        border: 'solid 1px #f0f0f0',
-        borderRadius: 'npm .5em',
-      },
+      style: formStyle,
       wrapperCol: { span: 16 },
       labelCol: { span: 6 },
       initialValues: { remember: true },
@@ -44,13 +46,7 @@ export const fieldsProps = {
     props: {
       name: 'register',
       ...formItemLayout,
-      style: {
-        margin: '0 auto',
-        maxWidth: 600,
-        padding: '10px 50px',
-        border: 'solid 1px #f0f0f0',
-        borderRadius: '.5em',
-      },
+      style: formStyle,
       scrollToFirstError: true,
     },
   },
