@@ -195,18 +195,14 @@ function RegistrationForm(): JSX.Element {
       {!isAddressSingle && <BillingAddress />}
 
       <Form.Item {...tailFormItemLayout}>
-        <Row>
+        <Row gutter={16}>
           <Col>
             <Button type="primary" htmlType="submit">
               Register
             </Button>
           </Col>
           <Col>
-            <Button
-              type="link"
-              style={{ margin: '0 10px' }}
-              onClick={() => navigate('/login')}
-            >
+            <Button type="link" onClick={() => navigate('/login')}>
               Log in
             </Button>
           </Col>

@@ -36,9 +36,8 @@ export const fieldsProps = {
   loginForm: {
     props: {
       name: 'login',
+      ...formItemLayout,
       style: formStyle,
-      wrapperCol: { span: 16 },
-      labelCol: { span: 6 },
       initialValues: { remember: true },
     },
   },
