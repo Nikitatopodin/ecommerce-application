@@ -11,10 +11,31 @@ interface IRegistrationForm {
   country: string;
   postalCode: string;
   street: string;
+  oneAddress: boolean;
+  defaultShippingAddress: boolean;
   cityBilling?: string;
   countryBilling?: string;
   postalCodeBilling?: string;
   streetBilling?: string;
+  defaultBillingAddress?: boolean;
 }
 
-export type { IRegistrationForm };
+interface IConvertedData {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  addresses: IAddress[];
+  defaultShippingAddress?: number;
+  defaultBillingAddress?: number;
+}
+
+interface IAddress {
+  country: string;
+  postalCode: string;
+  city: string;
+  streetName: string;
+}
+
+export type { IRegistrationForm, IConvertedData };

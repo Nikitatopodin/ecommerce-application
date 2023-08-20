@@ -139,7 +139,7 @@ function RegistrationForm(): JSX.Element {
           defaultChecked={isAddressSingle}
           onChange={() => setAddressSingle(!isAddressSingle)}
         >
-          Use the same address for both billing and shipping default
+          Use the same address for both billing and shipping
         </Checkbox>
       </Form.Item>
 
@@ -190,6 +190,10 @@ function RegistrationForm(): JSX.Element {
 
       <Form.Item {...fieldsProps.street.props}>
         <Input placeholder="Street" />
+      </Form.Item>
+
+      <Form.Item {...fieldsProps.defaultShippingAddress.props}>
+        <Checkbox>Set as default address</Checkbox>
       </Form.Item>
 
       {!isAddressSingle && <BillingAddress />}
