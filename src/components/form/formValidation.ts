@@ -52,7 +52,7 @@ const formValidation: IFormValidation = {
       whitespace: true,
     },
     {
-      pattern: /^[a-zA-Z ]+$/,
+      pattern: /^[a-zA-Z- ]+$/,
       message:
         'The city name you entered contains invalid characters. Please ensure that it only consists of alphabetic characters (A-Z or a-z) and does not include any numbers, symbols, or special characters',
     },
@@ -64,7 +64,7 @@ const formValidation: IFormValidation = {
       whitespace: true,
     },
     {
-      pattern: /^[a-zA-Z0-9-'"]+$/,
+      pattern: /^[a-zA-Z0-9-'" ]+$/,
       message:
         'The street name you entered contains invalid characters. Please make sure it consists of letters and/or digits (A-Z, a-z, or 0-9) without any special characters or symbols',
     },

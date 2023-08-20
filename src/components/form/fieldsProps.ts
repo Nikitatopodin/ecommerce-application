@@ -36,8 +36,15 @@ export const fieldsProps = {
   loginForm: {
     props: {
       name: 'login',
-      ...formItemLayout,
-      style: formStyle,
+      style: {
+        maxWidth: 600,
+        margin: '30vh auto',
+        padding: '5em',
+        border: 'solid 1px #f0f0f0',
+        borderRadius: '.5em',
+      },
+      wrapperCol: { span: 16 },
+      labelCol: { span: 6 },
       initialValues: { remember: true },
     },
   },
@@ -171,6 +178,13 @@ export const fieldsProps = {
       rules: formValidation.street,
     },
   },
+  defaultShippingAddress: {
+    props: {
+      name: 'defaultShippingAddress',
+      valuePropName: 'checked',
+      ...tailFormItemLayout,
+    },
+  },
   countryBilling: {
     props: {
       name: 'countryBilling',
@@ -202,6 +216,13 @@ export const fieldsProps = {
       label: 'Street',
       hasFeedback: true,
       rules: formValidation.street,
+    },
+  },
+  defaultBillingAddress: {
+    props: {
+      name: 'defaultBillingAddress',
+      valuePropName: 'checked',
+      ...tailFormItemLayout,
     },
   },
 };
