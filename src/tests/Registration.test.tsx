@@ -270,17 +270,17 @@ test('buttons onclick works', async () => {
     );
   });
   const clickHandler = jest.fn();
-  const registerButton = screen.getByText('Register');
-  const loginButton = screen.getByText('Log in');
+  const signupButton = screen.getByText('Sign Up');
+  const loginButton = screen.getByText('Sign In');
   loginButton.onclick = () => clickHandler();
-  registerButton.onclick = () => clickHandler();
+  signupButton.onclick = () => clickHandler();
 
   await act(async () => {
     fireEvent.click(loginButton);
     fireEvent.click(loginButton);
-    fireEvent.click(registerButton);
-    fireEvent.click(registerButton);
-    fireEvent.click(registerButton);
+    fireEvent.click(signupButton);
+    fireEvent.click(signupButton);
+    fireEvent.click(signupButton);
   });
 
   expect(clickHandler).toHaveBeenCalledTimes(5);

@@ -10,6 +10,7 @@ import {
   Row,
   Col,
   Typography,
+  message,
 } from 'antd';
 import signUp from '../../../services/signup/apiSignUp';
 import { IRegistrationForm } from '../../../types/types';
@@ -19,7 +20,7 @@ import BillingAddress from './BillingAddress';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { ResponseCodes } from '../../../services/signup/apiRoot';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import logIn from '../../../services/login/apiLogIn';
+import { signIn } from '../../../services/login/apiLogIn';
 
 const { Option } = Select;
 
@@ -43,9 +44,10 @@ function RegistrationForm(): JSX.Element {
   const onFinish = (values: IRegistrationForm) => {
     signUp(convertFormData(values))
       .then(() =>
-        logIn(values)
+        signIn(values)
           .then(() => {
             dispatch(loginReducer(true));
+            message.success('Sign up success');
           })
           .catch(console.log),
       )
@@ -53,6 +55,9 @@ function RegistrationForm(): JSX.Element {
         const errorMessage = err.body.errors[0].code;
         if (errorMessage === ResponseCodes.signupError) {
           setSignupError(true);
+          message.error(
+            'Sorry, an account with such an email already exists, you can use another email or log in to your account',
+          );
         }
         console.log(err);
       });
@@ -139,7 +144,7 @@ function RegistrationForm(): JSX.Element {
           defaultChecked={isAddressSingle}
           onChange={() => setAddressSingle(!isAddressSingle)}
         >
-          Use the same address for both billing and shipping default
+          Use the same address for both billing and shipping
         </Checkbox>
       </Form.Item>
 
@@ -190,6 +195,10 @@ function RegistrationForm(): JSX.Element {
 
       <Form.Item {...fieldsProps.street.props}>
         <Input placeholder="Street" />
+      </Form.Item>
+
+      <Form.Item {...fieldsProps.defaultShippingAddress.props}>
+        <Checkbox>Set as default address</Checkbox>
       </Form.Item>
 
       {!isAddressSingle && <BillingAddress />}

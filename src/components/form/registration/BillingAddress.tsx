@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
+import { Checkbox, Form, Input, Select } from 'antd';
 import { fieldsProps } from '../fieldsProps';
 
 const { Option } = Select;
@@ -52,6 +52,10 @@ function BillingAddress(): JSX.Element {
 
       <Form.Item {...fieldsProps.streetBilling.props}>
         <Input placeholder="Street" />
+      </Form.Item>
+
+      <Form.Item {...fieldsProps.defaultBillingAddress.props}>
+        <Checkbox>Set as default address</Checkbox>
       </Form.Item>
     </>
   );

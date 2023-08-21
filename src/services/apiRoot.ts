@@ -6,7 +6,6 @@ import {
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import apiDataUser from './apiData';
 
-
 const projectKey = apiDataUser.PROJECT_KEY;
 const scopes = [apiDataUser.SCOPES];
 
