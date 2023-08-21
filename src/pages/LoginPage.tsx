@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { useNavigate } from 'react-router-dom';
-import signIn from '../services/login/apiLogIn';
+import { checkData, signIn } from '../services/login/apiLogIn';
 import { ResponseCodes } from '../services/login/apiRoot';
 import { useAppDispatch } from '../hooks/hooks';
 import { loginReducer } from '../redux/slices/authorizationSlice';
@@ -29,11 +29,13 @@ function LoginPage(): JSX.Element {
 
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
-    signIn(values)
+    checkData(values)
       .then(() => {
-        dispatch(loginReducer(true));
-        message.success('Login success');
-        navigate('/');
+        signIn(values).then(() => {
+          dispatch(loginReducer(true));
+          message.success('Login success');
+          navigate('/');
+        });
       })
       .catch((err) => {
         const errorMessage = err.body.errors[0].code;

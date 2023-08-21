@@ -20,7 +20,7 @@ import BillingAddress from './BillingAddress';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { ResponseCodes } from '../../../services/signup/apiRoot';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import logIn from '../../../services/login/apiLogIn';
+import { signIn } from '../../../services/login/apiLogIn';
 
 const { Option } = Select;
 
@@ -44,7 +44,7 @@ function RegistrationForm(): JSX.Element {
   const onFinish = (values: IRegistrationForm) => {
     signUp(convertFormData(values))
       .then(() =>
-        logIn(values)
+        signIn(values)
           .then(() => {
             dispatch(loginReducer(true));
             message.success('Sign up success');
