@@ -55,6 +55,9 @@ function RegistrationForm(): JSX.Element {
         const errorMessage = err.body.errors[0].code;
         if (errorMessage === ResponseCodes.signupError) {
           setSignupError(true);
+          message.error(
+            'Sorry, an account with such an email already exists, you can use another email or log in to your account',
+          );
         }
         console.log(err);
       });
