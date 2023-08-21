@@ -57,7 +57,7 @@ const nonAuthSubMenu = getItem(
   profileStyle,
   <UserOutlined style={userIconStyle} />,
   undefined,
-  [getItem('Log in', 'login'), getItem('Sign up', 'registration')],
+  [getItem('Sign In', 'login'), getItem('Sign Up', 'registration')],
 );
 
 const authSubMenu = getItem(
@@ -66,7 +66,7 @@ const authSubMenu = getItem(
   profileStyle,
   <UserOutlined style={userIconStyle} />,
   undefined,
-  [getItem('Log out', 'logout')],
+  [getItem('Sign Out', 'logout')],
 );
 
 const items: MenuProps['items'] = [
@@ -100,7 +100,7 @@ export default function NavComponent(): JSX.Element {
       dispatch(activeMenuItemsReducer(''));
       setCurrent('');
       navigate('/');
-      message.success('Logout success');
+      message.success('You have successfully signed out');
     } else {
       dispatch(activeMenuItemsReducer(e.key));
       setCurrent(e.key);

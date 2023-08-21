@@ -33,7 +33,7 @@ function LoginPage(): JSX.Element {
       .then(() => {
         signIn(values).then(() => {
           dispatch(loginReducer(true));
-          message.success('Login success');
+          message.success('You have successfully signed in');
           navigate('/');
         });
       })
@@ -56,7 +56,7 @@ function LoginPage(): JSX.Element {
       onFinish={onFinish}
       onChange={() => setLoginError(false)}
     >
-      <h1 style={{ textAlign: 'center' }}>Log in</h1>
+      <h1 style={{ textAlign: 'center' }}>Sign in</h1>
 
       <Form.Item {...fieldsProps.email.props}>
         <Input placeholder="E-mail" id="login-email" />
@@ -78,7 +78,7 @@ function LoginPage(): JSX.Element {
         <Row gutter={16}>
           <Col>
             <Button type="primary" htmlType="submit" id="login-submit-button">
-              Log in
+              Sign in
             </Button>
           </Col>
           <Col>
