@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import { Menu, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './Nav.css';
 import { useNavigate } from 'react-router-dom';
@@ -100,6 +100,7 @@ export default function NavComponent(): JSX.Element {
       dispatch(activeMenuItemsReducer(''));
       setCurrent('');
       navigate('/');
+      message.success('Logout success');
     } else {
       dispatch(activeMenuItemsReducer(e.key));
       setCurrent(e.key);

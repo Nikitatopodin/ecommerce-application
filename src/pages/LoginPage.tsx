@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, FormInstance, Input, Row, Typography } from 'antd';
+import {
+  Button,
+  Col,
+  Form,
+  FormInstance,
+  Input,
+  Row,
+  Typography,
+  message,
+} from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { useNavigate } from 'react-router-dom';
 import signIn from '../services/apiLogIn';
@@ -20,12 +29,16 @@ function LoginPage(): JSX.Element {
     signIn(values)
       .then(() => {
         dispatch(loginReducer(true));
+        message.success('Login success');
         navigate('/');
       })
       .catch((err) => {
         const errorMessage = err.body.errors[0].code;
         if (errorMessage === ResponseCodes.loginError) {
           setLoginError(true);
+          message.error(
+            "Sorry, the provided account doesn't exist. Please check the email or password or consider creating a new account",
+          );
         }
       });
   };
@@ -51,7 +64,7 @@ function LoginPage(): JSX.Element {
         {isLoginError && (
           <Typography.Text type="danger">
             Sorry, the provided account doesn&apos;t exist. Please check the
-            username or password or consider creating a new account
+            email or password or consider creating a new account
           </Typography.Text>
         )}
       </Form.Item>
