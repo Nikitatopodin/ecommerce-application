@@ -10,6 +10,7 @@ import {
   Row,
   Col,
   Typography,
+  message,
 } from 'antd';
 import signUp from '../../../services/signup/apiSignUp';
 import { IRegistrationForm } from '../../../types/types';
@@ -46,6 +47,7 @@ function RegistrationForm(): JSX.Element {
         logIn(values)
           .then(() => {
             dispatch(loginReducer(true));
+            message.success('Sign up success');
           })
           .catch(console.log),
       )
