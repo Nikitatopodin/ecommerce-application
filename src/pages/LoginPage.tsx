@@ -6,7 +6,10 @@ import signIn from '../services/login/apiLogIn';
 import { ResponseCodes } from '../services/login/apiRoot';
 import { useAppDispatch } from '../hooks/hooks';
 import { loginReducer } from '../redux/slices/authorizationSlice';
-import { fieldsProps } from '../components/form/fieldsProps';
+import {
+  fieldsProps,
+  tailFormItemLayout,
+} from '../components/form/fieldsProps';
 
 function LoginPage(): JSX.Element {
   const [form] = Form.useForm();
@@ -62,7 +65,7 @@ function LoginPage(): JSX.Element {
         )}
       </Form.Item>
 
-      <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+      <Form.Item {...tailFormItemLayout}>
         <Row gutter={16}>
           <Col>
             <Button type="primary" htmlType="submit" id="login-submit-button">

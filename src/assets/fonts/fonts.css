@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Forum-Regular';
+    src: url('./Forum-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ClearSans-Regular';
+    src: url('./ClearSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ClearSans-Bold';
+    src: url('./ClearSans-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ClearSans-Light';
+    src: url('./ClearSans-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
