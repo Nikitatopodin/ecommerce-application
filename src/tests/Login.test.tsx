@@ -117,7 +117,7 @@ test('reset button works properly', async () => {
   });
 
   const clickHandler = jest.fn();
-  const logInButton = screen.getAllByText('Log in');
+  const logInButton = screen.getAllByText('Sign in');
   logInButton[0].onclick = () => clickHandler();
 
   await act(async () => {
