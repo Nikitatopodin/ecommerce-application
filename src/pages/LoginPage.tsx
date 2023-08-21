@@ -29,12 +29,6 @@ function LoginPage(): JSX.Element {
 
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
-    const data = {
-      isAuthorized: true,
-      email: values.email,
-      password: values.password,
-    };
-
     signIn(values)
       .then(() => {
         dispatch(loginReducer(true));
