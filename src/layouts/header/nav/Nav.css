@@ -1,0 +1,11 @@
+.logo.ant-menu-item-selected {
+  color: black;
+}
+
+.logo::after {
+  display: none;
+}
+
+.logo::before {
+  display: none;
+}

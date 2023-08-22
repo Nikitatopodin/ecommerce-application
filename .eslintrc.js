@@ -10,24 +10,33 @@ module.exports = {
     },
   },
   extends: [
-    "standard",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "airbnb",
-    "airbnb-typescript",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    'standard',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'airbnb',
+    'airbnb-typescript',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
   ],
-  plugins: ["react", "@typescript-eslint", "react-hooks", "prettier"],
+  plugins: ['react', '@typescript-eslint', 'react-hooks', 'prettier'],
   rules: {
-    "prettier/prettier": "error",
-    "@typescript-eslint/no-explicit-any": 2,
+    'prettier/prettier': 'error',
+    '@typescript-eslint/no-explicit-any': 2,
+    'react/jsx-props-no-spreading': 'off',
   },
+  overrides: [
+    {
+      files: ['src/redux/slices/**/*.ts'],
+      rules: {
+        'no-param-reassign': 'off',
+      },
+    },
+  ],
   settings: {
     react: {
-      version: "detect"
+      version: 'detect',
     },
   },
-  ignorePatterns: "./eslintrc.js"
+  ignorePatterns: './eslintrc.js',
 };

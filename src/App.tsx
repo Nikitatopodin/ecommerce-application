@@ -1,9 +1,15 @@
 import React from 'react';
-import './App.css';
-import { Button } from 'antd';
+import { RouterProvider } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
+import router from './utils/router/Router';
+import styles from './styles/appStyles';
 
-function App() {
-  return <Button type="primary">Test Button</Button>;
+function App(): JSX.Element {
+  return (
+    <ConfigProvider theme={styles}>
+      <RouterProvider router={router} />
+    </ConfigProvider>
+  );
 }
 
 export default App;

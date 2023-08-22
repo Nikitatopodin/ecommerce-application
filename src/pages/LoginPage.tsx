@@ -1,0 +1,100 @@
+import React, { useState } from 'react';
+import {
+  Button,
+  Col,
+  Form,
+  FormInstance,
+  Input,
+  Row,
+  Typography,
+  message,
+} from 'antd';
+import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
+import { useNavigate } from 'react-router-dom';
+import { checkData, signIn } from '../services/login/apiLogIn';
+import { ResponseCodes } from '../services/login/apiRoot';
+import { useAppDispatch } from '../hooks/hooks';
+import { loginReducer } from '../redux/slices/authorizationSlice';
+import {
+  fieldsProps,
+  tailFormItemLayout,
+} from '../components/form/fieldsProps';
+
+function LoginPage(): JSX.Element {
+  const [form] = Form.useForm();
+  const formRef = React.useRef<FormInstance>(null);
+  const [isLoginError, setLoginError] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onReset = () => formRef.current?.resetFields();
+  const onFinish = async (values: CustomerSignin) => {
+    checkData(values)
+      .then(() => {
+        signIn(values).then(() => {
+          dispatch(loginReducer(true));
+          message.success('You have successfully signed in');
+          navigate('/');
+        });
+      })
+      .catch((err) => {
+        const errorMessage = err.body.errors[0].code;
+        if (errorMessage === ResponseCodes.loginError) {
+          setLoginError(true);
+          message.error(
+            "Sorry, the provided account doesn't exist. Please check the email or password or consider creating a new account",
+          );
+        }
+      });
+  };
+
+  return (
+    <Form
+      {...fieldsProps.loginForm.props}
+      form={form}
+      ref={formRef}
+      onFinish={onFinish}
+      onChange={() => setLoginError(false)}
+    >
+      <h1 style={{ textAlign: 'center' }}>Sign in</h1>
+
+      <Form.Item {...fieldsProps.email.props}>
+        <Input placeholder="E-mail" id="login-email" />
+      </Form.Item>
+
+      <Form.Item {...fieldsProps.password.props}>
+        <Input.Password placeholder="Password" id="login-password" />
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 6 }}>
+        {isLoginError && (
+          <Typography.Text type="danger">
+            Sorry, the provided account doesn&apos;t exist. Please check the
+            email or password or consider creating a new account
+          </Typography.Text>
+        )}
+      </Form.Item>
+
+      <Form.Item {...tailFormItemLayout}>
+        <Row gutter={16}>
+          <Col>
+            <Button type="primary" htmlType="submit" id="login-submit-button">
+              Sign in
+            </Button>
+          </Col>
+          <Col>
+            <Button htmlType="button" onClick={onReset} id="login-reset-button">
+              Reset
+            </Button>
+          </Col>
+          <Col>
+            <Button type="link" onClick={() => navigate('/registration')}>
+              Create account
+            </Button>
+          </Col>
+        </Row>
+      </Form.Item>
+    </Form>
+  );
+}
+
+export default LoginPage;
