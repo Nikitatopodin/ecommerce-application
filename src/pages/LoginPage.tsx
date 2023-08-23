@@ -11,14 +11,13 @@ import {
 } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { useNavigate } from 'react-router-dom';
-import { checkData, signIn } from '../services/login/apiLogIn';
-import { ResponseCodes } from '../services/login/apiRoot';
 import { useAppDispatch } from '../hooks/hooks';
 import { loginReducer } from '../redux/slices/authorizationSlice';
 import {
   fieldsProps,
   tailFormItemLayout,
 } from '../components/form/fieldsProps';
+import signIn from '../services/login/apiLogIn';
 
 function LoginPage(): JSX.Element {
   const [form] = Form.useForm();
@@ -29,22 +28,17 @@ function LoginPage(): JSX.Element {
 
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
-    checkData(values)
+    signIn(values)
       .then(() => {
-        signIn(values).then(() => {
-          dispatch(loginReducer(true));
-          message.success('You have successfully signed in');
-          navigate('/');
-        });
+        dispatch(loginReducer(true));
+        message.success('You have successfully signed in');
+        navigate('/');
       })
-      .catch((err) => {
-        const errorMessage = err.body.errors[0].code;
-        if (errorMessage === ResponseCodes.loginError) {
-          setLoginError(true);
-          message.error(
-            "Sorry, the provided account doesn't exist. Please check the email or password or consider creating a new account",
-          );
-        }
+      .catch(() => {
+        setLoginError(true);
+        message.error(
+          "Sorry, the provided account doesn't exist. Please check the email or password or consider creating a new account",
+        );
       });
   };
 

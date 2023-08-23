@@ -20,7 +20,7 @@ import BillingAddress from './BillingAddress';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { ResponseCodes } from '../../../services/signup/apiRoot';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { signIn } from '../../../services/login/apiLogIn';
+import signIn from '../../../services/login/apiLogIn';
 
 const { Option } = Select;
 
