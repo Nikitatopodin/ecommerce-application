@@ -65,7 +65,7 @@ function LoginPage(): JSX.Element {
       <Form.Item {...fieldsProps.password.props}>
         <Input.Password placeholder="Password" id="login-password" />
       </Form.Item>
-      <Form.Item wrapperCol={{ offset: 6 }}>
+      <Form.Item>
         {isLoginError && (
           <Typography.Text type="danger">
             Sorry, the provided account doesn&apos;t exist. Please check the
