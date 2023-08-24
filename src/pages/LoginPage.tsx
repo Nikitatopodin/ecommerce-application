@@ -53,21 +53,28 @@ function LoginPage(): JSX.Element {
     >
       <h1 style={{ textAlign: 'center' }}>Sign in</h1>
 
-      <Form.Item {...fieldsProps.email.props}>
+      <Form.Item
+        {...fieldsProps.email.props}
+        validateStatus={isLoginError ? 'error' : ''}
+      >
         <Input placeholder="E-mail" id="login-email" />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.password.props}>
+      <Form.Item
+        {...fieldsProps.password.props}
+        validateStatus={isLoginError ? 'error' : ''}
+      >
         <Input.Password placeholder="Password" id="login-password" />
       </Form.Item>
-      <Form.Item>
-        {isLoginError && (
+
+      {isLoginError && (
+        <Form.Item>
           <Typography.Text type="danger">
             Sorry, the provided account doesn&apos;t exist. Please check the
             email or password or consider creating a new account
           </Typography.Text>
-        )}
-      </Form.Item>
+        </Form.Item>
+      )}
 
       <Form.Item {...tailFormItemLayout}>
         <Row gutter={16}>

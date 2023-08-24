@@ -72,17 +72,8 @@ function RegistrationForm(): JSX.Element {
         <Input placeholder="E-mail" onChange={() => setSignupError(false)} />
       </Form.Item>
 
-      {isSignupError && (
-        <Form.Item {...tailFormItemLayout}>
-          <Typography.Text type="danger">
-            An account with such an email already exists, you can use another
-            email or log in to your account
-          </Typography.Text>
-        </Form.Item>
-      )}
-
       <Form.Item {...fieldsProps.password.props}>
-        <Input.Password />
+        <Input.Password placeholder="Password" />
       </Form.Item>
 
       <Form.Item
@@ -196,6 +187,15 @@ function RegistrationForm(): JSX.Element {
       </Form.Item>
 
       {!isAddressSingle && <BillingAddress />}
+
+      {isSignupError && (
+        <Form.Item {...tailFormItemLayout}>
+          <Typography.Text type="danger">
+            An account with such an email already exists, you can use another
+            email or sign in to your account
+          </Typography.Text>
+        </Form.Item>
+      )}
 
       <Form.Item {...tailFormItemLayout}>
         <Row gutter={16}>

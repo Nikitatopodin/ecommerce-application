@@ -15,6 +15,7 @@ import HeaderComponent from '../../layouts/header/Header';
 import FooterComponent from '../../layouts/footer/Footer';
 import { activeMenuItemsReducer } from '../../redux/slices/navMenuSlice';
 import { useAppDispatch } from '../../hooks/hooks';
+import ProfilePage from '../../pages/ProfilePage';
 
 function Layout() {
   const dispatch = useAppDispatch();
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       />
+      <Route path="/profile" element={<ProfilePage />} />
     </Route>,
   ),
 );
