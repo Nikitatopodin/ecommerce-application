@@ -11,44 +11,44 @@ export enum ResponseCodes {
   loginError = 'InvalidCredentials',
 }
 
-function createApiRoot() {
-  const projectKey = apiDataUser.PROJECT_KEY;
-  const scopes = [apiDataUser.SCOPES];
+const projectKey = apiDataUser.PROJECT_KEY;
+const scopes = [apiDataUser.SCOPES];
 
-  const options: AuthMiddlewareOptions = {
-    host: apiDataUser.AUTH_URL,
-    projectKey: apiDataUser.PROJECT_KEY,
-    credentials: {
-      clientId: apiDataUser.CLIENT_ID,
-      clientSecret: apiDataUser.CLIENT_SECRET,
+const options: AuthMiddlewareOptions = {
+  host: apiDataUser.AUTH_URL,
+  projectKey: apiDataUser.PROJECT_KEY,
+  credentials: {
+    clientId: apiDataUser.CLIENT_ID,
+    clientSecret: apiDataUser.CLIENT_SECRET,
+  },
+  tokenCache: {
+    get() {
+      return JSON.parse(localStorage.getItem('token')!) as TokenStore;
     },
-    tokenCache: {
-      get() {
-        return JSON.parse(localStorage.getItem('token')!) as TokenStore;
-      },
-      set(cache) {
-        localStorage.setItem('token', JSON.stringify(cache));
-      },
+    set(cache) {
+      localStorage.setItem('token', JSON.stringify(cache));
     },
-    scopes,
-    fetch,
-  };
+  },
+  scopes,
+  fetch,
+};
 
-  const httpMiddlewareOptions: HttpMiddlewareOptions = {
-    host: apiDataUser.API_URL,
-    fetch,
-  };
+const httpMiddlewareOptions: HttpMiddlewareOptions = {
+  host: apiDataUser.API_URL,
+  fetch,
+};
 
-  const ctpClient = new ClientBuilder()
-    .withProjectKey(projectKey)
-    .withClientCredentialsFlow(options)
-    .withHttpMiddleware(httpMiddlewareOptions)
-    .withLoggerMiddleware()
-    .build();
+const ctpClient = new ClientBuilder()
+  .withProjectKey(projectKey)
+  .withClientCredentialsFlow(options)
+  .withHttpMiddleware(httpMiddlewareOptions)
+  .withLoggerMiddleware()
+  .build();
 
-  return createApiBuilderFromCtpClient(ctpClient).withProjectKey({
-    projectKey: apiDataUser.PROJECT_KEY,
-  });
-}
+const apiClienCredentialsRoot = createApiBuilderFromCtpClient(
+  ctpClient,
+).withProjectKey({
+  projectKey: apiDataUser.PROJECT_KEY,
+});
 
-export default createApiRoot;
+export default apiClienCredentialsRoot;
