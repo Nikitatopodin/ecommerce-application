@@ -3,6 +3,7 @@ import type { DescriptionsProps } from 'antd';
 import { Col, Descriptions, Divider, Row } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import RegistrationForm from '../components/form/registration/RegistrationForm';
+import { useAppSelector } from '../hooks/hooks';
 
 const personalInfo: DescriptionsProps['items'] = [
   {
@@ -36,6 +37,8 @@ const addresses: DescriptionsProps['items'] = [
 
 function ProfilePage() {
   const [isEditMode, setEditMode] = useState(false);
+  const userData = useAppSelector((state) => state.authorization.userData);
+  console.log('user data', userData);
   return isEditMode ? (
     <RegistrationForm />
   ) : (

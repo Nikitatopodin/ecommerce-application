@@ -29,9 +29,10 @@ function LoginPage(): JSX.Element {
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
     signIn(values)
-      .then(() => {
+      .then((response) => {
+        const userData = response.body.customer;
         localStorage.removeItem('token');
-        dispatch(loginReducer(true));
+        dispatch(loginReducer({ isAuthorized: true, userData }));
         message.success('You have successfully signed in');
         navigate('/');
       })

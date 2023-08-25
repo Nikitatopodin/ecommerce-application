@@ -1,5 +1,11 @@
-import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
-import { type MyCustomerDraft } from '@commercetools/platform-sdk';
+import {
+  Customer,
+  CustomerSignin,
+} from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
+import {
+  ClientResponse,
+  type MyCustomerDraft,
+} from '@commercetools/platform-sdk';
 import createApiRoot from './flows/password';
 import anonymousApiRoot from './flows/anonymous';
 import createExistingApiRoot from './flows/existing';
@@ -13,7 +19,7 @@ const signUp = (data: MyCustomerDraft) => {
   return anonymousApiRoot.me().signup().post({ body: data }).execute();
 };
 
-const getProfile = () => {
+const getProfile = (): Promise<ClientResponse<Customer>> => {
   const apiRoot = createExistingApiRoot();
   return apiRoot.me().get().execute();
 };
