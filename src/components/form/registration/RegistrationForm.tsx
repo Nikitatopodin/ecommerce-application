@@ -12,15 +12,13 @@ import {
   Typography,
   message,
 } from 'antd';
-import signUp from '../../../services/signup/apiSignUp';
+import { signIn, signUp } from '../../../services/customerRequests';
 import { IRegistrationForm } from '../../../types/types';
 import convertFormData from '../../../utils/convertFormData';
 import { fieldsProps, tailFormItemLayout } from '../fieldsProps';
 import BillingAddress from './BillingAddress';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
-import { ResponseCodes } from '../../../services/signup/apiRoot';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { signIn } from '../../../services/login/apiLogIn';
 
 const { Option } = Select;
 
@@ -51,15 +49,11 @@ function RegistrationForm(): JSX.Element {
           })
           .catch(console.log),
       )
-      .catch((err) => {
-        const errorMessage = err.body.errors[0].code;
-        if (errorMessage === ResponseCodes.signupError) {
-          setSignupError(true);
-          message.error(
-            'Sorry, an account with such an email already exists, you can use another email or log in to your account',
-          );
-        }
-        console.log(err);
+      .catch(() => {
+        setSignupError(true);
+        message.error(
+          'Sorry, an account with such an email already exists, you can use another email or log in to your account',
+        );
       });
   };
 
