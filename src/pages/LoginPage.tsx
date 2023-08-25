@@ -30,7 +30,6 @@ function LoginPage(): JSX.Element {
   const onFinish = async (values: CustomerSignin) => {
     signIn(values)
       .then(() => {
-        localStorage.removeItem('token');
         dispatch(loginReducer(true));
         message.success('You have successfully signed in');
         navigate('/');

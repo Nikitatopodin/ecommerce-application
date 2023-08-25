@@ -50,6 +50,7 @@ function createApiRoot(email: string, password: string) {
     .withLoggerMiddleware()
     .build();
 
+  localStorage.removeItem('token');
   return createApiBuilderFromCtpClient(ctpClient).withProjectKey({
     projectKey: apiDataUser.PROJECT_KEY,
   });
