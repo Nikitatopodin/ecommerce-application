@@ -10,7 +10,7 @@ function App(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(initializeAppThunk);
+    dispatch(initializeAppThunk());
   }, []);
 
   return (

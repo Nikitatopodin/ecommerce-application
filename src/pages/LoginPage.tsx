@@ -31,7 +31,7 @@ function LoginPage(): JSX.Element {
     signIn(values)
       .then((response) => {
         const userData = response.body.customer;
-        localStorage.removeItem('token');
+        console.log('data', userData);
         dispatch(loginReducer({ isAuthorized: true, userData }));
         message.success('You have successfully signed in');
         navigate('/');
@@ -90,7 +90,7 @@ function LoginPage(): JSX.Element {
             </Button>
           </Col>
           <Col>
-            <Button type="link" onClick={() => navigate('/registration')}>
+            <Button type="link" onClick={() => navigate('/userDataForm')}>
               Create account
             </Button>
           </Col>

@@ -1,16 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {Customer} from "@commercetools/platform-sdk/dist/declarations/src/generated/models/customer";
+
+interface IInitialState {
+  isAuthorized: boolean;
+  userData: Customer | null;
+}
+
+const initialState: IInitialState = {
+  isAuthorized: JSON.parse(localStorage.getItem('isAuthorized') || 'false'),
+  userData: null,
+}
 
 const authorizationSlice = createSlice({
   name: 'authorization',
-  initialState: {
-    isAuthorized: JSON.parse(localStorage.getItem('isAuthorized') || 'false'),
-    userData: null,
-  },
+  initialState,
   reducers: {
     loginReducer(state, action) {
       state.isAuthorized = action.payload.isAuthorized;
       state.userData = action.payload.userData;
-      console.log('data', state.userData);
       localStorage.setItem('isAuthorized', action.payload.isAuthorized);
     },
   },

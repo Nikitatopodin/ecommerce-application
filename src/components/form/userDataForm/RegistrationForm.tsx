@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
-  DatePicker,
   Form,
   Input,
   Select,
@@ -19,6 +18,7 @@ import { fieldsProps, tailFormItemLayout } from '../fieldsProps';
 import BillingAddress from './BillingAddress';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+import PersonalDataFormFields from './PersonalDataFormFields';
 
 const { Option } = Select;
 
@@ -95,34 +95,7 @@ function RegistrationForm(): JSX.Element {
         <Input.Password />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.firstName.props}>
-        <Input placeholder="First name" />
-      </Form.Item>
-
-      <Form.Item {...fieldsProps.lastName.props}>
-        <Input placeholder="Last name" />
-      </Form.Item>
-
-      <Form.Item
-        {...fieldsProps.birthday.props}
-        rules={[
-          ...fieldsProps.birthday.rules,
-          () => ({
-            validator(_, value) {
-              if (Date.now() - value.$d.getTime() > 378691200000) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error(
-                  'Sorry, only users aged 12 or older can create an account',
-                ),
-              );
-            },
-          }),
-        ]}
-      >
-        <DatePicker />
-      </Form.Item>
+      <PersonalDataFormFields />
 
       <Form.Item {...fieldsProps.oneAddress.props}>
         <Checkbox
@@ -139,7 +112,7 @@ function RegistrationForm(): JSX.Element {
 
       <Form.Item {...fieldsProps.country.props}>
         <Select placeholder="Please select a country">
-          <Option value="US">U.S.A</Option>
+          <Option value="US">USA</Option>
           <Option value="RU">Russia</Option>
         </Select>
       </Form.Item>
