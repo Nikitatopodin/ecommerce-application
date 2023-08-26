@@ -6,6 +6,7 @@ import createExistingApiRoot from './flows/existing';
 
 const signIn = (userData: CustomerSignin) => {
   const apiPasswordRoot = createApiRoot(userData.email, userData.password);
+  localStorage.removeItem('token');
   return apiPasswordRoot.me().login().post({ body: userData }).execute();
 };
 
