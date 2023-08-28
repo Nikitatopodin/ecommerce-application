@@ -10,12 +10,12 @@ import Main from '../../pages/MainPage';
 import ErrorPage from '../../pages/ErrorPage';
 import LoginPage from '../../pages/LoginPage';
 import Registration from '../../pages/RegistrationPage';
+import Catalog from '../../components/catalog/Catalog';
 import PrivateRoute from './PrivateRoute';
 import HeaderComponent from '../../layouts/header/Header';
 import FooterComponent from '../../layouts/footer/Footer';
 import { activeMenuItemsReducer } from '../../redux/slices/navMenuSlice';
 import { useAppDispatch } from '../../hooks/hooks';
-
 function Layout() {
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -49,6 +49,14 @@ const router = createBrowserRouter(
         element={
           <PrivateRoute>
             <Registration />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/catalog"
+        element={
+          <PrivateRoute>
+            <Catalog />
           </PrivateRoute>
         }
       />
