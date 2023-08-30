@@ -31,7 +31,6 @@ function LoginPage(): JSX.Element {
     signIn(values)
       .then((response) => {
         const userData = response.body.customer;
-        console.log('data', userData);
         dispatch(loginReducer({ isAuthorized: true, userData }));
         message.success('You have successfully signed in');
         navigate('/');

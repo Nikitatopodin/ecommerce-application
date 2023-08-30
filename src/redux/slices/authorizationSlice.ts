@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {Customer} from "@commercetools/platform-sdk/dist/declarations/src/generated/models/customer";
+import { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 
 interface IInitialState {
   isAuthorized: boolean;
@@ -9,7 +9,7 @@ interface IInitialState {
 const initialState: IInitialState = {
   isAuthorized: JSON.parse(localStorage.getItem('isAuthorized') || 'false'),
   userData: null,
-}
+};
 
 const authorizationSlice = createSlice({
   name: 'authorization',
@@ -20,9 +20,12 @@ const authorizationSlice = createSlice({
       state.userData = action.payload.userData;
       localStorage.setItem('isAuthorized', action.payload.isAuthorized);
     },
+    setProfileData(state, action) {
+      state.userData = action.payload;
+    },
   },
 });
 
-export const { loginReducer } = authorizationSlice.actions;
+export const { loginReducer, setProfileData } = authorizationSlice.actions;
 
 export default authorizationSlice.reducer;

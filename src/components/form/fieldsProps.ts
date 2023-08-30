@@ -98,7 +98,7 @@ export const fieldsProps = {
   },
   birthday: {
     props: {
-      name: 'birthday',
+      name: 'dateOfBirth',
       label: 'Date of birth',
       hasFeedback: true,
     },

@@ -1,20 +1,30 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import { DatePicker, Form, Input } from 'antd';
 import { fieldsProps } from '../fieldsProps';
+import { useAppSelector } from '../../../hooks/hooks';
 
 function PersonalDataFormFields() {
+  const personalData = useAppSelector((state) => state.authorization.userData);
   return (
     <>
-      <Form.Item {...fieldsProps.firstName.props}>
+      <Form.Item
+        {...fieldsProps.firstName.props}
+        initialValue={personalData?.firstName}
+      >
         <Input placeholder="First name" />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.lastName.props}>
+      <Form.Item
+        {...fieldsProps.lastName.props}
+        initialValue={personalData?.lastName}
+      >
         <Input placeholder="Last name" />
       </Form.Item>
 
       <Form.Item
         {...fieldsProps.birthday.props}
+        initialValue={dayjs(personalData?.dateOfBirth)}
         rules={[
           ...fieldsProps.birthday.rules,
           () => ({

@@ -5,7 +5,9 @@ import {
 import {
   ClientResponse,
   type MyCustomerDraft,
+  MyCustomerUpdate,
 } from '@commercetools/platform-sdk';
+import dayjs from 'dayjs';
 import createApiRoot from './flows/password';
 import anonymousApiRoot from './flows/anonymous';
 import createExistingApiRoot from './flows/existing';
@@ -24,6 +26,28 @@ const getProfile = (): Promise<ClientResponse<Customer>> => {
   return apiRoot.me().get().execute();
 };
 
+const updateProfile = (values: Customer, version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'setFirstName',
+        firstName: values.firstName,
+      },
+      {
+        action: 'setLastName',
+        lastName: values.lastName,
+      },
+      {
+        action: 'setDateOfBirth',
+        dateOfBirth: dayjs(values.dateOfBirth).format('YYYY-MM-DD'),
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
 const getProducts = () => {
   let apiRoot;
   if (localStorage.getItem('token')) {
@@ -34,4 +58,4 @@ const getProducts = () => {
   return apiRoot.productProjections().get().execute();
 };
 
-export { signIn, signUp, getProducts, getProfile };
+export { signIn, signUp, getProducts, getProfile, updateProfile };
