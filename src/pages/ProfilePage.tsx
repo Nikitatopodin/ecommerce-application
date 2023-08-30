@@ -6,11 +6,25 @@ import { EditOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import PersonalDataFormFields from '../components/form/userDataForm/PersonalDataFormFields';
 import { tailFormItemLayout } from '../components/form/fieldsProps';
-import { updateProfile } from '../services/customerRequests';
+import { updateAddresses, updateProfile } from '../services/customerRequests';
 import { setProfileData } from '../redux/slices/authorizationSlice';
+import AddressesFormFields from '../components/form/userDataForm/AddressesFormFields';
+
+interface IAddressValues {
+  city: string;
+  cityBilling: string;
+  country: string;
+  countryBilling: 'RU' | 'USA';
+  defaultBillingAddress: string;
+  postalCode: string;
+  postalCodeBilling: string;
+  street: string;
+  streetBilling: string;
+}
 
 function ProfilePage() {
-  const [isEditMode, setEditMode] = useState(false);
+  const [isPersonalDataEditMode, setPersonalDataEditMode] = useState(false);
+  const [isAddressesEditMode, setAddressesEditMode] = useState(false);
   const userData = useAppSelector((state) => state.authorization.userData);
   const dispatch = useAppDispatch();
 
@@ -75,7 +89,7 @@ function ProfilePage() {
       children: userData?.addresses[1]?.streetName,
     },
   ];
-  const onFinish = async (values: Customer) => {
+  const onProfileDataChanged = async (values: Customer) => {
     if (userData) {
       updateProfile(values, userData.version).then((response) => {
         dispatch(
@@ -88,26 +102,65 @@ function ProfilePage() {
           }),
         );
       });
-      setEditMode(false);
+      setPersonalDataEditMode(false);
+    }
+  };
+
+  const onAddressesChanged = async (values: IAddressValues) => {
+    if (userData) {
+      const formattedValues = [
+        {
+          country: values.country,
+          postalCode: values.postalCode,
+          city: values.city,
+          streetName: values.street,
+          id: userData?.addresses[0].id,
+        },
+        {
+          country: values.countryBilling,
+          postalCode: values.postalCodeBilling,
+          city: values.cityBilling,
+          streetName: values.streetBilling,
+          id: userData?.addresses[1].id,
+        },
+      ];
+      updateAddresses(formattedValues, userData.version).then((response) => {
+        dispatch(
+          setProfileData({
+            ...response.body,
+            version: response.body.version,
+          }),
+        );
+      });
+      setAddressesEditMode(false);
     }
   };
 
   return (
     <Row justify="center" style={{ marginTop: '1em' }}>
       <Col span={12}>
-        {isEditMode ? (
+        {isPersonalDataEditMode ? (
           <Form
             name="userDataUpdate"
             style={{ maxWidth: 400, marginTop: '1em' }}
             initialValues={{ remember: true }}
-            onFinish={onFinish}
+            onFinish={onProfileDataChanged}
             autoComplete="off"
           >
             <PersonalDataFormFields />
             <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" htmlType="submit">
-                Confirm
-              </Button>
+              <Row>
+                <Col>
+                  <Button type="primary" htmlType="submit">
+                    Confirm
+                  </Button>
+                </Col>
+                <Col offset={2}>
+                  <Button onClick={() => setPersonalDataEditMode(false)}>
+                    Cancel
+                  </Button>
+                </Col>
+              </Row>
             </Form.Item>
           </Form>
         ) : (
@@ -123,37 +176,65 @@ function ProfilePage() {
               <EditOutlined
                 style={{ marginTop: '.3em', color: '#4f4f4f' }}
                 onClick={() => {
-                  setEditMode(true);
+                  setPersonalDataEditMode(true);
                 }}
               />
             </Col>
           </Row>
         )}
-        <Row>
-          <Divider />
-          <Col span={20}>
-            <Descriptions
-              layout="vertical"
-              title="Shipping address"
-              items={shippingAddress}
-            />
-            {userData?.addresses[1] && (
+        {isAddressesEditMode ? (
+          <Form
+            name="addressesUpdate"
+            style={{ maxWidth: 400, marginTop: '1em' }}
+            initialValues={{ remember: true }}
+            onFinish={onAddressesChanged}
+            autoComplete="off"
+          >
+            <AddressesFormFields isBilling={false} />
+            <AddressesFormFields isBilling />
+
+            <Form.Item {...tailFormItemLayout}>
+              <Row>
+                <Col>
+                  <Button type="primary" htmlType="submit">
+                    Confirm
+                  </Button>
+                </Col>
+                <Col offset={2}>
+                  <Button onClick={() => setAddressesEditMode(false)}>
+                    Cancel
+                  </Button>
+                </Col>
+              </Row>
+            </Form.Item>
+          </Form>
+        ) : (
+          <Row>
+            <Divider />
+            <Col span={20}>
               <Descriptions
                 layout="vertical"
-                title="Billing address"
-                items={billingAddress}
+                title="Shipping address"
+                items={shippingAddress}
               />
-            )}
-          </Col>
-          <Col span={4}>
-            <EditOutlined
-              style={{ marginTop: '.3em', color: '#4f4f4f' }}
-              onClick={() => {
-                setEditMode(true);
-              }}
-            />
-          </Col>
-        </Row>
+              {userData?.addresses[1] && (
+                <Descriptions
+                  layout="vertical"
+                  title="Billing address"
+                  items={billingAddress}
+                />
+              )}
+            </Col>
+            <Col span={4}>
+              <EditOutlined
+                style={{ marginTop: '.3em', color: '#4f4f4f' }}
+                onClick={() => {
+                  setAddressesEditMode(true);
+                }}
+              />
+            </Col>
+          </Row>
+        )}
       </Col>
     </Row>
   );

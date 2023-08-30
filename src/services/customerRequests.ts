@@ -3,6 +3,7 @@ import {
   CustomerSignin,
 } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import {
+  BaseAddress,
   ClientResponse,
   type MyCustomerDraft,
   MyCustomerUpdate,
@@ -48,6 +49,25 @@ const updateProfile = (values: Customer, version: number) => {
   return apiRoot.me().post({ body }).execute();
 };
 
+const updateAddresses = (values: BaseAddress[], version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'changeAddress',
+        addressId: values[0].id,
+        address: values[0],
+      },
+      {
+        action: 'changeAddress',
+        addressId: values[1].id,
+        address: values[1],
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
 const getProducts = () => {
   let apiRoot;
   if (localStorage.getItem('token')) {
@@ -58,4 +78,11 @@ const getProducts = () => {
   return apiRoot.productProjections().get().execute();
 };
 
-export { signIn, signUp, getProducts, getProfile, updateProfile };
+export {
+  signIn,
+  signUp,
+  getProducts,
+  getProfile,
+  updateProfile,
+  updateAddresses,
+};

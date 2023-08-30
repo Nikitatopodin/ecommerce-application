@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, Form, Input, Select } from 'antd';
 import { fieldsProps } from '../fieldsProps';
 import formValidation from '../formValidation';
+import { useAppSelector } from '../../../hooks/hooks';
 
 interface IProps {
   isBilling: boolean;
@@ -10,16 +11,41 @@ interface IProps {
 const { Option } = Select;
 
 function AddressesFormFields({ isBilling }: IProps): JSX.Element {
+  const shippingAddress = useAppSelector(
+    (state) => state.authorization.userData?.addresses[0],
+  );
+  const billingAddress = useAppSelector(
+    (state) => state.authorization.userData?.addresses[1],
+  );
+
   const postalCodeProps = isBilling
     ? fieldsProps.postalCodeBilling.props
     : fieldsProps.postalCode.props;
+
+  const countryProps = isBilling
+    ? fieldsProps.countryBilling.props
+    : fieldsProps.country.props;
+
+  const cityProps = isBilling
+    ? fieldsProps.cityBilling.props
+    : fieldsProps.city.props;
+
+  const streetProps = isBilling
+    ? fieldsProps.streetBilling.props
+    : fieldsProps.street.props;
+
   return (
     <>
       <h3 style={{ textAlign: 'center' }}>
         Address for {isBilling ? 'billing' : 'shipping'}
       </h3>
 
-      <Form.Item {...fieldsProps.countryBilling.props}>
+      <Form.Item
+        {...countryProps}
+        initialValue={
+          isBilling ? billingAddress?.country : shippingAddress?.country
+        }
+      >
         <Select placeholder="Please select a country">
           <Option value="US">U.S.A</Option>
           <Option value="RU">Russia</Option>
@@ -28,6 +54,9 @@ function AddressesFormFields({ isBilling }: IProps): JSX.Element {
 
       <Form.Item
         {...postalCodeProps}
+        initialValue={
+          isBilling ? billingAddress?.postalCode : shippingAddress?.postalCode
+        }
         rules={[
           ...formValidation.postalCode,
           ({ getFieldValue }) => ({
@@ -56,11 +85,19 @@ function AddressesFormFields({ isBilling }: IProps): JSX.Element {
         <Input placeholder="Postal code" />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.cityBilling.props}>
+      <Form.Item
+        {...cityProps}
+        initialValue={isBilling ? billingAddress?.city : shippingAddress?.city}
+      >
         <Input placeholder="City" />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.streetBilling.props}>
+      <Form.Item
+        {...streetProps}
+        initialValue={
+          isBilling ? billingAddress?.streetName : shippingAddress?.streetName
+        }
+      >
         <Input placeholder="Street" />
       </Form.Item>
 
