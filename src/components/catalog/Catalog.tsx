@@ -1,96 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Layout, List, Menu, Select } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import Title from 'antd/es/typography/Title';
 import { Header } from 'antd/es/layout/layout';
 import Meta from 'antd/es/card/Meta';
 import type { MenuProps } from 'antd';
+import {
+  ClientResponse,
+  ProductProjectionPagedQueryResponse,
+} from '@commercetools/platform-sdk';
 import CatalogMenu from './CatalogMenu';
-
-type MenuItem = Required<MenuProps>['items'][number];
+import { getCategories, getProducts } from '../../services/customerRequests';
 
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
   display: 'flex',
 };
 
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  style?: React.CSSProperties,
-  icon?: React.ReactNode,
-  className?: string,
-  children?: MenuItem[],
-  type?: 'group',
-): MenuItem {
-  return {
-    label,
-    key,
-    icon,
-    children,
-    type,
-    style,
-    className,
-  } as MenuItem;
-}
-
-const items: MenuProps['items'] = [
-  getItem('All categories', ''),
-  getItem('Happy birthday', 'happyBirthday'),
-  getItem('Love', 'love'),
-  getItem('Wedding', 'wedding'),
-];
-
-const data = [
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-];
-
 function Catalog(): JSX.Element {
-  const [current, setCurrent] = useState('');
+  const [currentCategory, setCurrentCategory] = useState('');
   const [selectedSort, setSelectedSort] = useState<string>();
+  const [dataProducts, setDataProducts] =
+    useState<ClientResponse<ProductProjectionPagedQueryResponse>>();
+  const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
 
   const onClick: MenuProps['onClick'] = (e) => {
-    setCurrent(e.key);
+    setCurrentCategory(e.key);
+    console.log(currentCategory);
   };
+
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        const categoriesArr: MenuProps['items'] = [];
+        data.body.results.forEach((item) => {
+          categoriesArr.push({
+            label: item.name['en-US'],
+            key: item.id,
+          });
+        });
+        setCategoriesData(categoriesArr);
+      })
+      .catch(console.log);
+  }, []);
+
+  useEffect(() => {
+    getProducts()
+      .then((data) => {
+        setDataProducts(data);
+      })
+      .catch(console.log);
+  }, []);
 
   return (
     <Layout>
@@ -111,9 +71,9 @@ function Catalog(): JSX.Element {
         <Layout style={{ display: 'flex', gap: 10 }}>
           <Menu
             onClick={onClick}
-            selectedKeys={[current]}
+            selectedKeys={[currentCategory]}
             mode="horizontal"
-            items={[...items!]}
+            items={[...categoriesData!]}
             style={menuStyle}
           />
           <Select
@@ -150,15 +110,23 @@ function Catalog(): JSX.Element {
               xl: 4,
               xxl: 4,
             }}
-            dataSource={data}
+            dataSource={dataProducts?.body.results}
             renderItem={(item) => (
               <List.Item>
                 <Card
                   hoverable
                   style={{ width: 240 }}
-                  cover={<img alt="example" src="./hb.JPG" />}
+                  cover={
+                    <img
+                      alt="example"
+                      src={item.masterVariant!.images![0].url}
+                    />
+                  }
                 >
-                  <Meta title={item.title} description={item.description} />
+                  <Meta
+                    title={item.name['en-US']}
+                    description={item.description!['en-US']}
+                  />
                   <div>
                     <div className="price">2$</div>
                   </div>

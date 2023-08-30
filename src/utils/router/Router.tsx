@@ -16,6 +16,7 @@ import HeaderComponent from '../../layouts/header/Header';
 import FooterComponent from '../../layouts/footer/Footer';
 import { activeMenuItemsReducer } from '../../redux/slices/navMenuSlice';
 import { useAppDispatch } from '../../hooks/hooks';
+
 function Layout() {
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -52,14 +53,7 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       />
-      <Route
-        path="/catalog"
-        element={
-          <PrivateRoute>
-            <Catalog />
-          </PrivateRoute>
-        }
-      />
+      <Route path="/catalog" element={<Catalog />} />
     </Route>,
   ),
 );

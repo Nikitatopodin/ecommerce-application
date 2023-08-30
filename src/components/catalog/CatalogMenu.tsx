@@ -15,7 +15,7 @@ function CatalogMenu(): JSX.Element {
 
   return (
     <Space direction="vertical" style={{ display: 'flex', gap: 50 }}>
-      <Search placeholder="input search text" onSearch={onSearch} enterButton />
+      <Search placeholder="search text" onSearch={onSearch} enterButton />
       <h3 style={{ margin: 0 }}>Price</h3>
       <Slider
         // marks={}

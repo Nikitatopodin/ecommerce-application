@@ -13,45 +13,45 @@ export enum ResponseCodes {
 const projectKey = apiDataUser.PROJECT_KEY;
 const scopes = [apiDataUser.SCOPES];
 
-const options: AnonymousAuthMiddlewareOptions = {
-  host: apiDataUser.AUTH_URL,
-  projectKey: apiDataUser.PROJECT_KEY,
-  credentials: {
-    clientId: apiDataUser.CLIENT_ID,
-    clientSecret: apiDataUser.CLIENT_SECRET,
-  },
-  tokenCache: {
-    get() {
-      return JSON.parse(localStorage.getItem('token')!) as TokenStore;
+const createAnonymousApiRoot = () => {
+  const options: AnonymousAuthMiddlewareOptions = {
+    host: apiDataUser.AUTH_URL,
+    projectKey: apiDataUser.PROJECT_KEY,
+    credentials: {
+      clientId: apiDataUser.CLIENT_ID,
+      clientSecret: apiDataUser.CLIENT_SECRET,
     },
-    set(cache) {
-      localStorage.setItem('token', JSON.stringify(cache));
+    tokenCache: {
+      get() {
+        return JSON.parse(localStorage.getItem('token')!) as TokenStore;
+      },
+      set(cache) {
+        localStorage.setItem('token', JSON.stringify(cache));
+      },
     },
-  },
-  scopes,
-  fetch,
+    scopes,
+    fetch,
+  };
+
+  const httpMiddlewareOptions: HttpMiddlewareOptions = {
+    host: apiDataUser.API_URL,
+    fetch,
+  };
+
+  const ctpClient = new ClientBuilder()
+    .withProjectKey(projectKey)
+    .withAnonymousSessionFlow(options)
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .withLoggerMiddleware()
+    .build();
+
+  return createApiBuilderFromCtpClient(ctpClient).withProjectKey({
+    projectKey: apiDataUser.PROJECT_KEY,
+  });
 };
-
-const httpMiddlewareOptions: HttpMiddlewareOptions = {
-  host: apiDataUser.API_URL,
-  fetch,
-};
-
-const ctpClient = new ClientBuilder()
-  .withProjectKey(projectKey)
-  .withAnonymousSessionFlow(options)
-  .withHttpMiddleware(httpMiddlewareOptions)
-  .withLoggerMiddleware()
-  .build();
-
-const anonymousApiRoot = createApiBuilderFromCtpClient(
-  ctpClient,
-).withProjectKey({
-  projectKey: apiDataUser.PROJECT_KEY,
-});
 
 window.addEventListener('DOMContentLoaded', () => {
-  anonymousApiRoot.productProjections().get().execute();
+  createAnonymousApiRoot().productProjections().get().execute();
 });
 
-export default anonymousApiRoot;
+export default createAnonymousApiRoot;
