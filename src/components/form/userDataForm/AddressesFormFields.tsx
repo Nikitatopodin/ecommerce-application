@@ -1,13 +1,23 @@
 import React from 'react';
 import { Checkbox, Form, Input, Select } from 'antd';
 import { fieldsProps } from '../fieldsProps';
+import formValidation from '../formValidation';
+
+interface IProps {
+  isBilling: boolean;
+}
 
 const { Option } = Select;
 
-function BillingAddress(): JSX.Element {
+function AddressesFormFields({ isBilling }: IProps): JSX.Element {
+  const postalCodeProps = isBilling
+    ? fieldsProps.postalCodeBilling.props
+    : fieldsProps.postalCode.props;
   return (
     <>
-      <h3 style={{ textAlign: 'center' }}>Address for billing</h3>
+      <h3 style={{ textAlign: 'center' }}>
+        Address for {isBilling ? 'billing' : 'shipping'}
+      </h3>
 
       <Form.Item {...fieldsProps.countryBilling.props}>
         <Select placeholder="Please select a country">
@@ -17,9 +27,9 @@ function BillingAddress(): JSX.Element {
       </Form.Item>
 
       <Form.Item
-        {...fieldsProps.postalCodeBilling.props}
+        {...postalCodeProps}
         rules={[
-          ...fieldsProps.postalCodeBilling.rules,
+          ...formValidation.postalCode,
           ({ getFieldValue }) => ({
             validator(_, value) {
               if (getFieldValue('countryBilling') === 'US') {
@@ -61,4 +71,4 @@ function BillingAddress(): JSX.Element {
   );
 }
 
-export default BillingAddress;
+export default AddressesFormFields;
