@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { activeMenuItemsReducer } from '../../../redux/slices/navMenuSlice';
-import { getProducts, getProfile } from '../../../services/customerRequests';
+import { getProfile } from '../../../services/customerRequests';
 
 const userIconStyle: React.CSSProperties = {
   fontSize: '16px',
@@ -76,6 +76,7 @@ const items: MenuProps['items'] = [
   getItem('About us', 'aboutUs'),
   getItem('Catalogue', 'catalogue'),
   getItem('Contacts', 'contacts'),
+  getItem('Product', 'product'),
 ];
 
 export default function NavComponent(): JSX.Element {

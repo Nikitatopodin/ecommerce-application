@@ -16,6 +16,8 @@ import HeaderComponent from '../../layouts/header/Header';
 import FooterComponent from '../../layouts/footer/Footer';
 import { activeMenuItemsReducer } from '../../redux/slices/navMenuSlice';
 import { useAppDispatch } from '../../hooks/hooks';
+import Product from '../../pages/ProductPage';
+
 function Layout() {
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -60,6 +62,7 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       />
+      <Route path="/product" element={<Product />} />
     </Route>,
   ),
 );
