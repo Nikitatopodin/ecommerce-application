@@ -11,6 +11,7 @@ import {
 } from '@commercetools/platform-sdk';
 import CatalogMenu from './CatalogMenu';
 import { getCategories, getProducts } from '../../services/customerRequests';
+import { IProductQueryArgs } from '../../types/types';
 
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
@@ -18,15 +19,14 @@ const menuStyle: React.CSSProperties = {
 };
 
 function Catalog(): JSX.Element {
-  const [currentCategory, setCurrentCategory] = useState('');
+  const [currentCategoryId, setCurrentCategoryId] = useState('');
   const [selectedSort, setSelectedSort] = useState<string>();
   const [dataProducts, setDataProducts] =
     useState<ClientResponse<ProductProjectionPagedQueryResponse>>();
   const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
 
   const onClick: MenuProps['onClick'] = (e) => {
-    setCurrentCategory(e.key);
-    console.log(currentCategory);
+    setCurrentCategoryId(e.key);
   };
 
   useEffect(() => {
@@ -45,12 +45,19 @@ function Catalog(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    getProducts()
+    const queryParams: IProductQueryArgs = {};
+    if (currentCategoryId) {
+      queryParams.filter = `categories.id:"${currentCategoryId}"`;
+    }
+    if (selectedSort) {
+      queryParams.sort = [selectedSort];
+    }
+    getProducts(queryParams)
       .then((data) => {
         setDataProducts(data);
       })
       .catch(console.log);
-  }, []);
+  }, [currentCategoryId, selectedSort]);
 
   return (
     <Layout>
@@ -71,7 +78,7 @@ function Catalog(): JSX.Element {
         <Layout style={{ display: 'flex', gap: 10 }}>
           <Menu
             onClick={onClick}
-            selectedKeys={[currentCategory]}
+            selectedKeys={[currentCategoryId]}
             mode="horizontal"
             items={[...categoriesData!]}
             style={menuStyle}
@@ -83,19 +90,19 @@ function Catalog(): JSX.Element {
             style={{ width: 240 }}
             options={[
               {
-                value: 'asc price',
+                value: 'price asc',
                 label: 'Sort by ascending prices',
               },
               {
-                value: 'desc price',
+                value: 'price desc',
                 label: 'Sort by descending prices',
               },
               {
-                value: 'asc name',
+                value: 'name.en-us asc',
                 label: 'Sort by ascending names',
               },
               {
-                value: 'desc name',
+                value: 'name.en-us desc',
                 label: 'Sort by descending names',
               },
             ]}
@@ -128,7 +135,14 @@ function Catalog(): JSX.Element {
                     description={item.description!['en-US']}
                   />
                   <div>
-                    <div className="price">2$</div>
+                    <div className="price">
+                      {(
+                        item.masterVariant.prices![0].value.centAmount / 100
+                      ).toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      })}
+                    </div>
                   </div>
                 </Card>
               </List.Item>

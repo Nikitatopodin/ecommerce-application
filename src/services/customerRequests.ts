@@ -3,6 +3,7 @@ import { type MyCustomerDraft } from '@commercetools/platform-sdk';
 import createApiRoot from './flows/password';
 import createExistingApiRoot from './flows/existing';
 import createAnonymousApiRoot from './flows/anonymous';
+import { IProductQueryArgs } from '../types/types';
 
 const signIn = (userData: CustomerSignin) => {
   const apiPasswordRoot = createApiRoot(userData.email, userData.password);
@@ -20,14 +21,14 @@ const getProfile = () => {
   return apiRoot.me().get().execute();
 };
 
-const getProducts = () => {
+const getProducts = (queryArgs?: IProductQueryArgs) => {
   let apiRoot;
   if (localStorage.getItem('token')) {
     apiRoot = createExistingApiRoot();
   } else {
     apiRoot = createAnonymousApiRoot();
   }
-  return apiRoot.productProjections().get().execute();
+  return apiRoot.productProjections().search().get({ queryArgs }).execute();
 };
 
 const getProductById = (id: string) => {
@@ -48,8 +49,8 @@ const getCategories = () => {
 export {
   signIn,
   signUp,
-  getProducts,
   getProfile,
+  getProducts,
   getProductById,
   getCategories,
 };
