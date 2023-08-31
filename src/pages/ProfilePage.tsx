@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import type { DescriptionsProps } from 'antd';
-import { Button, Col, Descriptions, Divider, Form, Row } from 'antd';
+import {Button, Checkbox, Col, Descriptions, Divider, Form, message, Row} from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import PersonalDataFormFields from '../components/form/userDataForm/PersonalDataFormFields';
-import { tailFormItemLayout } from '../components/form/fieldsProps';
+import {
+  fieldsProps,
+  tailFormItemLayout,
+} from '../components/form/fieldsProps';
 import { updateAddresses, updateProfile } from '../services/customerRequests';
 import { setProfileData } from '../redux/slices/authorizationSlice';
 import AddressesFormFields from '../components/form/userDataForm/AddressesFormFields';
@@ -25,6 +28,7 @@ interface IAddressValues {
 function ProfilePage() {
   const [isPersonalDataEditMode, setPersonalDataEditMode] = useState(false);
   const [isAddressesEditMode, setAddressesEditMode] = useState(false);
+  const [isAddressSingle, setAddressSingle] = useState(true);
   const userData = useAppSelector((state) => state.authorization.userData);
   const dispatch = useAppDispatch();
 
@@ -101,7 +105,12 @@ function ProfilePage() {
             dateOfBirth: response.body.dateOfBirth,
           }),
         );
-      });
+        message.success('Your personal data is up to date');
+      }).catch(() => {
+        message.error(
+            'Something went wrong, please try again',
+        );
+      })
       setPersonalDataEditMode(false);
     }
   };
@@ -131,7 +140,12 @@ function ProfilePage() {
             version: response.body.version,
           }),
         );
-      });
+        message.success('Your addresses is up to date');
+      }).catch(() => {
+        message.error(
+            'Something went wrong, please try again',
+        );
+      })
       setAddressesEditMode(false);
     }
   };
@@ -190,8 +204,17 @@ function ProfilePage() {
             onFinish={onAddressesChanged}
             autoComplete="off"
           >
+            <Form.Item {...fieldsProps.oneAddress.props}>
+              <Checkbox
+                defaultChecked={isAddressSingle}
+                onChange={() => setAddressSingle(!isAddressSingle)}
+              >
+                Use the same address for both billing and shipping
+              </Checkbox>
+            </Form.Item>
+
             <AddressesFormFields isBilling={false} />
-            <AddressesFormFields isBilling />
+            {!isAddressSingle && <AddressesFormFields isBilling />}
 
             <Form.Item {...tailFormItemLayout}>
               <Row>
