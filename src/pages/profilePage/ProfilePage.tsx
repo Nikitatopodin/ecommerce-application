@@ -6,6 +6,29 @@ import ProfileInfoDescription from './profileInfo/ProfileInfoDescription';
 import { useAppSelector } from '../../hooks/hooks';
 import Addresses from './addresses/Addresses';
 
+interface IDividerProps {
+  title: string;
+  setEditMode: (isEditMode: boolean) => void;
+}
+
+function FieldsDivider({ title, setEditMode }: IDividerProps) {
+  return (
+    <Row gutter={12}>
+      <Col span={20}>
+        <Divider orientation="left">{title}</Divider>
+      </Col>
+      <Col span={4}>
+        <EditOutlined
+          style={{ marginTop: '1.2em', color: '#4f4f4f' }}
+          onClick={() => {
+            setEditMode(true);
+          }}
+        />
+      </Col>
+    </Row>
+  );
+}
+
 function ProfilePage() {
   const [isPersonalDataEditMode, setPersonalDataEditMode] = useState(false);
   const [isAddressesEditMode, setAddressesEditMode] = useState(false);
@@ -30,19 +53,10 @@ function ProfilePage() {
     <Row justify="center" style={{ marginTop: '1em' }}>
       <Col span={12}>
         <>
-          <Row gutter={12}>
-            <Col span={20}>
-              <Divider orientation="left">Personal Info</Divider>
-            </Col>
-            <Col span={4}>
-              <EditOutlined
-                style={{ marginTop: '1.2em', color: '#4f4f4f' }}
-                onClick={() => {
-                  setPersonalDataEditMode(true);
-                }}
-              />
-            </Col>
-          </Row>
+          <FieldsDivider
+            title="Personal Info"
+            setEditMode={setPersonalDataEditMode}
+          />
 
           {isPersonalDataEditMode ? (
             <ProfileInfoForm setEditMode={setPersonalDataEditMode} />
@@ -50,19 +64,10 @@ function ProfilePage() {
             <ProfileInfoDescription />
           )}
 
-          <Row gutter={12}>
-            <Col span={20}>
-              <Divider orientation="left">Shipping addresses</Divider>
-            </Col>
-            <Col span={4}>
-              <EditOutlined
-                style={{ marginTop: '1.2em', color: '#4f4f4f' }}
-                onClick={() => {
-                  setAddressesEditMode(true);
-                }}
-              />
-            </Col>
-          </Row>
+          <FieldsDivider
+            title="Shipping addresses"
+            setEditMode={setAddressesEditMode}
+          />
 
           {addresses?.map(
             (address) =>
@@ -78,19 +83,10 @@ function ProfilePage() {
 
           {billingAddressIds!.length > 0 && (
             <>
-              <Row gutter={12}>
-                <Col span={20}>
-                  <Divider orientation="left">Billing addresses</Divider>
-                </Col>
-                <Col span={4}>
-                  <EditOutlined
-                    style={{ marginTop: '1.2em', color: '#4f4f4f' }}
-                    onClick={() => {
-                      setAddressesEditMode(true);
-                    }}
-                  />
-                </Col>
-              </Row>
+              <FieldsDivider
+                title="Billing addresses"
+                setEditMode={setAddressesEditMode}
+              />
 
               {addresses?.map(
                 (address) =>

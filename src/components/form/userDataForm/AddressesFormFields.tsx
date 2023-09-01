@@ -36,10 +36,6 @@ function AddressesFormFields({ isBilling }: IProps): JSX.Element {
 
   return (
     <>
-      <h3 style={{ textAlign: 'center' }}>
-        Address for {isBilling ? 'billing' : 'shipping'}
-      </h3>
-
       <Form.Item
         {...countryProps}
         initialValue={

@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
-import { Button, Checkbox, Col, Form, message, Row } from 'antd';
-import {
-  fieldsProps,
-  tailFormItemLayout,
-} from '../../../components/form/fieldsProps';
+import React from 'react';
+import { Button, Col, Form, message, Row } from 'antd';
+import { tailFormItemLayout } from '../../../components/form/fieldsProps';
 import { updateAddresses } from '../../../services/customerRequests';
 import { setProfileData } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
@@ -28,7 +25,7 @@ interface IAddressValues {
 function ProfileInfoForm({ setEditMode }: ICallBack) {
   const userData = useAppSelector((state) => state.authorization.userData);
   const dispatch = useAppDispatch();
-  const [isAddressSingle, setAddressSingle] = useState(true);
+  // const [isAddressSingle, setAddressSingle] = useState(true);
 
   const onFinish = async (values: IAddressValues) => {
     if (userData) {
@@ -65,6 +62,7 @@ function ProfileInfoForm({ setEditMode }: ICallBack) {
     }
   };
 
+  // todo: проверка на 75 строке
   return (
     <Form
       name="addressesUpdate"
@@ -73,18 +71,8 @@ function ProfileInfoForm({ setEditMode }: ICallBack) {
       onFinish={onFinish}
       autoComplete="off"
     >
-      <Form.Item {...fieldsProps.oneAddress.props}>
-        <Checkbox
-          defaultChecked={isAddressSingle}
-          onChange={() => setAddressSingle(!isAddressSingle)}
-        >
-          Use the same address for both billing and shipping
-        </Checkbox>
-      </Form.Item>
-
       <AddressesFormFields isBilling={false} />
-      {!isAddressSingle && <AddressesFormFields isBilling />}
-
+      <AddressesFormFields isBilling />
       <Form.Item {...tailFormItemLayout}>
         <Row>
           <Col>

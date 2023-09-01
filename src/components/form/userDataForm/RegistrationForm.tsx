@@ -103,9 +103,15 @@ function RegistrationForm(): JSX.Element {
         </Checkbox>
       </Form.Item>
 
+      <h3 style={{ textAlign: 'center' }}>Address for shipping</h3>
       <AddressesFormFields isBilling={false} />
 
-      {!isAddressSingle && <AddressesFormFields isBilling />}
+      {!isAddressSingle && (
+        <>
+          <h3 style={{ textAlign: 'center' }}>Address for billing</h3>
+          <AddressesFormFields isBilling />
+        </>
+      )}
 
       {isSignupError && (
         <Form.Item {...tailFormItemLayout}>
