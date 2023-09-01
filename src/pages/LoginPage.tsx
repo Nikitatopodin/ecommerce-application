@@ -29,9 +29,9 @@ function LoginPage(): JSX.Element {
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
     signIn(values)
-      .then(() => {
-        localStorage.removeItem('token');
-        dispatch(loginReducer(true));
+      .then((response) => {
+        const userData = response.body.customer;
+        dispatch(loginReducer({ isAuthorized: true, userData }));
         message.success('You have successfully signed in');
         navigate('/');
       })
@@ -53,21 +53,28 @@ function LoginPage(): JSX.Element {
     >
       <h1 style={{ textAlign: 'center' }}>Sign in</h1>
 
-      <Form.Item {...fieldsProps.email.props}>
+      <Form.Item
+        {...fieldsProps.email.props}
+        validateStatus={isLoginError ? 'error' : ''}
+      >
         <Input placeholder="E-mail" id="login-email" />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.password.props}>
+      <Form.Item
+        {...fieldsProps.password.props}
+        validateStatus={isLoginError ? 'error' : ''}
+      >
         <Input.Password placeholder="Password" id="login-password" />
       </Form.Item>
-      <Form.Item>
-        {isLoginError && (
+
+      {isLoginError && (
+        <Form.Item>
           <Typography.Text type="danger">
             Sorry, the provided account doesn&apos;t exist. Please check the
             email or password or consider creating a new account
           </Typography.Text>
-        )}
-      </Form.Item>
+        </Form.Item>
+      )}
 
       <Form.Item {...tailFormItemLayout}>
         <Row gutter={16}>
@@ -82,7 +89,7 @@ function LoginPage(): JSX.Element {
             </Button>
           </Col>
           <Col>
-            <Button type="link" onClick={() => navigate('/registration')}>
+            <Button type="link" onClick={() => navigate('/userDataForm')}>
               Create account
             </Button>
           </Col>

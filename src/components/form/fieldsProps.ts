@@ -85,18 +85,7 @@ export const fieldsProps = {
       name: 'firstName',
       label: 'First name',
       hasFeedback: true,
-      rules: [
-        {
-          required: true,
-          message: 'Please input your first name',
-          whitespace: true,
-        },
-        {
-          pattern: /^[a-zA-Z ]+$/,
-          message:
-            'First name you entered contains invalid characters. Please ensure that it only contains alphabetic characters (A-Z or a-z) and try again',
-        },
-      ],
+      rules: formValidation.firstName,
     },
   },
   lastName: {
@@ -104,33 +93,16 @@ export const fieldsProps = {
       name: 'lastName',
       label: 'Last name',
       hasFeedback: true,
-      rules: [
-        {
-          required: true,
-          message: 'Please input your last name',
-          whitespace: true,
-        },
-        {
-          pattern: /^[a-zA-Z ]+$/,
-          message:
-            'Last name you entered contains invalid characters. Please ensure that it only contains alphabetic characters (A-Z or a-z) and try again',
-        },
-      ],
+      rules: formValidation.lastName,
     },
   },
   birthday: {
     props: {
-      name: 'birthday',
+      name: 'dateOfBirth',
       label: 'Date of birth',
       hasFeedback: true,
     },
-    rules: [
-      {
-        type: 'object' as const,
-        required: true,
-        message: 'Please select time!',
-      },
-    ],
+    rules: formValidation.birthday,
   },
   oneAddress: {
     props: {

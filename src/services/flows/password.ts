@@ -49,7 +49,7 @@ function createApiRoot(email: string, password: string) {
     .withHttpMiddleware(httpMiddlewareOptions)
     .withLoggerMiddleware()
     .build();
-
+  localStorage.removeItem('token');
   return createApiBuilderFromCtpClient(ctpClient).withProjectKey({
     projectKey: apiDataUser.PROJECT_KEY,
   });

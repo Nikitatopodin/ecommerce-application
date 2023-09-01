@@ -1,15 +1,36 @@
 import React from 'react';
 import { Checkbox, Form, Input, Select } from 'antd';
 import { fieldsProps } from '../fieldsProps';
+import formValidation from '../formValidation';
+import { BaseAddress } from '@commercetools/platform-sdk';
+
+interface IProps {
+  isBilling: boolean;
+  address?: BaseAddress;
+}
 
 const { Option } = Select;
 
-function BillingAddress(): JSX.Element {
+function AddressesFormFields({ isBilling, address }: IProps): JSX.Element {
+  const postalCodeProps = isBilling
+    ? fieldsProps.postalCodeBilling.props
+    : fieldsProps.postalCode.props;
+
+  const countryProps = isBilling
+    ? fieldsProps.countryBilling.props
+    : fieldsProps.country.props;
+
+  const cityProps = isBilling
+    ? fieldsProps.cityBilling.props
+    : fieldsProps.city.props;
+
+  const streetProps = isBilling
+    ? fieldsProps.streetBilling.props
+    : fieldsProps.street.props;
+
   return (
     <>
-      <h3 style={{ textAlign: 'center' }}>Address for billing</h3>
-
-      <Form.Item {...fieldsProps.countryBilling.props}>
+      <Form.Item {...countryProps} initialValue={address?.country}>
         <Select placeholder="Please select a country">
           <Option value="US">U.S.A</Option>
           <Option value="RU">Russia</Option>
@@ -17,9 +38,10 @@ function BillingAddress(): JSX.Element {
       </Form.Item>
 
       <Form.Item
-        {...fieldsProps.postalCodeBilling.props}
+        {...postalCodeProps}
+        initialValue={address?.postalCode}
         rules={[
-          ...fieldsProps.postalCodeBilling.rules,
+          ...formValidation.postalCode,
           ({ getFieldValue }) => ({
             validator(_, value) {
               if (getFieldValue('countryBilling') === 'US') {
@@ -46,11 +68,11 @@ function BillingAddress(): JSX.Element {
         <Input placeholder="Postal code" />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.cityBilling.props}>
+      <Form.Item {...cityProps} initialValue={address?.city}>
         <Input placeholder="City" />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.streetBilling.props}>
+      <Form.Item {...streetProps} initialValue={address?.streetName}>
         <Input placeholder="Street" />
       </Form.Item>
 
@@ -61,4 +83,4 @@ function BillingAddress(): JSX.Element {
   );
 }
 
-export default BillingAddress;
+export default AddressesFormFields;
