@@ -5,13 +5,15 @@ import Title from 'antd/es/typography/Title';
 import { Header } from 'antd/es/layout/layout';
 import Meta from 'antd/es/card/Meta';
 import type { MenuProps } from 'antd';
-import {
-  ClientResponse,
-  ProductProjectionPagedQueryResponse,
-} from '@commercetools/platform-sdk';
 import CatalogMenu from './CatalogMenu';
 import { getCategories, getProducts } from '../../services/customerRequests';
 import { IProductQueryArgs } from '../../types/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {
+  addDataCatalog,
+  addCurrentCategory,
+  addSortCatalog,
+} from '../../redux/slices/catalogSlice';
 
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
@@ -19,14 +21,16 @@ const menuStyle: React.CSSProperties = {
 };
 
 function Catalog(): JSX.Element {
-  const [currentCategoryId, setCurrentCategoryId] = useState('');
-  const [selectedSort, setSelectedSort] = useState<string>();
-  const [dataProducts, setDataProducts] =
-    useState<ClientResponse<ProductProjectionPagedQueryResponse>>();
   const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
 
+  const dispatch = useAppDispatch();
+
+  const { dataProducts, currentCtegory, settings } = useAppSelector(
+    (state) => state.catalog,
+  );
+
   const onClick: MenuProps['onClick'] = (e) => {
-    setCurrentCategoryId(e.key);
+    dispatch(addCurrentCategory(e.key));
   };
 
   useEffect(() => {
@@ -46,18 +50,18 @@ function Catalog(): JSX.Element {
 
   useEffect(() => {
     const queryParams: IProductQueryArgs = {};
-    if (currentCategoryId) {
-      queryParams.filter = `categories.id:"${currentCategoryId}"`;
+    if (currentCtegory) {
+      queryParams.filter = `categories.id:"${currentCtegory}"`;
     }
-    if (selectedSort) {
-      queryParams.sort = [selectedSort];
+    if (settings.sort) {
+      queryParams.sort = [settings.sort];
     }
     getProducts(queryParams)
       .then((data) => {
-        setDataProducts(data);
+        dispatch(addDataCatalog(data.body.results));
       })
       .catch(console.log);
-  }, [currentCategoryId, selectedSort]);
+  }, [currentCtegory, settings.sort]);
 
   return (
     <Layout>
@@ -78,15 +82,15 @@ function Catalog(): JSX.Element {
         <Layout style={{ display: 'flex', gap: 10 }}>
           <Menu
             onClick={onClick}
-            selectedKeys={[currentCategoryId]}
+            selectedKeys={[currentCtegory]}
             mode="horizontal"
             items={[...categoriesData!]}
             style={menuStyle}
           />
           <Select
             placeholder="Select a sorting option"
-            value={selectedSort}
-            onChange={setSelectedSort}
+            value={settings.sort}
+            onChange={(value) => dispatch(addSortCatalog(value))}
             style={{ width: 240 }}
             options={[
               {
@@ -117,7 +121,7 @@ function Catalog(): JSX.Element {
               xl: 4,
               xxl: 4,
             }}
-            dataSource={dataProducts?.body.results}
+            dataSource={dataProducts}
             renderItem={(item) => (
               <List.Item>
                 <Card
