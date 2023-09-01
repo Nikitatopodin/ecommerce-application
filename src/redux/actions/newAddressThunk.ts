@@ -1,21 +1,36 @@
 import { BaseAddress } from '@commercetools/platform-sdk';
 import { DispatchType } from '../../hooks/hooks';
-import { addAddressId, addNewAddress } from '../../services/customerRequests';
+import {
+  addAddressId,
+  addDefaultAddress,
+  addNewAddress,
+} from '../../services/customerRequests';
 import { setProfileData } from '../slices/authorizationSlice';
 
 const newAddressThunk =
-  (address: BaseAddress, version: number, isBilling: boolean) =>
+  (
+    address: BaseAddress,
+    version: number,
+    isBilling: boolean,
+    isDefault: boolean,
+  ) =>
   async (dispatch: DispatchType) => {
     try {
-      const response = await addNewAddress(address, version);
+      let userData = await addNewAddress(address, version);
       const addressId =
-        response.body.addresses[response.body.addresses.length - 1].id;
-      const updatedVersion = response.body.version;
-      const userData = await addAddressId(
+        userData.body.addresses[userData.body.addresses.length - 1].id;
+      userData = await addAddressId(
         addressId!,
-        updatedVersion,
+        userData.body.version,
         isBilling,
       );
+      if (isDefault) {
+        userData = await addDefaultAddress(
+          addressId!,
+          userData.body.version,
+          isBilling,
+        );
+      }
       dispatch(
         setProfileData({ ...userData.body, version: userData.body.version }),
       );

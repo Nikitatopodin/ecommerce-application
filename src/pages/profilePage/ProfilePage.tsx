@@ -37,7 +37,8 @@ function ProfilePage() {
   const onFinish = (values: IAddressValues) => {
     if (version) {
       const address = formatAddress(isBilling, values);
-      dispatch(newAddressThunk(address, version, isBilling));
+      const isDefault = values.defaultBillingAddress;
+      dispatch(newAddressThunk(address, version, isBilling, isDefault));
       setModalOpen(false);
     }
   };

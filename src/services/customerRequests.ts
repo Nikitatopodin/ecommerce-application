@@ -96,6 +96,26 @@ const addAddressId = (
   return apiRoot.me().post({ body }).execute();
 };
 
+const addDefaultAddress = (
+  addressId: string,
+  version: number,
+  isBilling: boolean,
+) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: isBilling
+          ? 'setDefaultBillingAddress'
+          : 'setDefaultShippingAddress',
+        addressId,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
 const getProducts = () => {
   let apiRoot;
   if (localStorage.getItem('token')) {
@@ -114,5 +134,6 @@ export {
   updateProfile,
   addNewAddress,
   addAddressId,
+  addDefaultAddress,
   updateAddress,
 };
