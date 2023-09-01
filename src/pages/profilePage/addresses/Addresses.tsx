@@ -1,25 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BaseAddress } from '@commercetools/platform-sdk';
-import AddressesForm from './AddressesForm';
+import AddressForm from './AddressForm';
 import AddressesDescription from './AddressesDescription';
 
 interface IProps {
   address: BaseAddress;
+  isBilling: boolean;
   isDefault: boolean;
-  isAddressesEditMode: boolean;
-  setAddressesEditMode: (isAddressesEditMode: boolean) => void;
 }
 
-function Addresses({
-  address,
-  isDefault,
-  isAddressesEditMode,
-  setAddressesEditMode,
-}: IProps) {
-  if (isAddressesEditMode) {
-    return <AddressesForm setEditMode={setAddressesEditMode} />;
+function Addresses({ address, isBilling, isDefault }: IProps) {
+  const [isEditMode, setEditMode] = useState(false);
+
+  if (isEditMode) {
+    return (
+      <AddressForm
+        isBilling={isBilling}
+        setEditMode={setEditMode}
+        address={address}
+      />
+    );
   }
-  return <AddressesDescription address={address} isDefault={isDefault} />;
+  return (
+    <AddressesDescription
+      address={address}
+      isDefault={isDefault}
+      setEditMode={setEditMode}
+    />
+  );
 }
 
 export default Addresses;

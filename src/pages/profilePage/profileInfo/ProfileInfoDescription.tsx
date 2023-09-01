@@ -1,8 +1,13 @@
 import React from 'react';
-import { Descriptions, DescriptionsProps } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
+import { Col, Descriptions, DescriptionsProps, Row } from 'antd';
 import { useAppSelector } from '../../../hooks/hooks';
 
-function ProfileInfoDescription() {
+interface IProps {
+  setEditMode: (isEditMode: boolean) => void;
+}
+
+function ProfileInfoDescription({ setEditMode }: IProps) {
   const userData = useAppSelector((state) => state.authorization.userData);
   const personalInfo: DescriptionsProps['items'] = [
     {
@@ -22,7 +27,21 @@ function ProfileInfoDescription() {
     },
   ];
 
-  return <Descriptions layout="vertical" items={personalInfo} />;
+  return (
+    <Row gutter={20}>
+      <Col span={20}>
+        <Descriptions layout="vertical" items={personalInfo} />
+      </Col>
+      <Col span={4}>
+        <EditOutlined
+          style={{ color: '#4f4f4f' }}
+          onClick={() => {
+            setEditMode(true);
+          }}
+        />
+      </Col>
+    </Row>
+  );
 }
 
 export default ProfileInfoDescription;

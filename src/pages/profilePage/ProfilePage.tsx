@@ -1,37 +1,12 @@
 import React, { useState } from 'react';
 import { Col, Divider, Row } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
 import ProfileInfoForm from './profileInfo/ProfileInfoForm';
 import ProfileInfoDescription from './profileInfo/ProfileInfoDescription';
 import { useAppSelector } from '../../hooks/hooks';
 import Addresses from './addresses/Addresses';
 
-interface IDividerProps {
-  title: string;
-  setEditMode: (isEditMode: boolean) => void;
-}
-
-function FieldsDivider({ title, setEditMode }: IDividerProps) {
-  return (
-    <Row gutter={12}>
-      <Col span={20}>
-        <Divider orientation="left">{title}</Divider>
-      </Col>
-      <Col span={4}>
-        <EditOutlined
-          style={{ marginTop: '1.2em', color: '#4f4f4f' }}
-          onClick={() => {
-            setEditMode(true);
-          }}
-        />
-      </Col>
-    </Row>
-  );
-}
-
 function ProfilePage() {
   const [isPersonalDataEditMode, setPersonalDataEditMode] = useState(false);
-  const [isAddressesEditMode, setAddressesEditMode] = useState(false);
 
   const addresses = useAppSelector(
     (state) => state.authorization.userData?.addresses,
@@ -50,52 +25,43 @@ function ProfilePage() {
   );
 
   return (
-    <Row justify="center" style={{ marginTop: '1em' }}>
+    <Row justify="center" style={{ margin: '1em auto' }}>
       <Col span={12}>
         <>
-          <FieldsDivider
-            title="Personal Info"
-            setEditMode={setPersonalDataEditMode}
-          />
+          <Divider orientation="left">Personal Info</Divider>
 
           {isPersonalDataEditMode ? (
             <ProfileInfoForm setEditMode={setPersonalDataEditMode} />
           ) : (
-            <ProfileInfoDescription />
+            <ProfileInfoDescription setEditMode={setPersonalDataEditMode} />
           )}
 
-          <FieldsDivider
-            title="Shipping addresses"
-            setEditMode={setAddressesEditMode}
-          />
+          <Divider orientation="left">Shipping addresses</Divider>
 
           {addresses?.map(
             (address) =>
               shippingAddressIds?.includes(address.id as string) && (
                 <Addresses
                   address={address}
+                  isBilling={false}
                   isDefault={defaultShippingAddress === address.id}
-                  isAddressesEditMode={isAddressesEditMode}
-                  setAddressesEditMode={setAddressesEditMode}
+                  key={address.id}
                 />
               ),
           )}
 
-          {billingAddressIds!.length > 0 && (
+          {billingAddressIds && (
             <>
-              <FieldsDivider
-                title="Billing addresses"
-                setEditMode={setAddressesEditMode}
-              />
+              <Divider orientation="left">Billing addresses</Divider>
 
               {addresses?.map(
                 (address) =>
                   billingAddressIds?.includes(address.id as string) && (
                     <Addresses
                       address={address}
+                      isBilling
                       isDefault={defaultBillingAddress === address.id}
-                      isAddressesEditMode={isAddressesEditMode}
-                      setAddressesEditMode={setAddressesEditMode}
+                      key={address.id}
                     />
                   ),
               )}

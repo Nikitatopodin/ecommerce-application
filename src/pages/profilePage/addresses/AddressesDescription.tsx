@@ -1,13 +1,15 @@
 import React from 'react';
-import { Badge, Card, Col, Descriptions, DescriptionsProps } from 'antd';
+import { Badge, Card, Col, Descriptions, DescriptionsProps, Row } from 'antd';
 import { BaseAddress } from '@commercetools/platform-sdk';
+import { EditOutlined } from '@ant-design/icons';
 
 interface IProps {
   address: BaseAddress;
   isDefault: boolean;
+  setEditMode: (isEditMode: boolean) => void;
 }
 
-function AddressesDescription({ address, isDefault }: IProps) {
+function AddressesDescription({ address, isDefault, setEditMode }: IProps) {
   const addresses: DescriptionsProps['items'] = [
     {
       key: '1',
@@ -33,21 +35,41 @@ function AddressesDescription({ address, isDefault }: IProps) {
 
   if (isDefault) {
     return (
-      <Col span={20}>
-        <Badge.Ribbon text="Default" color="green">
-          <Card size="small" style={{ marginTop: '.5em' }}>
-            <Descriptions layout="vertical" items={addresses} />
-          </Card>
-        </Badge.Ribbon>
-      </Col>
+      <Badge.Ribbon text="Default" color="green">
+        <Card size="small" style={{ marginTop: '.5em' }}>
+          <Row gutter={20}>
+            <Col span={20}>
+              <Descriptions layout="vertical" items={addresses} />
+            </Col>
+            <Col span={4}>
+              <EditOutlined
+                style={{ color: '#4f4f4f' }}
+                onClick={() => {
+                  setEditMode(true);
+                }}
+              />
+            </Col>
+          </Row>
+        </Card>
+      </Badge.Ribbon>
     );
   }
   return (
-    <Col span={20}>
-      <Card size="small" style={{ marginTop: '.5em' }}>
-        <Descriptions layout="vertical" items={addresses} />
-      </Card>
-    </Col>
+    <Card size="small" style={{ marginTop: '.5em' }}>
+      <Row gutter={20}>
+        <Col span={20}>
+          <Descriptions layout="vertical" items={addresses} />
+        </Col>
+        <Col span={4}>
+          <EditOutlined
+            style={{ color: '#4f4f4f' }}
+            onClick={() => {
+              setEditMode(true);
+            }}
+          />
+        </Col>
+      </Row>
+    </Card>
   );
 }
 

@@ -49,20 +49,15 @@ const updateProfile = (values: Customer, version: number) => {
   return apiRoot.me().post({ body }).execute();
 };
 
-const updateAddresses = (values: BaseAddress[], version: number) => {
+const updateAddress = (values: BaseAddress, version: number) => {
   const apiRoot = createExistingApiRoot();
   const body: MyCustomerUpdate = {
     version,
     actions: [
       {
         action: 'changeAddress',
-        addressId: values[0].id,
-        address: values[0],
-      },
-      {
-        action: 'changeAddress',
-        addressId: values[1].id,
-        address: values[1],
+        addressId: values.id,
+        address: values,
       },
     ],
   };
@@ -84,5 +79,5 @@ export {
   getProducts,
   getProfile,
   updateProfile,
-  updateAddresses,
+  updateAddress,
 };

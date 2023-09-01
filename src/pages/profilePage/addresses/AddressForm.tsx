@@ -1,13 +1,16 @@
 import React from 'react';
+import { BaseAddress } from '@commercetools/platform-sdk';
 import { Button, Col, Form, message, Row } from 'antd';
 import { tailFormItemLayout } from '../../../components/form/fieldsProps';
-import { updateAddresses } from '../../../services/customerRequests';
+import { updateAddress } from '../../../services/customerRequests';
 import { setProfileData } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import AddressesFormFields from '../../../components/form/userDataForm/AddressesFormFields';
 
-interface ICallBack {
+interface IProps {
+  isBilling: boolean;
   setEditMode: (isEditMode: boolean) => void;
+  address: BaseAddress;
 }
 
 interface IAddressValues {
@@ -22,30 +25,32 @@ interface IAddressValues {
   streetBilling: string;
 }
 
-function ProfileInfoForm({ setEditMode }: ICallBack) {
+function AddressForm({ isBilling, setEditMode, address }: IProps) {
   const userData = useAppSelector((state) => state.authorization.userData);
   const dispatch = useAppDispatch();
-  // const [isAddressSingle, setAddressSingle] = useState(true);
 
   const onFinish = async (values: IAddressValues) => {
+    let formattedAddress: BaseAddress;
+    if (isBilling) {
+      formattedAddress = {
+        country: values.countryBilling,
+        postalCode: values.postalCodeBilling,
+        city: values.cityBilling,
+        streetName: values.streetBilling,
+        id: userData?.addresses[1].id,
+      };
+    } else {
+      formattedAddress = {
+        country: values.country,
+        postalCode: values.postalCode,
+        city: values.city,
+        streetName: values.street,
+        id: userData?.addresses[0].id,
+      };
+    }
+
     if (userData) {
-      const formattedValues = [
-        {
-          country: values.country,
-          postalCode: values.postalCode,
-          city: values.city,
-          streetName: values.street,
-          id: userData?.addresses[0].id,
-        },
-        {
-          country: values.countryBilling,
-          postalCode: values.postalCodeBilling,
-          city: values.cityBilling,
-          streetName: values.streetBilling,
-          id: userData?.addresses[1].id,
-        },
-      ];
-      updateAddresses(formattedValues, userData.version)
+      updateAddress(formattedAddress, userData.version)
         .then((response) => {
           dispatch(
             setProfileData({
@@ -62,7 +67,6 @@ function ProfileInfoForm({ setEditMode }: ICallBack) {
     }
   };
 
-  // todo: проверка на 75 строке
   return (
     <Form
       name="addressesUpdate"
@@ -71,8 +75,8 @@ function ProfileInfoForm({ setEditMode }: ICallBack) {
       onFinish={onFinish}
       autoComplete="off"
     >
-      <AddressesFormFields isBilling={false} />
-      <AddressesFormFields isBilling />
+      <AddressesFormFields isBilling={isBilling} address={address} />
+
       <Form.Item {...tailFormItemLayout}>
         <Row>
           <Col>
@@ -89,4 +93,4 @@ function ProfileInfoForm({ setEditMode }: ICallBack) {
   );
 }
 
-export default ProfileInfoForm;
+export default AddressForm;
