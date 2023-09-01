@@ -22,12 +22,8 @@ const menuStyle: React.CSSProperties = {
 
 function Catalog(): JSX.Element {
   const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
-
   const dispatch = useAppDispatch();
-
-  const { dataProducts, currentCtegory, settings } = useAppSelector(
-    (state) => state.catalog,
-  );
+  const { dataProducts, settings } = useAppSelector((state) => state.catalog);
 
   const onClick: MenuProps['onClick'] = (e) => {
     dispatch(addCurrentCategory(e.key));
@@ -50,8 +46,8 @@ function Catalog(): JSX.Element {
 
   useEffect(() => {
     const queryParams: IProductQueryArgs = {};
-    if (currentCtegory) {
-      queryParams.filter = `categories.id:"${currentCtegory}"`;
+    if (settings.currentCtegory) {
+      queryParams.filter = `categories.id:"${settings.currentCtegory}"`;
     }
     if (settings.sort) {
       queryParams.sort = [settings.sort];
@@ -61,7 +57,7 @@ function Catalog(): JSX.Element {
         dispatch(addDataCatalog(data.body.results));
       })
       .catch(console.log);
-  }, [currentCtegory, settings.sort]);
+  }, [settings]);
 
   return (
     <Layout>
@@ -82,7 +78,7 @@ function Catalog(): JSX.Element {
         <Layout style={{ display: 'flex', gap: 10 }}>
           <Menu
             onClick={onClick}
-            selectedKeys={[currentCtegory]}
+            selectedKeys={[settings.currentCtegory]}
             mode="horizontal"
             items={[...categoriesData!]}
             style={menuStyle}
