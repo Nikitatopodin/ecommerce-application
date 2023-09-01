@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
-import { Col, Divider, Row } from 'antd';
+import { Button, Col, Divider, Form, Modal, Radio, Row } from 'antd';
+import FormItem from 'antd/es/form/FormItem';
 import ProfileInfoForm from './profileInfo/ProfileInfoForm';
 import ProfileInfoDescription from './profileInfo/ProfileInfoDescription';
-import { useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Addresses from './addresses/Addresses';
+import AddressesFormFields from '../../components/form/userDataForm/AddressesFormFields';
+import newAddressThunk from '../../redux/actions/newAddressThunk';
+import formatAddress, { IAddressValues } from '../../utils/formatAddress';
 
 function ProfilePage() {
   const [isPersonalDataEditMode, setPersonalDataEditMode] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isBilling, setBilling] = useState(false);
+  const dispatch = useAppDispatch();
 
+  const version = useAppSelector(
+    (state) => state.authorization.userData?.version,
+  );
   const addresses = useAppSelector(
     (state) => state.authorization.userData?.addresses,
   );
@@ -24,8 +34,44 @@ function ProfilePage() {
     (state) => state.authorization.userData?.defaultBillingAddressId,
   );
 
+  const onFinish = (values: IAddressValues) => {
+    if (version) {
+      const address = formatAddress(isBilling, values);
+      dispatch(newAddressThunk(address, version, isBilling));
+      setModalOpen(false);
+    }
+  };
+
   return (
     <Row justify="center" style={{ margin: '1em auto' }}>
+      <Modal
+        title="Add new address"
+        open={isModalOpen}
+        onCancel={() => setModalOpen(false)}
+        footer={[
+          <Button
+            form="addAddressForm"
+            key="submit"
+            htmlType="submit"
+            type="primary"
+          >
+            Submit
+          </Button>,
+        ]}
+      >
+        <Form onFinish={onFinish} id="addAddressForm">
+          <FormItem>
+            <Radio.Group
+              defaultValue="shipping"
+              onChange={() => setBilling((prevState) => !prevState)}
+            >
+              <Radio value="shipping">Shipping address</Radio>
+              <Radio value="billing">Billing address</Radio>
+            </Radio.Group>
+          </FormItem>
+          <AddressesFormFields isBilling={isBilling} />
+        </Form>
+      </Modal>
       <Col span={12}>
         <>
           <Divider orientation="left">Personal Info</Divider>
@@ -67,6 +113,13 @@ function ProfilePage() {
               )}
             </>
           )}
+          <Button
+            type="primary"
+            onClick={() => setModalOpen(true)}
+            style={{ marginTop: '1em' }}
+          >
+            Add new address
+          </Button>
         </>
       </Col>
     </Row>

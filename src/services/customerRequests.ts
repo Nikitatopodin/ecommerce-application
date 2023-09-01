@@ -63,6 +63,39 @@ const updateAddress = (values: BaseAddress, version: number) => {
   };
   return apiRoot.me().post({ body }).execute();
 };
+
+const addNewAddress = (address: BaseAddress, version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'addAddress',
+        address,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
+const addAddressId = (
+  addressId: string,
+  version: number,
+  isBilling: boolean,
+) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: isBilling ? 'addBillingAddressId' : 'addShippingAddressId',
+        addressId,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
 const getProducts = () => {
   let apiRoot;
   if (localStorage.getItem('token')) {
@@ -79,5 +112,7 @@ export {
   getProducts,
   getProfile,
   updateProfile,
+  addNewAddress,
+  addAddressId,
   updateAddress,
 };

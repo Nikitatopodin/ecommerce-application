@@ -6,6 +6,7 @@ import { updateAddress } from '../../../services/customerRequests';
 import { setProfileData } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import AddressesFormFields from '../../../components/form/userDataForm/AddressesFormFields';
+import formatAddress, { IAddressValues } from '../../../utils/formatAddress';
 
 interface IProps {
   isBilling: boolean;
@@ -13,41 +14,12 @@ interface IProps {
   address: BaseAddress;
 }
 
-interface IAddressValues {
-  city: string;
-  cityBilling: string;
-  country: string;
-  countryBilling: 'RU' | 'USA';
-  defaultBillingAddress: string;
-  postalCode: string;
-  postalCodeBilling: string;
-  street: string;
-  streetBilling: string;
-}
-
 function AddressForm({ isBilling, setEditMode, address }: IProps) {
   const userData = useAppSelector((state) => state.authorization.userData);
   const dispatch = useAppDispatch();
 
   const onFinish = async (values: IAddressValues) => {
-    let formattedAddress: BaseAddress;
-    if (isBilling) {
-      formattedAddress = {
-        country: values.countryBilling,
-        postalCode: values.postalCodeBilling,
-        city: values.cityBilling,
-        streetName: values.streetBilling,
-        id: userData?.addresses[1].id,
-      };
-    } else {
-      formattedAddress = {
-        country: values.country,
-        postalCode: values.postalCode,
-        city: values.city,
-        streetName: values.street,
-        id: userData?.addresses[0].id,
-      };
-    }
+    const formattedAddress = formatAddress(isBilling, values, address.id);
 
     if (userData) {
       updateAddress(formattedAddress, userData.version)
