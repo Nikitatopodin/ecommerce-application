@@ -1,12 +1,11 @@
 import React from 'react';
 import { BaseAddress } from '@commercetools/platform-sdk';
-import { Button, Col, Form, message, Row } from 'antd';
+import { Button, Col, Form, Row } from 'antd';
 import { tailFormItemLayout } from '../../../components/form/fieldsProps';
-import { updateAddress } from '../../../services/customerRequests';
-import { setProfileData } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import AddressesFormFields from '../../../components/form/userDataForm/AddressesFormFields';
 import formatAddress, { IAddressValues } from '../../../utils/formatAddress';
+import updateAddressThunk from '../../../redux/actions/updateAddressThunk';
 
 interface IProps {
   isBilling: boolean;
@@ -22,20 +21,15 @@ function AddressForm({ isBilling, setEditMode, address }: IProps) {
     const formattedAddress = formatAddress(isBilling, values, address.id);
 
     if (userData) {
-      updateAddress(formattedAddress, userData.version)
-        .then((response) => {
-          dispatch(
-            setProfileData({
-              ...response.body,
-              version: response.body.version,
-            }),
-          );
-          message.success('Your addresses is up to date');
-        })
-        .catch(() => {
-          message.error('Something went wrong, please try again');
-        });
-      setEditMode(false);
+      dispatch(
+        updateAddressThunk(
+          formattedAddress,
+          userData.version,
+          values.defaultAddress,
+          isBilling,
+          setEditMode,
+        ),
+      );
     }
   };
 

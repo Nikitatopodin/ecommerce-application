@@ -20,7 +20,7 @@ function NewAddressForm({ isModalOpen, setModalOpen }: IProps) {
   const onFinish = (values: IAddressValues) => {
     if (version) {
       const address = formatAddress(isBilling, values);
-      const isDefault = values.defaultBillingAddress;
+      const isDefault = values.defaultAddress;
       dispatch(newAddressThunk(address, version, isBilling, isDefault));
       setModalOpen(false);
     }
