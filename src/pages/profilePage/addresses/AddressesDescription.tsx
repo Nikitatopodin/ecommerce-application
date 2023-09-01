@@ -1,87 +1,54 @@
 import React from 'react';
-import { Col, Descriptions, DescriptionsProps, Divider, Row } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
-import { useAppSelector } from '../../../hooks/hooks';
+import { Badge, Card, Col, Descriptions, DescriptionsProps } from 'antd';
+import { BaseAddress } from '@commercetools/platform-sdk';
 
-interface ICallBack {
-  setEditMode: (isEditMode: boolean) => void;
+interface IProps {
+  address: BaseAddress;
+  isDefault: boolean;
 }
 
-function ProfileInfoDescription({ setEditMode }: ICallBack) {
-  const userData = useAppSelector((state) => state.authorization.userData);
-
-  const shippingAddress: DescriptionsProps['items'] = [
+function AddressesDescription({ address, isDefault }: IProps) {
+  const addresses: DescriptionsProps['items'] = [
     {
       key: '1',
       label: 'Postal code',
-      children: userData?.addresses[0].postalCode,
+      children: address.postalCode,
     },
     {
       key: '2',
       label: 'Country',
-      children: userData?.addresses[0].country === 'RU' ? 'Russia' : 'USA',
+      children: address.country === 'RU' ? 'Russia' : 'USA',
     },
     {
       key: '3',
       label: 'City',
-      children: userData?.addresses[0].city,
+      children: address.city,
     },
     {
       key: '4',
       label: 'Street',
-      children: userData?.addresses[0].streetName,
-    },
-  ];
-  const billingAddress: DescriptionsProps['items'] = [
-    {
-      key: '1',
-      label: 'Postal code',
-      children: userData?.addresses[1]?.postalCode,
-    },
-    {
-      key: '2',
-      label: 'Country',
-      children: userData?.addresses[1]?.country === 'RU' ? 'Russia' : 'USA',
-    },
-    {
-      key: '3',
-      label: 'City',
-      children: userData?.addresses[1]?.city,
-    },
-    {
-      key: '4',
-      label: 'Street',
-      children: userData?.addresses[1]?.streetName,
+      children: address.streetName,
     },
   ];
 
-  return (
-    <Row>
-      <Divider />
+  if (isDefault) {
+    return (
       <Col span={20}>
-        <Descriptions
-          layout="vertical"
-          title="Shipping address"
-          items={shippingAddress}
-        />
-        {userData?.addresses[1] && (
-          <Descriptions
-            layout="vertical"
-            title="Billing address"
-            items={billingAddress}
-          />
-        )}
+        <Badge.Ribbon text="Default" color="green">
+          <Card size="small" style={{ marginTop: '.5em' }}>
+            <Descriptions layout="vertical" items={addresses} />
+          </Card>
+        </Badge.Ribbon>
       </Col>
-      <Col span={4}>
-        <EditOutlined
-          style={{ marginTop: '.3em', color: '#4f4f4f' }}
-          onClick={() => {
-            setEditMode(true);
-          }}
-        />
-      </Col>
-    </Row>
+    );
+  }
+  return (
+    <Col span={20}>
+      <Card size="small" style={{ marginTop: '.5em' }}>
+        <Descriptions layout="vertical" items={addresses} />
+      </Card>
+    </Col>
   );
 }
 
-export default ProfileInfoDescription;
+export default AddressesDescription;

@@ -1,13 +1,8 @@
 import React from 'react';
-import { Col, Descriptions, DescriptionsProps, Row } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { Descriptions, DescriptionsProps } from 'antd';
 import { useAppSelector } from '../../../hooks/hooks';
 
-interface ICallBack {
-  setEditMode: (isEditMode: boolean) => void;
-}
-
-function ProfileInfoDescription({ setEditMode }: ICallBack) {
+function ProfileInfoDescription() {
   const userData = useAppSelector((state) => state.authorization.userData);
   const personalInfo: DescriptionsProps['items'] = [
     {
@@ -27,25 +22,7 @@ function ProfileInfoDescription({ setEditMode }: ICallBack) {
     },
   ];
 
-  return (
-    <Row>
-      <Col span={20}>
-        <Descriptions
-          layout="vertical"
-          title="Personal Info"
-          items={personalInfo}
-        />
-      </Col>
-      <Col span={4}>
-        <EditOutlined
-          style={{ marginTop: '.3em', color: '#4f4f4f' }}
-          onClick={() => {
-            setEditMode(true);
-          }}
-        />
-      </Col>
-    </Row>
-  );
+  return <Descriptions layout="vertical" items={personalInfo} />;
 }
 
 export default ProfileInfoDescription;
