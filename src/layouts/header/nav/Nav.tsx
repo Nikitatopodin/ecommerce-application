@@ -97,7 +97,9 @@ export default function NavComponent(): JSX.Element {
       setCurrent('');
       navigate('/');
     } else if (e.key === 'catalogue') {
-      getProducts();
+      dispatch(activeMenuItemsReducer(e.key));
+      setCurrent(e.key);
+      navigate(`/catalog`);
     } else if (e.key === 'logout') {
       dispatch(loginReducer({ isAuthorized: false, userData: null }));
       dispatch(activeMenuItemsReducer(''));
