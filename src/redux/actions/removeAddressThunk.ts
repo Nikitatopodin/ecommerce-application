@@ -14,7 +14,7 @@ const removeAddressThunk =
               version: response.body.version,
             }),
           );
-          message.success('Your addresses is up to date');
+          message.success('Address has been deleted');
         })
         .catch(() => {
           message.error('Something went wrong, please try again');
