@@ -11,7 +11,7 @@ interface IProps {
   setModalOpen: (isModalOpen: boolean) => void;
 }
 
-function NewAddressForm({ isModalOpen, setModalOpen }: IProps) {
+function NewAddressModal({ isModalOpen, setModalOpen }: IProps) {
   const [isBilling, setBilling] = useState(false);
   const version = useAppSelector(
     (state) => state.authorization.userData?.version,
@@ -57,4 +57,4 @@ function NewAddressForm({ isModalOpen, setModalOpen }: IProps) {
   );
 }
 
-export default NewAddressForm;
+export default NewAddressModal;

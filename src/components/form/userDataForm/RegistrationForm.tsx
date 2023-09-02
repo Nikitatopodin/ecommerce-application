@@ -18,6 +18,7 @@ import AddressesFormFields from './AddressesFormFields';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import PersonalDataFormFields from './PersonalDataFormFields';
+import PasswordFields from './PasswordFields';
 
 function RegistrationForm(): JSX.Element {
   const [form] = Form.useForm();
@@ -69,29 +70,7 @@ function RegistrationForm(): JSX.Element {
         <Input placeholder="E-mail" onChange={() => setSignupError(false)} />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.password.props}>
-        <Input.Password placeholder="Password" />
-      </Form.Item>
-
-      <Form.Item
-        {...fieldsProps.confirm.props}
-        rules={[
-          ...fieldsProps.confirm.rules,
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error('Passwords do not match, please try again'),
-              );
-            },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
+      <PasswordFields />
       <PersonalDataFormFields />
 
       <Form.Item {...fieldsProps.oneAddress.props}>

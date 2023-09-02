@@ -1,6 +1,7 @@
 import {
   Customer,
   CustomerSignin,
+  MyCustomerChangePassword,
 } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import {
   BaseAddress,
@@ -51,6 +52,20 @@ const updateProfile = (values: Customer, version: number) => {
     ],
   };
   return apiRoot.me().post({ body }).execute();
+};
+
+const updatePassword = (
+  currentPassword: string,
+  newPassword: string,
+  version: number,
+) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerChangePassword = {
+    version,
+    currentPassword,
+    newPassword,
+  };
+  return apiRoot.me().password().post({ body }).execute();
 };
 
 const updateAddress = (values: BaseAddress, version: number) => {
@@ -136,6 +151,7 @@ export {
   getProducts,
   getProfile,
   updateProfile,
+  updatePassword,
   addNewAddress,
   addAddressId,
   addDefaultAddress,

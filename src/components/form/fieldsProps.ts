@@ -58,6 +58,14 @@ export const fieldsProps = {
       rules: formValidation.email,
     },
   },
+  currentPassword: {
+    props: {
+      name: 'currentPassword',
+      label: 'Current Password',
+      hasFeedback: true,
+      rules: formValidation.password,
+    },
+  },
   password: {
     props: {
       name: 'password',
