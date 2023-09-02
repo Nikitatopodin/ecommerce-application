@@ -44,7 +44,7 @@ interface IProductQueryArgs {
   fuzzy?: boolean;
   fuzzyLevel?: number;
   markMatchingVariants?: boolean;
-  filter?: string | string[];
+  filter: string[];
   'filter.facets'?: string | string[];
   'filter.query'?: string | string[];
   facet?: string | string[];

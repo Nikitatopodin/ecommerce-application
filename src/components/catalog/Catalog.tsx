@@ -20,6 +20,8 @@ const menuStyle: React.CSSProperties = {
   display: 'flex',
 };
 
+const searchKey = 'text.en-us';
+
 function Catalog(): JSX.Element {
   const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
   const dispatch = useAppDispatch();
@@ -45,12 +47,23 @@ function Catalog(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    const queryParams: IProductQueryArgs = {};
-    if (settings.currentCtegory) {
-      queryParams.filter = `categories.id:"${settings.currentCtegory}"`;
+    const queryParams: IProductQueryArgs = {
+      priceCurrency: 'USD',
+      filter: [
+        `variants.scopedPrice.value.centAmount:range (${
+          settings.price[0] * 100
+        } to ${settings.price[1] * 100})`,
+      ],
+      // filter: 'variants.scopedPriceDiscounter:true',
+    };
+    if (settings.currentCategory) {
+      queryParams.filter.push(`categories.id:"${settings.currentCategory}"`);
     }
     if (settings.sort) {
-      queryParams.sort = [settings.sort];
+      queryParams.sort = settings.sort;
+    }
+    if (settings.search) {
+      queryParams[searchKey] = settings.search;
     }
     getProducts(queryParams)
       .then((data) => {
@@ -78,7 +91,7 @@ function Catalog(): JSX.Element {
         <Layout style={{ display: 'flex', gap: 10 }}>
           <Menu
             onClick={onClick}
-            selectedKeys={[settings.currentCtegory]}
+            selectedKeys={[settings.currentCategory]}
             mode="horizontal"
             items={[...categoriesData!]}
             style={menuStyle}

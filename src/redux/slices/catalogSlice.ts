@@ -5,7 +5,7 @@ interface ICatalogData {
   dataProducts: ProductProjection[] | [];
   settings: {
     sort: string | null;
-    currentCtegory: string;
+    currentCategory: string;
     filter: string;
     attributes: string[];
     price: [number, number];
@@ -17,7 +17,7 @@ const initialState: ICatalogData = {
   dataProducts: [],
   settings: {
     sort: null,
-    currentCtegory: '',
+    currentCategory: '',
     filter: '',
     attributes: [],
     price: [0.3, 5],
@@ -33,7 +33,7 @@ const catalogSlice = createSlice({
       state.dataProducts = action.payload;
     },
     addCurrentCategory(state, action) {
-      state.settings.currentCtegory = action.payload;
+      state.settings.currentCategory = action.payload;
     },
     addSortCatalog(state, action) {
       state.settings.sort = action.payload;
@@ -50,7 +50,7 @@ const catalogSlice = createSlice({
     resetFilter(state) {
       state.settings = {
         sort: null,
-        currentCtegory: '',
+        currentCategory: '',
         filter: '',
         attributes: [],
         price: [0.3, 5],
