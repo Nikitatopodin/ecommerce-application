@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
-  height: '160px',
   color: '#fff',
   lineHeight: '160px',
   textAlign: 'center',
@@ -22,7 +21,7 @@ function Product() {
     getProductById(productID).then((data) => {
       const info = {
         name: data.body.name['en-US'],
-        images: data.body.variants[0].images,
+        images: data.body.masterVariant.images,
         description: data.body.description!['en-US'],
         prices: data.body.masterVariant.prices,
       };
@@ -40,26 +39,36 @@ function Product() {
   return (
     <Row style={{ padding: '2.5em 3em' }}>
       <Col style={{ width: '50%', marginRight: '10px' }}>
-        <Carousel
-          afterChange={onChange}
-          style={{
-            backgroundColor: 'black',
-            border: '1px solid black',
-            width: '50%',
-            marginLeft: 'auto',
+        <Image.PreviewGroup
+          items={[...productInfo.images.map((image) => image.url)]}
+          preview={{
+            onChange: (current, prev) =>
+              console.log(`current index: ${current}, prev index: ${prev}`),
           }}
         >
-          <Image src={productInfo.images[0].url} style={contentStyle} />
-          <Image src={productInfo.images[1].url} style={contentStyle} />
-        </Carousel>
+          <Carousel
+            afterChange={onChange}
+            style={{
+              backgroundColor: 'black',
+              border: '1px solid black',
+              width: '50%',
+              marginLeft: 'auto',
+            }}
+          >
+            <Image src={productInfo.images[0].url} style={contentStyle} />
+          </Carousel>
+        </Image.PreviewGroup>
       </Col>
       <Col style={{ marginLeft: '10px', marginTop: 'auto' }}>
         <Row style={{ fontWeight: 'bold' }}>{productInfo.name}</Row>
         <Row>Description: {productInfo.description}</Row>
         <Row>
           Price: $
-          {productInfo.prices[0].value.centAmount / 100 +
-            '.'.toString().padEnd(3, '0')}
+          {`${Math.trunc(productInfo.prices[0].value.centAmount / 100)}.${(
+            productInfo.prices[0].value.centAmount % 100
+          )
+            .toString()
+            .padStart(2, '0')}`}
         </Row>
         <Row>
           <Button onClick={onClick}>Get Product</Button>

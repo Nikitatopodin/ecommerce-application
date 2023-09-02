@@ -54,15 +54,11 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       />
+      <Route path="/catalog" element={<Catalog />} />
       <Route
-        path="/catalog"
-        element={
-          <PrivateRoute>
-            <Catalog />
-          </PrivateRoute>
-        }
+        path="/catalog/70e1f084-be81-4c7d-8174-e3112f4aa0f8"
+        element={<Product />}
       />
-      <Route path="/product" element={<Product />} />
     </Route>,
   ),
 );

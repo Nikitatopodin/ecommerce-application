@@ -17,7 +17,7 @@ const signUp = (data: MyCustomerDraft) => {
 
 const getProfile = () => {
   const apiRoot = createExistingApiRoot();
-  return apiRoot.me().get().execute();
+  return apiRoot.productProjections().search().get().execute();
 };
 
 const getProducts = () => {
@@ -27,7 +27,7 @@ const getProducts = () => {
   } else {
     apiRoot = createAnonymousApiRoot();
   }
-  return apiRoot.productProjections().get().execute();
+  return apiRoot.productProjections().get();
 };
 
 const getProductById = (id: string) => {

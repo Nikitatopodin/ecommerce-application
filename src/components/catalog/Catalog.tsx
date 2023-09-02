@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, Layout, List, Menu, Select } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import Title from 'antd/es/typography/Title';
@@ -46,6 +47,7 @@ const data = [
     title: 'Happy birthbay',
     image: './hb.JPG',
     description: 'sdlfkhslndf sjdfhlkjdf',
+    id: '70e1f084-be81-4c7d-8174-e3112f4aa0f8',
   },
   {
     title: 'Happy birthbay',
@@ -87,9 +89,15 @@ const data = [
 function Catalog(): JSX.Element {
   const [current, setCurrent] = useState('');
   const [selectedSort, setSelectedSort] = useState<string>();
+  const navigate = useNavigate();
 
   const onClick: MenuProps['onClick'] = (e) => {
+    console.log(e.key);
     setCurrent(e.key);
+  };
+
+  const openProductInfo: (id: string) => void = (id: string) => {
+    navigate(id);
   };
 
   return (
@@ -157,6 +165,7 @@ function Catalog(): JSX.Element {
                   hoverable
                   style={{ width: 240 }}
                   cover={<img alt="example" src="./hb.JPG" />}
+                  onClick={() => openProductInfo(item.id)}
                 >
                   <Meta title={item.title} description={item.description} />
                   <div>
