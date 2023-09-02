@@ -1,15 +1,19 @@
 import React from 'react';
-import { Badge, Card, Col, Descriptions, DescriptionsProps, Row } from 'antd';
+import { Badge, Button, Card, Descriptions, DescriptionsProps } from 'antd';
 import { BaseAddress } from '@commercetools/platform-sdk';
-import { EditOutlined } from '@ant-design/icons';
 
-interface IProps {
+interface IDescriptionProps {
   address: BaseAddress;
   isDefault: boolean;
   setEditMode: (isEditMode: boolean) => void;
 }
 
-function AddressesDescription({ address, isDefault, setEditMode }: IProps) {
+interface ICardProps {
+  setEditMode: (isEditMode: boolean) => void;
+  address: BaseAddress;
+}
+
+function AddressCard({ setEditMode, address }: ICardProps) {
   const addresses: DescriptionsProps['items'] = [
     {
       key: '1',
@@ -32,45 +36,32 @@ function AddressesDescription({ address, isDefault, setEditMode }: IProps) {
       children: address.streetName,
     },
   ];
+  return (
+    <Card size="small" style={{ marginTop: '.5em' }}>
+      <Descriptions layout="vertical" items={addresses} />
+      <Button type="link" onClick={() => setEditMode(true)}>
+        Change address
+      </Button>
+      <Button type="link" onClick={() => setEditMode(true)}>
+        Delete address
+      </Button>
+    </Card>
+  );
+}
 
+function AddressesDescription({
+  address,
+  isDefault,
+  setEditMode,
+}: IDescriptionProps) {
   if (isDefault) {
     return (
       <Badge.Ribbon text="Default" color="green">
-        <Card size="small" style={{ marginTop: '.5em' }}>
-          <Row gutter={20}>
-            <Col span={20}>
-              <Descriptions layout="vertical" items={addresses} />
-            </Col>
-            <Col span={4}>
-              <EditOutlined
-                style={{ color: '#4f4f4f' }}
-                onClick={() => {
-                  setEditMode(true);
-                }}
-              />
-            </Col>
-          </Row>
-        </Card>
+        <AddressCard setEditMode={setEditMode} address={address} />
       </Badge.Ribbon>
     );
   }
-  return (
-    <Card size="small" style={{ marginTop: '.5em' }}>
-      <Row gutter={20}>
-        <Col span={20}>
-          <Descriptions layout="vertical" items={addresses} />
-        </Col>
-        <Col span={4}>
-          <EditOutlined
-            style={{ color: '#4f4f4f' }}
-            onClick={() => {
-              setEditMode(true);
-            }}
-          />
-        </Col>
-      </Row>
-    </Card>
-  );
+  return <AddressCard setEditMode={setEditMode} address={address} />;
 }
 
 export default AddressesDescription;
