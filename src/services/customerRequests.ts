@@ -68,21 +68,6 @@ const updatePassword = (
   return apiRoot.me().password().post({ body }).execute();
 };
 
-const updateAddress = (values: BaseAddress, version: number) => {
-  const apiRoot = createExistingApiRoot();
-  const body: MyCustomerUpdate = {
-    version,
-    actions: [
-      {
-        action: 'changeAddress',
-        addressId: values.id,
-        address: values,
-      },
-    ],
-  };
-  return apiRoot.me().post({ body }).execute();
-};
-
 const addNewAddress = (address: BaseAddress, version: number) => {
   const apiRoot = createExistingApiRoot();
   const body: MyCustomerUpdate = {
@@ -135,6 +120,35 @@ const addDefaultAddress = (
   return apiRoot.me().post({ body }).execute();
 };
 
+const updateAddress = (values: BaseAddress, version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'changeAddress',
+        addressId: values.id,
+        address: values,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
+const removeAddress = (addressId: string, version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'removeAddress',
+        addressId,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
 const getProducts = () => {
   let apiRoot;
   if (localStorage.getItem('token')) {
@@ -148,7 +162,6 @@ const getProducts = () => {
 export {
   signIn,
   signUp,
-  getProducts,
   getProfile,
   updateProfile,
   updatePassword,
@@ -156,4 +169,6 @@ export {
   addAddressId,
   addDefaultAddress,
   updateAddress,
+  removeAddress,
+  getProducts,
 };
