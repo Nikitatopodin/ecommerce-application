@@ -5,9 +5,9 @@ import {
   Form,
   FormInstance,
   Input,
+  message,
   Row,
   Typography,
-  message,
 } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { signIn } from '../services/customerRequests';
 import { useAppDispatch } from '../hooks/hooks';
 import { loginReducer } from '../redux/slices/authorizationSlice';
 import {
+  errorLayout,
   fieldsProps,
   tailFormItemLayout,
 } from '../components/form/fieldsProps';
@@ -37,9 +38,6 @@ function LoginPage(): JSX.Element {
       })
       .catch(() => {
         setLoginError(true);
-        message.error(
-          "Sorry, the provided account doesn't exist. Please check the email or password or consider creating a new account",
-        );
       });
   };
 
@@ -68,12 +66,12 @@ function LoginPage(): JSX.Element {
       </Form.Item>
 
       {isLoginError && (
-        <Form.Item>
-          <Typography.Text type="danger">
-            Sorry, the provided account doesn&apos;t exist. Please check the
-            email or password or consider creating a new account
-          </Typography.Text>
-        </Form.Item>
+          <Form.Item {...errorLayout}>
+            <Typography.Text type="danger">
+              Sorry, the provided account doesn&apos;t exist. Please check the
+              email or password or consider creating a new account
+            </Typography.Text>
+          </Form.Item>
       )}
 
       <Form.Item {...tailFormItemLayout}>
