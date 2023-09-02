@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Checkbox, Input, Row, Slider, Space } from 'antd';
+import { Button, Checkbox, Input, Slider, Space } from 'antd';
+import type { SliderMarks } from 'antd/es/slider';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
@@ -11,15 +12,11 @@ import {
 
 const { Search } = Input;
 
-const colorsAndAttributes = ['White', 'Pink', 'With picture'];
-
 function CatalogMenu(): JSX.Element {
   const dispatch = useAppDispatch();
-  const { price, attributes, search } = useAppSelector(
-    (state) => state.catalog.settings,
-  );
+  const { dataAttributes, settings } = useAppSelector((state) => state.catalog);
 
-  const [searchValue, setSearchValue] = useState(search);
+  const [searchValue, setSearchValue] = useState(settings.search);
 
   const onChangeAttributes = (checkedValues: CheckboxValueType[]) => {
     dispatch(setAttributes(checkedValues));
@@ -27,6 +24,17 @@ function CatalogMenu(): JSX.Element {
 
   const onChangePrice = (value: [number, number]) => {
     dispatch(changePrice(value));
+  };
+
+  const marks: SliderMarks = {
+    [settings.price[0]]: settings.price[0].toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }),
+    [settings.price[1]]: settings.price[1].toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }),
   };
 
   const onSearch = (value: string) => dispatch(addSearchString(value));
@@ -42,9 +50,9 @@ function CatalogMenu(): JSX.Element {
       />
       <h3 style={{ margin: 0 }}>Price</h3>
       <Slider
-        // marks={}
+        marks={marks}
         range={{ draggableTrack: true }}
-        value={price}
+        value={settings.price}
         min={0}
         max={6}
         step={0.1}
@@ -52,23 +60,19 @@ function CatalogMenu(): JSX.Element {
       />
       <h3 style={{ margin: 0 }}>Colors and attributes</h3>
       <Checkbox.Group
-        options={colorsAndAttributes}
-        value={attributes}
+        options={dataAttributes}
+        value={settings.attributes}
         onChange={onChangeAttributes}
       />
-      <Row gutter={16} style={{ margin: '0 auto', display: 'flex', gap: 10 }}>
-        <Button type="primary" htmlType="submit">
-          Use filter
-        </Button>
-        <Button
-          onClick={() => {
-            dispatch(resetFilter());
-            setSearchValue('');
-          }}
-        >
-          Reset
-        </Button>
-      </Row>
+      <Button
+        style={{ margin: '10px auto', display: 'block' }}
+        onClick={() => {
+          dispatch(resetFilter());
+          setSearchValue('');
+        }}
+      >
+        Reset filters
+      </Button>
     </Space>
   );
 }

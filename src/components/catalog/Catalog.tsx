@@ -13,6 +13,7 @@ import {
   addDataCatalog,
   addCurrentCategory,
   addSortCatalog,
+  addDataAttributes,
 } from '../../redux/slices/catalogSlice';
 
 const menuStyle: React.CSSProperties = {
@@ -65,12 +66,38 @@ function Catalog(): JSX.Element {
     if (settings.search) {
       queryParams[searchKey] = settings.search;
     }
+    settings.attributes.forEach((attr) => {
+      if (attr === 'With picture') {
+        queryParams.filter.push('variants.attributes.picture:true');
+      } else {
+        const key = attr.toLowerCase();
+        queryParams.filter.push(`variants.attributes.color.key:"${key}"`);
+      }
+    });
     getProducts(queryParams)
       .then((data) => {
         dispatch(addDataCatalog(data.body.results));
       })
       .catch(console.log);
   }, [settings]);
+
+  useEffect(() => {
+    if (dataProducts.length) {
+      const findAttributes = new Set<string>();
+      dataProducts.forEach((item) => {
+        item.variants[0].attributes?.forEach((attr) => {
+          if (attr.name === 'picture' && attr.value) {
+            findAttributes.add('With picture');
+          } else if (attr.name === 'color') {
+            findAttributes.add(
+              attr.value.key.charAt(0).toUpperCase() + attr.value.key.slice(1),
+            );
+          }
+        });
+      });
+      dispatch(addDataAttributes(Array.from(findAttributes)));
+    }
+  }, [dataProducts]);
 
   return (
     <Layout>

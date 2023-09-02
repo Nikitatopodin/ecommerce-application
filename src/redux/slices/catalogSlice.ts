@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface ICatalogData {
   dataProducts: ProductProjection[] | [];
+  dataAttributes: string[];
   settings: {
     sort: string | null;
     currentCategory: string;
@@ -15,6 +16,7 @@ interface ICatalogData {
 
 const initialState: ICatalogData = {
   dataProducts: [],
+  dataAttributes: [],
   settings: {
     sort: null,
     currentCategory: '',
@@ -31,6 +33,9 @@ const catalogSlice = createSlice({
   reducers: {
     addDataCatalog(state, action) {
       state.dataProducts = action.payload;
+    },
+    addDataAttributes(state, action) {
+      state.dataAttributes = action.payload;
     },
     addCurrentCategory(state, action) {
       state.settings.currentCategory = action.payload;
@@ -62,6 +67,7 @@ const catalogSlice = createSlice({
 
 export const {
   addDataCatalog,
+  addDataAttributes,
   addCurrentCategory,
   addSortCatalog,
   setAttributes,
