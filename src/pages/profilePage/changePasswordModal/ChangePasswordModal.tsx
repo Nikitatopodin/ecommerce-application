@@ -44,6 +44,9 @@ function ChangePasswordModal({ isModalOpen, setModalOpen }: IProps) {
         >
           Change password
         </Button>,
+        <Button form="changePassword" onClick={() => setModalOpen(false)}>
+          Cancel
+        </Button>,
       ]}
     >
       <Form onFinish={onFinish} id="changePassword">
