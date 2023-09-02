@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { activeMenuItemsReducer } from '../../../redux/slices/navMenuSlice';
-import { getProducts } from '../../../services/customerRequests';
 
 const userIconStyle: React.CSSProperties = {
   fontSize: '16px',

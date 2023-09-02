@@ -33,6 +33,10 @@ const updateProfile = (values: Customer, version: number) => {
     version,
     actions: [
       {
+        action: 'changeEmail',
+        email: values.email,
+      },
+      {
         action: 'setFirstName',
         firstName: values.firstName,
       },

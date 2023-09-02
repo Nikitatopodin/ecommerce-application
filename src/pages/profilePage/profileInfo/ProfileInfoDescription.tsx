@@ -22,6 +22,11 @@ function ProfileInfoDescription({ setEditMode }: IProps) {
     },
     {
       key: '3',
+      label: 'E-mail',
+      children: userData?.email,
+    },
+    {
+      key: '4',
       label: 'Date of birth',
       children: userData?.dateOfBirth,
     },

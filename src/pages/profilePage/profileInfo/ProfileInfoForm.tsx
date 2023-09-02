@@ -1,8 +1,12 @@
-import React from 'react';
-import { Button, Col, Form, message, Row } from 'antd';
-import PersonalDataFormFields from '../../../components/form/userDataForm/PersonalDataFormFields';
-import { tailFormItemLayout } from '../../../components/form/fieldsProps';
+import React, { useState } from 'react';
+import { Button, Col, Form, Input, message, Row } from 'antd';
+import FormItem from 'antd/es/form/FormItem';
 import { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
+import PersonalDataFormFields from '../../../components/form/userDataForm/PersonalDataFormFields';
+import {
+  fieldsProps,
+  tailFormItemLayout,
+} from '../../../components/form/fieldsProps';
 import { updateProfile } from '../../../services/customerRequests';
 import { setProfileData } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
@@ -12,8 +16,10 @@ interface ICallBack {
 }
 
 function ProfileInfoForm({ setEditMode }: ICallBack) {
+  const [isEmailError, setEmailError] = useState(false);
   const userData = useAppSelector((state) => state.authorization.userData);
   const dispatch = useAppDispatch();
+
   const onFinish = async (values: Customer) => {
     if (userData) {
       updateProfile(values, userData.version)
@@ -22,17 +28,21 @@ function ProfileInfoForm({ setEditMode }: ICallBack) {
             setProfileData({
               ...userData,
               version: response.body.version,
+              email: response.body.email,
               firstName: response.body.firstName,
               lastName: response.body.lastName,
               dateOfBirth: response.body.dateOfBirth,
             }),
           );
           message.success('Your personal data is up to date');
+          setEditMode(false);
         })
         .catch(() => {
-          message.error('Something went wrong, please try again');
+          setEmailError(true);
+          message.error(
+            'Sorry, an account with such an email already exists, you can use another email or log in to your account',
+          );
         });
-      setEditMode(false);
     }
   };
   return (
@@ -43,6 +53,13 @@ function ProfileInfoForm({ setEditMode }: ICallBack) {
       onFinish={onFinish}
       autoComplete="off"
     >
+      <FormItem
+        {...fieldsProps.email.props}
+        initialValue={userData?.email}
+        validateStatus={isEmailError ? 'error' : ''}
+      >
+        <Input placeholder="E-mail" onChange={() => setEmailError(false)} />
+      </FormItem>
       <PersonalDataFormFields />
       <Form.Item {...tailFormItemLayout}>
         <Row>
