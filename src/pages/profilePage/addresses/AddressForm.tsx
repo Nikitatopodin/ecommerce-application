@@ -1,10 +1,10 @@
 import React from 'react';
 import { BaseAddress } from '@commercetools/platform-sdk';
 import { Button, Col, Form, Row } from 'antd';
-import { tailFormItemLayout } from '../../../components/form/fieldsProps';
+import { tailFormItemLayout } from '../../../components/form/userDataForm/formProps/fieldsProps';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import AddressesFormFields from '../../../components/form/userDataForm/AddressesFormFields';
-import formatAddress, { IAddressValues } from '../../../utils/formatAddress';
+import formatAddress, { IAddressValues } from '../../../utils/formUtils/formatAddress';
 import updateAddressThunk from '../../../redux/actions/updateAddressThunk';
 
 interface IProps {

@@ -18,7 +18,7 @@ import {
   errorLayout,
   fieldsProps,
   tailFormItemLayout,
-} from '../components/form/fieldsProps';
+} from '../components/form/userDataForm/formProps/fieldsProps';
 
 function LoginPage(): JSX.Element {
   const [form] = Form.useForm();

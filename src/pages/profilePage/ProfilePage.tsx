@@ -58,7 +58,7 @@ function ProfilePage() {
               ),
           )}
 
-          {billingAddressIds && (
+          {billingAddressIds?.length !== 0 && (
             <>
               <Divider orientation="left">Billing addresses</Divider>
 
@@ -75,6 +75,7 @@ function ProfilePage() {
               )}
             </>
           )}
+
           <Button
             type="primary"
             onClick={() => setModalOpen(true)}

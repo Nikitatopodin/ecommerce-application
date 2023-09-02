@@ -1,8 +1,8 @@
 import React from 'react';
 import { BaseAddress } from '@commercetools/platform-sdk';
 import { Checkbox, Form, Input, Select } from 'antd';
-import { fieldsProps } from '../fieldsProps';
-import formValidation from '../formValidation';
+import { fieldsProps } from './formProps/fieldsProps';
+import formValidation from './formProps/formValidation';
 
 interface IProps {
   isBilling: boolean;

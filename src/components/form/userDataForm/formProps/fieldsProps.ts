@@ -117,13 +117,13 @@ export const fieldsProps = {
       rules: formValidation.lastName,
     },
   },
-  birthday: {
+  dateOfBirth: {
     props: {
       name: 'dateOfBirth',
       label: 'Date of birth',
       hasFeedback: true,
     },
-    rules: formValidation.birthday,
+    rules: formValidation.dateOfBirth,
   },
   oneAddress: {
     props: {

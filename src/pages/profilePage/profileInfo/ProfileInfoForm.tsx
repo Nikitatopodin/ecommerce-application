@@ -6,7 +6,7 @@ import PersonalDataFormFields from '../../../components/form/userDataForm/Person
 import {
   fieldsProps,
   tailFormItemLayout,
-} from '../../../components/form/fieldsProps';
+} from '../../../components/form/userDataForm/formProps/fieldsProps';
 import { updateProfile } from '../../../services/customerRequests';
 import { setProfileData } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';

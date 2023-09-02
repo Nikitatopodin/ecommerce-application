@@ -4,7 +4,7 @@ interface IRegistrationForm {
   lastName: string;
   password: string;
   confirm: string;
-  birthday: {
+  dateOfBirth: {
     $d: Date;
   };
   city: string;

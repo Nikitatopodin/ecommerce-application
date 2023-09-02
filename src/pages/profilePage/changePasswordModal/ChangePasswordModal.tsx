@@ -3,7 +3,7 @@ import { Button, Form, Input, Modal } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import updatePasswordThunk from '../../../redux/actions/updatePasswordThunk';
 import PasswordFields from '../../../components/form/userDataForm/PasswordFields';
-import { fieldsProps } from '../../../components/form/fieldsProps';
+import { fieldsProps } from '../../../components/form/userDataForm/formProps/fieldsProps';
 
 interface IProps {
   isModalOpen: boolean;

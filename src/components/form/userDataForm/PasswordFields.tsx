@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input } from 'antd';
-import { fieldsProps } from '../fieldsProps';
+import { fieldsProps } from './formProps/fieldsProps';
 
 function PasswordFields() {
   return (
