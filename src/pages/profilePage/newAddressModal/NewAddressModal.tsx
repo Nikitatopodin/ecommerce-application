@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Button, Form, Modal, Radio } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import AddressesFormFields from '../../../components/form/userDataForm/AddressesFormFields';
-import formatAddress, { IAddressValues } from '../../../utils/formUtils/formatAddress';
+import formatAddress, {
+  IAddressValues,
+} from '../../../utils/form/formatAddress';
 import newAddressThunk from '../../../redux/actions/newAddressThunk';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 
@@ -19,9 +21,15 @@ function NewAddressModal({ isModalOpen, setModalOpen }: IProps) {
   const dispatch = useAppDispatch();
   const onFinish = (values: IAddressValues) => {
     if (version) {
-      const address = formatAddress(isBilling, values);
-      const isDefault = values.defaultAddress;
-      dispatch(newAddressThunk(address, version, isBilling, isDefault));
+      const formattedAddress = formatAddress(isBilling, values);
+      dispatch(
+        newAddressThunk(
+          formattedAddress,
+          version,
+          isBilling,
+          values.defaultBillingAddress,
+        ),
+      );
       setModalOpen(false);
     }
   };

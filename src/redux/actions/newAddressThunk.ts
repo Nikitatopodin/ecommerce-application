@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { BaseAddress } from '@commercetools/platform-sdk';
 import { DispatchType } from '../../hooks/hooks';
 import {
@@ -34,8 +35,10 @@ const newAddressThunk =
       dispatch(
         setProfileData({ ...userData.body, version: userData.body.version }),
       );
+      message.success('New address has been added');
     } catch (e) {
       console.log(e);
+      message.error('Something went wrong, please try again');
     }
   };
 

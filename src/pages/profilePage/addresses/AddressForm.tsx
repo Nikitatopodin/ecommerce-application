@@ -4,7 +4,9 @@ import { Button, Col, Form, Row } from 'antd';
 import { tailFormItemLayout } from '../../../components/form/userDataForm/formProps/fieldsProps';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import AddressesFormFields from '../../../components/form/userDataForm/AddressesFormFields';
-import formatAddress, { IAddressValues } from '../../../utils/formUtils/formatAddress';
+import formatAddress, {
+  IAddressValues,
+} from '../../../utils/form/formatAddress';
 import updateAddressThunk from '../../../redux/actions/updateAddressThunk';
 
 interface IProps {
@@ -18,14 +20,13 @@ function AddressForm({ isBilling, setEditMode, address }: IProps) {
   const dispatch = useAppDispatch();
 
   const onFinish = async (values: IAddressValues) => {
-    const formattedAddress = formatAddress(isBilling, values, address.id);
-
     if (userData) {
+      const formattedAddress = formatAddress(isBilling, values, address.id);
       dispatch(
         updateAddressThunk(
           formattedAddress,
           userData.version,
-          values.defaultAddress,
+          values.defaultBillingAddress,
           isBilling,
           setEditMode,
         ),

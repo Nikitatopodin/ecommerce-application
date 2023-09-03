@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { DispatchType } from '../../hooks/hooks';
 import { addAddressId, signIn, signUp } from '../../services/customerRequests';
-import convertFormData from '../../utils/formUtils/convertFormData';
+import convertFormData from '../../utils/form/convertFormData';
 import { loginReducer } from '../slices/authorizationSlice';
 import { IRegistrationForm } from '../../types/types';
 

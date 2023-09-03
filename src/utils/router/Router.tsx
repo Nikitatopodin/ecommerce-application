@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import {
-  Route,
-  createRoutesFromElements,
   createBrowserRouter,
+  createRoutesFromElements,
   Outlet,
+  Route,
   useLocation,
 } from 'react-router-dom';
 import Main from '../../pages/MainPage';
@@ -63,6 +63,8 @@ const router = createBrowserRouter(
         }
       />
       <Route path="/profile" element={<ProfilePage />} />
+
+      {/*<Route path="/product/card/*" element={<LoginPage />} />*/}
     </Route>,
   ),
 );

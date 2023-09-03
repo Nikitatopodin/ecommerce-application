@@ -66,12 +66,12 @@ function LoginPage(): JSX.Element {
       </Form.Item>
 
       {isLoginError && (
-          <Form.Item {...errorLayout}>
-            <Typography.Text type="danger">
-              Sorry, the provided account doesn&apos;t exist. Please check the
-              email or password or consider creating a new account
-            </Typography.Text>
-          </Form.Item>
+        <Form.Item {...errorLayout}>
+          <Typography.Text type="danger">
+            Sorry, the provided account doesn&apos;t exist. Please check the
+            email or password or consider creating a new account
+          </Typography.Text>
+        </Form.Item>
       )}
 
       <Form.Item {...tailFormItemLayout}>
