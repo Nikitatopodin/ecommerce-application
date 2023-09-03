@@ -15,6 +15,7 @@ import {
   addSortCatalog,
   addDataAttributes,
 } from '../../redux/slices/catalogSlice';
+import './catalog.css';
 
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
@@ -174,10 +175,27 @@ function Catalog(): JSX.Element {
                     title={item.name['en-US']}
                     description={item.description!['en-US']}
                   />
-                  <div>
-                    <div className="price">
+                  <div className="price-wrapper">
+                    {item.masterVariant.scopedPriceDiscounted && (
+                      <div className="price">
+                        {(
+                          item.masterVariant.price!.discounted!.value
+                            .centAmount / 100
+                        ).toLocaleString('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        })}
+                      </div>
+                    )}
+                    <div
+                      className={
+                        item.masterVariant.scopedPriceDiscounted
+                          ? 'price-old'
+                          : 'price'
+                      }
+                    >
                       {(
-                        item.masterVariant.prices![0].value.centAmount / 100
+                        item.masterVariant.price!.value.centAmount / 100
                       ).toLocaleString('en-US', {
                         style: 'currency',
                         currency: 'USD',
