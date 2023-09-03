@@ -1,5 +1,14 @@
-import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
-import { type MyCustomerDraft } from '@commercetools/platform-sdk';
+import {
+  Customer,
+  CustomerSignin,
+} from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
+import {
+  BaseAddress,
+  ClientResponse,
+  type MyCustomerDraft,
+  MyCustomerUpdate,
+} from '@commercetools/platform-sdk';
+import dayjs from 'dayjs';
 import createApiRoot from './flows/password';
 import createExistingApiRoot from './flows/existing';
 import createAnonymousApiRoot from './flows/anonymous';
@@ -16,9 +25,98 @@ const signUp = (data: MyCustomerDraft) => {
   return anonymousApiRoot.me().signup().post({ body: data }).execute();
 };
 
-const getProfile = () => {
+const getProfile = (): Promise<ClientResponse<Customer>> => {
   const apiRoot = createExistingApiRoot();
   return apiRoot.me().get().execute();
+};
+
+const updateProfile = (values: Customer, version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'setFirstName',
+        firstName: values.firstName,
+      },
+      {
+        action: 'setLastName',
+        lastName: values.lastName,
+      },
+      {
+        action: 'setDateOfBirth',
+        dateOfBirth: dayjs(values.dateOfBirth).format('YYYY-MM-DD'),
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
+const updateAddress = (values: BaseAddress, version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'changeAddress',
+        addressId: values.id,
+        address: values,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
+const addNewAddress = (address: BaseAddress, version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'addAddress',
+        address,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
+const addAddressId = (
+  addressId: string,
+  version: number,
+  isBilling: boolean,
+) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: isBilling ? 'addBillingAddressId' : 'addShippingAddressId',
+        addressId,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
+const addDefaultAddress = (
+  addressId: string,
+  version: number,
+  isBilling: boolean,
+) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: isBilling
+          ? 'setDefaultBillingAddress'
+          : 'setDefaultShippingAddress',
+        addressId,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
 };
 
 const getProducts = (queryArgs?: IProductQueryArgs) => {
@@ -49,7 +147,13 @@ const getCategories = () => {
 export {
   signIn,
   signUp,
+  getProducts,
   getProfile,
+  updateProfile,
+  addNewAddress,
+  addAddressId,
+  addDefaultAddress,
+  updateAddress,
   getProducts,
   getProductById,
   getCategories,

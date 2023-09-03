@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { activeMenuItemsReducer } from '../../../redux/slices/navMenuSlice';
-import { getProducts, getProfile } from '../../../services/customerRequests';
+import { getProducts } from '../../../services/customerRequests';
 
 const userIconStyle: React.CSSProperties = {
   fontSize: '16px',
@@ -96,14 +96,12 @@ export default function NavComponent(): JSX.Element {
       dispatch(activeMenuItemsReducer(''));
       setCurrent('');
       navigate('/');
-    } else if (e.key === 'profile') {
-      getProfile();
     } else if (e.key === 'catalogue') {
       dispatch(activeMenuItemsReducer(e.key));
       setCurrent(e.key);
       navigate(`/catalog`);
     } else if (e.key === 'logout') {
-      dispatch(loginReducer(false));
+      dispatch(loginReducer({ isAuthorized: false, userData: null }));
       dispatch(activeMenuItemsReducer(''));
       setCurrent('');
       navigate('/');

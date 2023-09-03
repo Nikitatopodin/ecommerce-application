@@ -1,6 +1,6 @@
 import React from 'react';
 import { Space } from 'antd';
-import RegistrationForm from '../components/form/registration/RegistrationForm';
+import RegistrationForm from '../components/form/userDataForm/RegistrationForm';
 
 function Registration(): JSX.Element {
   return (

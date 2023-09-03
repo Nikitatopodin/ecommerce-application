@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
-  DatePicker,
   Form,
   Input,
-  Select,
   Checkbox,
   Row,
   Col,
@@ -16,11 +14,10 @@ import { signIn, signUp } from '../../../services/customerRequests';
 import { IRegistrationForm } from '../../../types/types';
 import convertFormData from '../../../utils/convertFormData';
 import { fieldsProps, tailFormItemLayout } from '../fieldsProps';
-import BillingAddress from './BillingAddress';
+import AddressesFormFields from './AddressesFormFields';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-
-const { Option } = Select;
+import PersonalDataFormFields from './PersonalDataFormFields';
 
 function RegistrationForm(): JSX.Element {
   const [form] = Form.useForm();
@@ -72,17 +69,8 @@ function RegistrationForm(): JSX.Element {
         <Input placeholder="E-mail" onChange={() => setSignupError(false)} />
       </Form.Item>
 
-      {isSignupError && (
-        <Form.Item {...tailFormItemLayout}>
-          <Typography.Text type="danger">
-            An account with such an email already exists, you can use another
-            email or log in to your account
-          </Typography.Text>
-        </Form.Item>
-      )}
-
       <Form.Item {...fieldsProps.password.props}>
-        <Input.Password />
+        <Input.Password placeholder="Password" />
       </Form.Item>
 
       <Form.Item
@@ -104,34 +92,7 @@ function RegistrationForm(): JSX.Element {
         <Input.Password />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.firstName.props}>
-        <Input placeholder="First name" />
-      </Form.Item>
-
-      <Form.Item {...fieldsProps.lastName.props}>
-        <Input placeholder="Last name" />
-      </Form.Item>
-
-      <Form.Item
-        {...fieldsProps.birthday.props}
-        rules={[
-          ...fieldsProps.birthday.rules,
-          () => ({
-            validator(_, value) {
-              if (Date.now() - value.$d.getTime() > 378691200000) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error(
-                  'Sorry, only users aged 12 or older can create an account',
-                ),
-              );
-            },
-          }),
-        ]}
-      >
-        <DatePicker />
-      </Form.Item>
+      <PersonalDataFormFields />
 
       <Form.Item {...fieldsProps.oneAddress.props}>
         <Checkbox
@@ -142,60 +103,24 @@ function RegistrationForm(): JSX.Element {
         </Checkbox>
       </Form.Item>
 
+      <h3 style={{ textAlign: 'center' }}>Address for shipping</h3>
+      <AddressesFormFields isBilling={false} />
+
       {!isAddressSingle && (
-        <h3 style={{ textAlign: 'center' }}>Address for shipping</h3>
+        <>
+          <h3 style={{ textAlign: 'center' }}>Address for billing</h3>
+          <AddressesFormFields isBilling />
+        </>
       )}
 
-      <Form.Item {...fieldsProps.country.props}>
-        <Select placeholder="Please select a country">
-          <Option value="US">U.S.A</Option>
-          <Option value="RU">Russia</Option>
-        </Select>
-      </Form.Item>
-
-      <Form.Item
-        {...fieldsProps.postalCode.props}
-        rules={[
-          ...fieldsProps.postalCode.rules,
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (getFieldValue('country') === 'US') {
-                if (value.length === 5) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error('Postal code must contain 5 digits'),
-                );
-              }
-              if (getFieldValue('country') === 'RU') {
-                if (value.length === 6) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error('Postal code must contain 6 digits'),
-                );
-              }
-              return Promise.resolve();
-            },
-          }),
-        ]}
-      >
-        <Input placeholder="Postal code" />
-      </Form.Item>
-
-      <Form.Item {...fieldsProps.city.props}>
-        <Input placeholder="City" />
-      </Form.Item>
-
-      <Form.Item {...fieldsProps.street.props}>
-        <Input placeholder="Street" />
-      </Form.Item>
-
-      <Form.Item {...fieldsProps.defaultShippingAddress.props}>
-        <Checkbox>Set as default address</Checkbox>
-      </Form.Item>
-
-      {!isAddressSingle && <BillingAddress />}
+      {isSignupError && (
+        <Form.Item {...tailFormItemLayout}>
+          <Typography.Text type="danger">
+            An account with such an email already exists, you can use another
+            email or sign in to your account
+          </Typography.Text>
+        </Form.Item>
+      )}
 
       <Form.Item {...tailFormItemLayout}>
         <Row gutter={16}>

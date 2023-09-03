@@ -21,14 +21,13 @@ function createExistingApiRoot() {
     host: apiDataUser.API_URL,
     fetch,
   };
-
-  const authorization: string = `Bearer ${
+  const authorizationToken: string = `Bearer ${
     JSON.parse(localStorage.getItem('token')!).token
   }`;
 
   const ctpClient = new ClientBuilder()
     .withProjectKey(projectKey)
-    .withExistingTokenFlow(authorization, options)
+    .withExistingTokenFlow(authorizationToken, options)
     .withHttpMiddleware(httpMiddlewareOptions)
     .withLoggerMiddleware()
     .build();
