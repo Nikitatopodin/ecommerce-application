@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Layout, List, Menu, Select } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import Title from 'antd/es/typography/Title';
@@ -6,91 +6,99 @@ import { Header } from 'antd/es/layout/layout';
 import Meta from 'antd/es/card/Meta';
 import type { MenuProps } from 'antd';
 import CatalogMenu from './CatalogMenu';
-
-type MenuItem = Required<MenuProps>['items'][number];
+import { getCategories, getProducts } from '../../services/customerRequests';
+import { IProductQueryArgs } from '../../types/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import {
+  addDataCatalog,
+  addCurrentCategory,
+  addSortCatalog,
+  addDataAttributes,
+} from '../../redux/slices/catalogSlice';
+import './catalog.css';
 
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
   display: 'flex',
 };
 
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  style?: React.CSSProperties,
-  icon?: React.ReactNode,
-  className?: string,
-  children?: MenuItem[],
-  type?: 'group',
-): MenuItem {
-  return {
-    label,
-    key,
-    icon,
-    children,
-    type,
-    style,
-    className,
-  } as MenuItem;
-}
-
-const items: MenuProps['items'] = [
-  getItem('All categories', ''),
-  getItem('Happy birthday', 'happyBirthday'),
-  getItem('Love', 'love'),
-  getItem('Wedding', 'wedding'),
-];
-
-const data = [
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-  {
-    title: 'Happy birthbay',
-    image: './hb.JPG',
-    description: 'sdlfkhslndf sjdfhlkjdf',
-  },
-];
+const searchKey = 'text.en-us';
 
 function Catalog(): JSX.Element {
-  const [current, setCurrent] = useState('');
-  const [selectedSort, setSelectedSort] = useState<string>();
+  const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
+  const dispatch = useAppDispatch();
+  const { dataProducts, settings } = useAppSelector((state) => state.catalog);
 
   const onClick: MenuProps['onClick'] = (e) => {
-    setCurrent(e.key);
+    dispatch(addCurrentCategory(e.key));
   };
+
+  useEffect(() => {
+    getCategories()
+      .then((data) => {
+        const categoriesArr: MenuProps['items'] = [];
+        data.body.results.forEach((item) => {
+          categoriesArr.push({
+            label: item.name['en-US'],
+            key: item.id,
+          });
+        });
+        setCategoriesData(categoriesArr);
+      })
+      .catch(console.log);
+  }, []);
+
+  useEffect(() => {
+    const queryParams: IProductQueryArgs = {
+      priceCurrency: 'USD',
+      filter: [
+        `variants.scopedPrice.value.centAmount:range (${
+          settings.price[0] * 100
+        } to ${settings.price[1] * 100})`,
+      ],
+      // filter: 'variants.scopedPriceDiscounter:true',
+    };
+    if (settings.currentCategory) {
+      queryParams.filter.push(`categories.id:"${settings.currentCategory}"`);
+    }
+    if (settings.sort) {
+      queryParams.sort = settings.sort;
+    }
+    if (settings.search) {
+      queryParams[searchKey] = settings.search;
+    }
+    settings.attributes.forEach((attr) => {
+      if (attr === 'With picture') {
+        queryParams.filter.push('variants.attributes.picture:true');
+      } else {
+        const key = attr.toLowerCase();
+        queryParams.filter.push(`variants.attributes.color.key:"${key}"`);
+      }
+    });
+    getProducts(queryParams)
+      .then((data) => {
+        dispatch(addDataCatalog(data.body.results));
+      })
+      .catch(console.log);
+  }, [settings]);
+
+  useEffect(() => {
+    if (dataProducts.length) {
+      const findAttributes = new Set<string>();
+      dataProducts.forEach((item) => {
+        item.variants[0].attributes?.forEach((attr) => {
+          if (attr.name === 'picture' && attr.value) {
+            findAttributes.add('With picture');
+          } else if (attr.name === 'color') {
+            findAttributes.add(
+              attr.value.key.charAt(0).toUpperCase() + attr.value.key.slice(1),
+            );
+          }
+        });
+      });
+      dispatch(addDataAttributes(Array.from(findAttributes)));
+    }
+  }, [dataProducts]);
 
   return (
     <Layout>
@@ -111,31 +119,31 @@ function Catalog(): JSX.Element {
         <Layout style={{ display: 'flex', gap: 10 }}>
           <Menu
             onClick={onClick}
-            selectedKeys={[current]}
+            selectedKeys={[settings.currentCategory]}
             mode="horizontal"
-            items={[...items!]}
+            items={[...categoriesData!]}
             style={menuStyle}
           />
           <Select
             placeholder="Select a sorting option"
-            value={selectedSort}
-            onChange={setSelectedSort}
+            value={settings.sort}
+            onChange={(value) => dispatch(addSortCatalog(value))}
             style={{ width: 240 }}
             options={[
               {
-                value: 'asc price',
+                value: 'price asc',
                 label: 'Sort by ascending prices',
               },
               {
-                value: 'desc price',
+                value: 'price desc',
                 label: 'Sort by descending prices',
               },
               {
-                value: 'asc name',
+                value: 'name.en-us asc',
                 label: 'Sort by ascending names',
               },
               {
-                value: 'desc name',
+                value: 'name.en-us desc',
                 label: 'Sort by descending names',
               },
             ]}
@@ -150,17 +158,49 @@ function Catalog(): JSX.Element {
               xl: 4,
               xxl: 4,
             }}
-            dataSource={data}
+            dataSource={dataProducts}
             renderItem={(item) => (
               <List.Item>
                 <Card
                   hoverable
                   style={{ width: 240 }}
-                  cover={<img alt="example" src="./hb.JPG" />}
+                  cover={
+                    <img
+                      alt="example"
+                      src={item.masterVariant!.images![0].url}
+                    />
+                  }
                 >
-                  <Meta title={item.title} description={item.description} />
-                  <div>
-                    <div className="price">2$</div>
+                  <Meta
+                    title={item.name['en-US']}
+                    description={item.description!['en-US']}
+                  />
+                  <div className="price-wrapper">
+                    {item.masterVariant.scopedPriceDiscounted && (
+                      <div className="price">
+                        {(
+                          item.masterVariant.price!.discounted!.value
+                            .centAmount / 100
+                        ).toLocaleString('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        })}
+                      </div>
+                    )}
+                    <div
+                      className={
+                        item.masterVariant.scopedPriceDiscounted
+                          ? 'price-old'
+                          : 'price'
+                      }
+                    >
+                      {(
+                        item.masterVariant.price!.value.centAmount / 100
+                      ).toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      })}
+                    </div>
                   </div>
                 </Card>
               </List.Item>

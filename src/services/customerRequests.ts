@@ -11,15 +11,18 @@ import {
 } from '@commercetools/platform-sdk';
 import dayjs from 'dayjs';
 import createApiRoot from './flows/password';
-import anonymousApiRoot from './flows/anonymous';
 import createExistingApiRoot from './flows/existing';
+import createAnonymousApiRoot from './flows/anonymous';
+import { IProductQueryArgs } from '../types/types';
 
 const signIn = (userData: CustomerSignin) => {
   const apiPasswordRoot = createApiRoot(userData.email, userData.password);
+  localStorage.removeItem('token');
   return apiPasswordRoot.me().login().post({ body: userData }).execute();
 };
 
 const signUp = (data: MyCustomerDraft) => {
+  const anonymousApiRoot = createAnonymousApiRoot();
   return anonymousApiRoot.me().signup().post({ body: data }).execute();
 };
 
@@ -149,14 +152,29 @@ const removeAddress = (addressId: string, version: number) => {
   return apiRoot.me().post({ body }).execute();
 };
 
-const getProducts = () => {
+const getProducts = (queryArgs?: IProductQueryArgs) => {
   let apiRoot;
   if (localStorage.getItem('token')) {
     apiRoot = createExistingApiRoot();
   } else {
-    apiRoot = anonymousApiRoot;
+    apiRoot = createAnonymousApiRoot();
   }
-  return apiRoot.productProjections().get().execute();
+  return apiRoot.productProjections().search().get({ queryArgs }).execute();
+};
+
+const getProductById = (id: string) => {
+  const apiRoot = createExistingApiRoot();
+  return apiRoot.productProjections().withId({ ID: id }).get().execute();
+};
+
+const getCategories = () => {
+  let apiRoot;
+  if (localStorage.getItem('token')) {
+    apiRoot = createExistingApiRoot();
+  } else {
+    apiRoot = createAnonymousApiRoot();
+  }
+  return apiRoot.categories().get().execute();
 };
 
 export {
@@ -171,4 +189,6 @@ export {
   updateAddress,
   removeAddress,
   getProducts,
+  getProductById,
+  getCategories,
 };
