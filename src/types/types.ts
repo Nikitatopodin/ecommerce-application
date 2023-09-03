@@ -11,7 +11,7 @@ interface IRegistrationForm {
   country: string;
   postalCode: string;
   street: string;
-  oneAddress: boolean;
+  isAddressSingle: boolean;
   defaultShippingAddress: boolean;
   cityBilling?: string;
   countryBilling?: string;

@@ -125,9 +125,9 @@ export const fieldsProps = {
     },
     rules: formValidation.dateOfBirth,
   },
-  oneAddress: {
+  isAddressSingle: {
     props: {
-      name: 'oneAddress',
+      name: 'isAddressSingle',
       valuePropName: 'checked',
       ...tailFormItemLayout,
     },

@@ -15,12 +15,14 @@ function convertFormData(data: IRegistrationForm): MyCustomerDraft {
     firstName: data.firstName,
     lastName: data.lastName,
     dateOfBirth: new Date(data.dateOfBirth.$d).toLocaleDateString('en-CA'),
-    addresses: [addressShipping],
+    addresses: data.isAddressSingle
+      ? [addressShipping, addressShipping]
+      : [addressShipping],
   };
 
   if (data.defaultShippingAddress) {
     convertedData.defaultShippingAddress = 0;
-    if (data.oneAddress !== false) {
+    if (data.isAddressSingle !== false) {
       convertedData.defaultBillingAddress = 0;
     }
   }

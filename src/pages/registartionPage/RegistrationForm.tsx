@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Checkbox, Col, Form, Input, Row, Typography } from 'antd';
 import { IRegistrationForm } from '../../types/types';
-import { fieldsProps, tailFormItemLayout } from '../../components/form/userDataForm/formProps/fieldsProps';
+import {
+  fieldsProps,
+  tailFormItemLayout,
+} from '../../components/form/userDataForm/formProps/fieldsProps';
 import AddressesFormFields from '../../components/form/userDataForm/AddressesFormFields';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import PersonalDataFormFields from '../../components/form/userDataForm/PersonalDataFormFields';
@@ -27,7 +30,7 @@ function RegistrationForm(): JSX.Element {
   }, [isAuthorized]);
 
   const onFinish = (values: IRegistrationForm) => {
-    dispatch(signUpThunk(values, setSignupError));
+    dispatch(signUpThunk({ ...values, isAddressSingle }, setSignupError));
   };
 
   return (
@@ -48,10 +51,10 @@ function RegistrationForm(): JSX.Element {
       <PasswordFields />
       <PersonalDataFormFields />
 
-      <Form.Item {...fieldsProps.oneAddress.props}>
+      <Form.Item {...fieldsProps.isAddressSingle.props}>
         <Checkbox
           defaultChecked={isAddressSingle}
-          onChange={() => setAddressSingle(!isAddressSingle)}
+          onChange={() => setAddressSingle((prevValue) => !prevValue)}
         >
           Use the same address for both billing and shipping
         </Checkbox>
