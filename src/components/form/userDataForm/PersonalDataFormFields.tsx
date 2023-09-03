@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { DatePicker, Form, Input } from 'antd';
-import { fieldsProps } from '../fieldsProps';
+import { fieldsProps } from './formProps/fieldsProps';
 import { useAppSelector } from '../../../hooks/hooks';
 
 function PersonalDataFormFields() {
@@ -23,10 +23,10 @@ function PersonalDataFormFields() {
       </Form.Item>
 
       <Form.Item
-        {...fieldsProps.birthday.props}
+        {...fieldsProps.dateOfBirth.props}
         initialValue={dayjs(personalData?.dateOfBirth)}
         rules={[
-          ...fieldsProps.birthday.rules,
+          ...fieldsProps.dateOfBirth.rules,
           () => ({
             validator(_, value) {
               if (Date.now() - value.$d.getTime() > 378691200000) {

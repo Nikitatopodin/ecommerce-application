@@ -6,6 +6,7 @@ export interface IAddressValues {
   country: string;
   countryBilling: 'RU' | 'USA';
   defaultAddress: boolean;
+  defaultBillingAddress: boolean;
   postalCode: string;
   postalCodeBilling: string;
   street: string;

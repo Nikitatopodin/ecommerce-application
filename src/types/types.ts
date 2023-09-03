@@ -6,14 +6,14 @@ interface IRegistrationForm {
   lastName: string;
   password: string;
   confirm: string;
-  birthday: {
+  dateOfBirth: {
     $d: Date;
   };
   city: string;
   country: string;
   postalCode: string;
   street: string;
-  oneAddress: boolean;
+  isAddressSingle: boolean;
   defaultShippingAddress: boolean;
   cityBilling?: string;
   countryBilling?: string;

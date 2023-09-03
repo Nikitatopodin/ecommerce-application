@@ -1,8 +1,8 @@
 import React from 'react';
-import { Checkbox, Form, Input, Select } from 'antd';
-import { fieldsProps } from '../fieldsProps';
-import formValidation from '../formValidation';
 import { BaseAddress } from '@commercetools/platform-sdk';
+import { Checkbox, Form, Input, Select } from 'antd';
+import { fieldsProps } from './formProps/fieldsProps';
+import formValidation from './formProps/formValidation';
 
 interface IProps {
   isBilling: boolean;
@@ -84,3 +84,7 @@ function AddressesFormFields({ isBilling, address }: IProps): JSX.Element {
 }
 
 export default AddressesFormFields;
+
+AddressesFormFields.defaultProps = {
+  address: undefined,
+};

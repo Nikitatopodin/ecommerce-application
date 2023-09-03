@@ -4,7 +4,7 @@ import ProfileInfoForm from './profileInfo/ProfileInfoForm';
 import ProfileInfoDescription from './profileInfo/ProfileInfoDescription';
 import { useAppSelector } from '../../hooks/hooks';
 import Addresses from './addresses/Addresses';
-import NewAddressForm from './newAddressModal/NewAddressForm';
+import NewAddressModal from './newAddressModal/NewAddressModal';
 
 function ProfilePage() {
   const [isPersonalDataEditMode, setPersonalDataEditMode] = useState(false);
@@ -29,7 +29,10 @@ function ProfilePage() {
   return (
     <Row justify="center" style={{ margin: '1em auto' }}>
       {isModalOpen && (
-        <NewAddressForm isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
+        <NewAddressModal
+          isModalOpen={isModalOpen}
+          setModalOpen={setModalOpen}
+        />
       )}
       <Col span={12}>
         <>
@@ -55,7 +58,7 @@ function ProfilePage() {
               ),
           )}
 
-          {billingAddressIds && (
+          {billingAddressIds?.length !== 0 && (
             <>
               <Divider orientation="left">Billing addresses</Divider>
 
@@ -72,6 +75,7 @@ function ProfilePage() {
               )}
             </>
           )}
+
           <Button
             type="primary"
             onClick={() => setModalOpen(true)}

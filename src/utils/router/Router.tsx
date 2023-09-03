@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import {
-  Route,
-  createRoutesFromElements,
   createBrowserRouter,
+  createRoutesFromElements,
   Outlet,
+  Route,
   useLocation,
 } from 'react-router-dom';
 import Main from '../../pages/MainPage';
 import ErrorPage from '../../pages/ErrorPage';
 import LoginPage from '../../pages/LoginPage';
-import Registration from '../../pages/RegistrationPage';
+import Registration from '../../pages/registartionPage/RegistrationPage';
 import Catalog from '../../components/catalog/Catalog';
 import PrivateRoute from './PrivateRoute';
 import HeaderComponent from '../../layouts/header/Header';
@@ -56,6 +56,8 @@ const router = createBrowserRouter(
       />
       <Route path="/catalog" element={<Catalog />} />
       <Route path="/profile" element={<ProfilePage />} />
+
+      {/*<Route path="/product/card/*" element={<LoginPage />} />*/}
     </Route>,
   ),
 );
