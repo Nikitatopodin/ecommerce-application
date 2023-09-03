@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button, Checkbox, Col, Form, Input, Row, Typography } from 'antd';
+import { IRegistrationForm } from '../../types/types';
 import {
-  Button,
-  Form,
-  Input,
-  Checkbox,
-  Row,
-  Col,
-  Typography,
-  message,
-} from 'antd';
-import { signIn, signUp } from '../../../services/customerRequests';
-import { IRegistrationForm } from '../../../types/types';
-import convertFormData from '../../../utils/convertFormData';
-import { fieldsProps, tailFormItemLayout } from '../fieldsProps';
-import AddressesFormFields from './AddressesFormFields';
-import { loginReducer } from '../../../redux/slices/authorizationSlice';
-import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import PersonalDataFormFields from './PersonalDataFormFields';
+  fieldsProps,
+  tailFormItemLayout,
+} from '../../components/form/userDataForm/formProps/fieldsProps';
+import AddressesFormFields from '../../components/form/userDataForm/AddressesFormFields';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import PersonalDataFormFields from '../../components/form/userDataForm/PersonalDataFormFields';
+import PasswordFields from '../../components/form/userDataForm/PasswordFields';
+import signUpThunk from '../../redux/actions/signUpThunk';
 
 function RegistrationForm(): JSX.Element {
   const [form] = Form.useForm();
@@ -26,32 +19,18 @@ function RegistrationForm(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const authorization = useAppSelector(
+  const isAuthorized = useAppSelector(
     (state) => state.authorization.isAuthorized,
   );
 
   useEffect(() => {
-    if (authorization) {
+    if (isAuthorized) {
       navigate('/');
     }
-  }, [authorization]);
+  }, [isAuthorized]);
 
   const onFinish = (values: IRegistrationForm) => {
-    signUp(convertFormData(values))
-      .then(() =>
-        signIn(values)
-          .then(() => {
-            dispatch(loginReducer(true));
-            message.success('Sign up success');
-          })
-          .catch(console.log),
-      )
-      .catch(() => {
-        setSignupError(true);
-        message.error(
-          'Sorry, an account with such an email already exists, you can use another email or log in to your account',
-        );
-      });
+    dispatch(signUpThunk({ ...values, isAddressSingle }, setSignupError));
   };
 
   return (
@@ -69,35 +48,13 @@ function RegistrationForm(): JSX.Element {
         <Input placeholder="E-mail" onChange={() => setSignupError(false)} />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.password.props}>
-        <Input.Password placeholder="Password" />
-      </Form.Item>
-
-      <Form.Item
-        {...fieldsProps.confirm.props}
-        rules={[
-          ...fieldsProps.confirm.rules,
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error('Passwords do not match, please try again'),
-              );
-            },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
+      <PasswordFields />
       <PersonalDataFormFields />
 
-      <Form.Item {...fieldsProps.oneAddress.props}>
+      <Form.Item {...fieldsProps.isAddressSingle.props}>
         <Checkbox
           defaultChecked={isAddressSingle}
-          onChange={() => setAddressSingle(!isAddressSingle)}
+          onChange={() => setAddressSingle((prevValue) => !prevValue)}
         >
           Use the same address for both billing and shipping
         </Checkbox>

@@ -1,6 +1,6 @@
 import formValidation from './formValidation';
 
-const formItemLayout = {
+export const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 8 },
@@ -20,6 +20,19 @@ export const tailFormItemLayout = {
     sm: {
       span: 16,
       offset: 8,
+    },
+  },
+};
+
+export const errorLayout = {
+  wrapperCol: {
+    xs: {
+      span: 16,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 6,
     },
   },
 };
@@ -56,6 +69,14 @@ export const fieldsProps = {
       label: 'E-mail',
       hasFeedback: true,
       rules: formValidation.email,
+    },
+  },
+  currentPassword: {
+    props: {
+      name: 'currentPassword',
+      label: 'Current Password',
+      hasFeedback: true,
+      rules: formValidation.password,
     },
   },
   password: {
@@ -96,17 +117,17 @@ export const fieldsProps = {
       rules: formValidation.lastName,
     },
   },
-  birthday: {
+  dateOfBirth: {
     props: {
       name: 'dateOfBirth',
       label: 'Date of birth',
       hasFeedback: true,
     },
-    rules: formValidation.birthday,
+    rules: formValidation.dateOfBirth,
   },
-  oneAddress: {
+  isAddressSingle: {
     props: {
-      name: 'oneAddress',
+      name: 'isAddressSingle',
       valuePropName: 'checked',
       ...tailFormItemLayout,
     },

@@ -1,6 +1,7 @@
 import {
   Customer,
   CustomerSignin,
+  MyCustomerChangePassword,
 } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import {
   BaseAddress,
@@ -33,6 +34,10 @@ const updateProfile = (values: Customer, version: number) => {
     version,
     actions: [
       {
+        action: 'changeEmail',
+        email: values.email,
+      },
+      {
         action: 'setFirstName',
         firstName: values.firstName,
       },
@@ -49,19 +54,18 @@ const updateProfile = (values: Customer, version: number) => {
   return apiRoot.me().post({ body }).execute();
 };
 
-const updateAddress = (values: BaseAddress, version: number) => {
+const updatePassword = (
+  currentPassword: string,
+  newPassword: string,
+  version: number,
+) => {
   const apiRoot = createExistingApiRoot();
-  const body: MyCustomerUpdate = {
+  const body: MyCustomerChangePassword = {
     version,
-    actions: [
-      {
-        action: 'changeAddress',
-        addressId: values.id,
-        address: values,
-      },
-    ],
+    currentPassword,
+    newPassword,
   };
-  return apiRoot.me().post({ body }).execute();
+  return apiRoot.me().password().post({ body }).execute();
 };
 
 const addNewAddress = (address: BaseAddress, version: number) => {
@@ -116,6 +120,35 @@ const addDefaultAddress = (
   return apiRoot.me().post({ body }).execute();
 };
 
+const updateAddress = (values: BaseAddress, version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'changeAddress',
+        addressId: values.id,
+        address: values,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
+const removeAddress = (addressId: string, version: number) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCustomerUpdate = {
+    version,
+    actions: [
+      {
+        action: 'removeAddress',
+        addressId,
+      },
+    ],
+  };
+  return apiRoot.me().post({ body }).execute();
+};
+
 const getProducts = () => {
   let apiRoot;
   if (localStorage.getItem('token')) {
@@ -129,11 +162,13 @@ const getProducts = () => {
 export {
   signIn,
   signUp,
-  getProducts,
   getProfile,
   updateProfile,
+  updatePassword,
   addNewAddress,
   addAddressId,
   addDefaultAddress,
   updateAddress,
+  removeAddress,
+  getProducts,
 };

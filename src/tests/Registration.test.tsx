@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { render, screen, act, fireEvent } from '@testing-library/react';
-import Registration from '../pages/RegistrationPage';
+import Registration from '../pages/registartionPage/RegistrationPage';
 import { store } from '../redux/store';
 
 test('e-mail input and validation', async () => {

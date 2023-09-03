@@ -1,5 +1,5 @@
 import { type MyCustomerDraft } from '@commercetools/platform-sdk';
-import { IConvertedData, IRegistrationForm } from '../types/types';
+import { IConvertedData, IRegistrationForm } from '../../types/types';
 
 function convertFormData(data: IRegistrationForm): MyCustomerDraft {
   const addressShipping = {
@@ -14,13 +14,15 @@ function convertFormData(data: IRegistrationForm): MyCustomerDraft {
     password: data.password,
     firstName: data.firstName,
     lastName: data.lastName,
-    dateOfBirth: new Date(data.birthday.$d).toLocaleDateString('en-CA'),
-    addresses: [addressShipping],
+    dateOfBirth: new Date(data.dateOfBirth.$d).toLocaleDateString('en-CA'),
+    addresses: data.isAddressSingle
+      ? [addressShipping, addressShipping]
+      : [addressShipping],
   };
 
   if (data.defaultShippingAddress) {
     convertedData.defaultShippingAddress = 0;
-    if (data.oneAddress !== false) {
+    if (data.isAddressSingle !== false) {
       convertedData.defaultBillingAddress = 0;
     }
   }

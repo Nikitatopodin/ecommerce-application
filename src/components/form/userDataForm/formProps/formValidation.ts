@@ -51,7 +51,7 @@ const formValidation: IFormValidation = {
         'Last name you entered contains invalid characters. Please ensure that it only contains alphabetic characters (A-Z or a-z) and try again',
     },
   ],
-  birthday: [
+  dateOfBirth: [
     {
       type: 'object' as const,
       required: true,
