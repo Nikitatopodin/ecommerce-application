@@ -67,7 +67,7 @@ function EditProfileModal({ isModalOpen, setModalOpen }: IProps) {
       ]}
     >
       <Title style={{ textAlign: 'center', marginBottom: '1.5em' }} level={3}>
-        Change password
+        Edit profile
       </Title>
       <Form name="editProfile" id="editProfile" onFinish={onFinish}>
         <FormItem
