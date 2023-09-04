@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Badge, Card, Drawer, Layout, List, Menu, Select } from 'antd';
-import { useSearchParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import Sider from 'antd/es/layout/Sider';
 import Meta from 'antd/es/card/Meta';
-import { SettingOutlined } from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 import CatalogMenu from './CatalogMenu';
 import { getCategories, getProducts } from '../../services/customerRequests';
 import { IProductQueryArgs } from '../../types/types';
@@ -186,7 +185,7 @@ function Catalog(): JSX.Element {
             ]}
           />
           {isCollapsedSettings && (
-            <SettingOutlined
+            <MenuOutlined
               style={{
                 color: '#bdbdbd',
                 fontSize: '26px',

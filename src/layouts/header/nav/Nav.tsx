@@ -75,7 +75,6 @@ const items: MenuProps['items'] = [
   getItem('About us', 'aboutUs'),
   getItem('Catalog', 'catalog'),
   getItem('Contacts', 'contacts'),
-  getItem('Product', 'product'),
 ];
 
 export default function NavComponent(): JSX.Element {

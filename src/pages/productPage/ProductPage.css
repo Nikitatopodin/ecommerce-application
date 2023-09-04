@@ -25,6 +25,14 @@
   font-size: 1.1rem;
 }
 
+.price-old {
+  text-decoration: line-through;
+}
+
+.price {
+  font-weight: bold;
+}
+
 
 @media (max-width: 600px){
 	.ant-row .product-title {
