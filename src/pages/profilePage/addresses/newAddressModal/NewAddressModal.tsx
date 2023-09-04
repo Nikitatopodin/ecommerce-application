@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal, Radio } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
-import AddressesFormFields from '../../../components/form/userDataForm/AddressesFormFields';
+import AddressesFormFields from '../../../../components/form/userDataForm/AddressesFormFields';
 import formatAddress, {
   IAddressValues,
-} from '../../../utils/form/formatAddress';
-import newAddressThunk from '../../../redux/actions/newAddressThunk';
-import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+} from '../../../../utils/form/formatAddress';
+import newAddressThunk from '../../../../redux/actions/newAddressThunk';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 
 interface IProps {
   isModalOpen: boolean;

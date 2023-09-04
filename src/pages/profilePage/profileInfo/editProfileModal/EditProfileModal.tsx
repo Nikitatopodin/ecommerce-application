@@ -3,11 +3,11 @@ import FormItem from 'antd/es/form/FormItem';
 import { Button, Form, Input, message, Modal } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
-import { fieldsProps } from '../../../components/form/userDataForm/formProps/fieldsProps';
-import PersonalDataFormFields from '../../../components/form/userDataForm/PersonalDataFormFields';
-import { updateProfile } from '../../../services/customerRequests';
-import { setProfileData } from '../../../redux/slices/authorizationSlice';
-import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+import { fieldsProps } from '../../../../components/form/userDataForm/formProps/fieldsProps';
+import PersonalDataFormFields from '../../../../components/form/userDataForm/PersonalDataFormFields';
+import { updateProfile } from '../../../../services/customerRequests';
+import { setProfileData } from '../../../../redux/slices/authorizationSlice';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 
 interface IProps {
   isModalOpen: boolean;

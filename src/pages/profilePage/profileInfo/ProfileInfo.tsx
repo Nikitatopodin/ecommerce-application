@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
 import { Col, Popover, Row, Typography } from 'antd';
 import { useAppSelector } from '../../../hooks/hooks';
-import ChangePasswordModal from '../changePasswordModal/ChangePasswordModal';
+import ChangePasswordModal from './changePasswordModal/ChangePasswordModal';
 import styles from './ProfileInfo.module.css';
 
 interface IProps {
   setEditMode: (isEditMode: boolean) => void;
 }
 
-function ProfileInfoDescription({ setEditMode }: IProps) {
+function ProfileInfo({ setEditMode }: IProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const userData = useAppSelector((state) => state.authorization.userData);
   const { Text, Title } = Typography;
@@ -66,4 +66,4 @@ function ProfileInfoDescription({ setEditMode }: IProps) {
   );
 }
 
-export default ProfileInfoDescription;
+export default ProfileInfo;

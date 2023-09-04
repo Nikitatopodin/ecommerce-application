@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Col, Divider, Row } from 'antd';
-import ProfileInfoDescription from './profileInfo/ProfileInfoDescription';
+import ProfileInfo from './profileInfo/ProfileInfo';
 import { useAppSelector } from '../../hooks/hooks';
-import Addresses from './addresses/Addresses';
-import NewAddressModal from './newAddressModal/NewAddressModal';
-import EditProfileModal from './editProfileModal/EditProfileModal';
+import Address from './addresses/Address';
+import NewAddressModal from './addresses/newAddressModal/NewAddressModal';
+import EditProfileModal from './profileInfo/editProfileModal/EditProfileModal';
 
 function ProfilePage() {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
@@ -42,7 +42,7 @@ function ProfilePage() {
               setModalOpen={setProfileModalOpen}
             />
           ) : (
-            <ProfileInfoDescription setEditMode={setProfileModalOpen} />
+            <ProfileInfo setEditMode={setProfileModalOpen} />
           )}
 
           <Divider orientation="left">Shipping addresses</Divider>
@@ -50,7 +50,7 @@ function ProfilePage() {
           {addresses?.map(
             (address) =>
               shippingAddressIds?.includes(address.id as string) && (
-                <Addresses
+                <Address
                   address={address}
                   isBilling={false}
                   isDefault={defaultShippingAddress === address.id}
@@ -66,7 +66,7 @@ function ProfilePage() {
               {addresses?.map(
                 (address) =>
                   billingAddressIds?.includes(address.id as string) && (
-                    <Addresses
+                    <Address
                       address={address}
                       isBilling
                       isDefault={defaultBillingAddress === address.id}
