@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, Layout, List, Menu, Select } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import Title from 'antd/es/typography/Title';
@@ -27,6 +28,7 @@ const searchKey = 'text.en-us';
 function Catalog(): JSX.Element {
   const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { dataProducts, settings } = useAppSelector((state) => state.catalog);
 
   const onClick: MenuProps['onClick'] = (e) => {
@@ -170,6 +172,7 @@ function Catalog(): JSX.Element {
                       src={item.masterVariant!.images![0].url}
                     />
                   }
+                  onClick={() => navigate(item.id!)}
                 >
                   <Meta
                     title={item.name['en-US']}
