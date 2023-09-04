@@ -18,15 +18,23 @@ interface IPasswordFormValues {
 }
 
 function ChangePasswordModal({ isModalOpen, setModalOpen }: IProps) {
+  const userEmail = useAppSelector(
+    (state) => state.authorization.userData?.email,
+  );
   const version = useAppSelector(
     (state) => state.authorization.userData?.version,
   );
   const dispatch = useAppDispatch();
 
   const onFinish = (values: IPasswordFormValues) => {
-    if (version) {
+    if (version && userEmail) {
       dispatch(
-        updatePasswordThunk(values.currentPassword, values.password, version),
+        updatePasswordThunk(
+          userEmail,
+          values.currentPassword,
+          values.password,
+          version,
+        ),
       );
       setModalOpen(false);
     }

@@ -8,7 +8,6 @@ import { IRegistrationForm } from '../../types/types';
 const signUpThunk =
   (values: IRegistrationForm, setSignupError: (isSignUp: boolean) => void) =>
   async (dispatch: DispatchType) => {
-    console.log('пришло в санку', values);
     signUp(convertFormData(values))
       .then(() => signIn(values))
       .then((response) => {

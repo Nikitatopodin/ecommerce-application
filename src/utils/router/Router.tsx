@@ -7,6 +7,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import Main from '../../pages/MainPage';
+import Catalog from '../../components/catalog/Catalog';
 import ErrorPage from '../../pages/ErrorPage';
 import LoginPage from '../../pages/LoginPage';
 import Registration from '../../pages/registartionPage/RegistrationPage';
@@ -18,7 +19,6 @@ import { useAppDispatch } from '../../hooks/hooks';
 import ProfilePage from '../../pages/profilePage/ProfilePage';
 import Product from '../../pages/productPage/ProductPage';
 import { getProductById } from '../../services/customerRequests';
-import CatalogPage from '../../pages/CatalogPage';
 import PrivateNonAuthRoute from './PrivateNonAuthRoute';
 
 function Layout() {
@@ -57,7 +57,8 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       />
-      <Route path="/catalog" element={<CatalogPage />} />
+      <Route path="/catalog/*" element={<Catalog />} />
+      <Route path="/profile" element={<ProfilePage />} />
       <Route
         path="/profile"
         element={
