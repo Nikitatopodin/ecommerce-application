@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Badge, Card, Drawer, Layout, List, Menu, Select } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import Sider from 'antd/es/layout/Sider';
 import Meta from 'antd/es/card/Meta';
 import { SettingOutlined } from '@ant-design/icons';
@@ -31,6 +32,7 @@ function Catalog(): JSX.Element {
   );
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { dataProducts, settings } = useAppSelector((state) => state.catalog);
 
   const onClick: MenuProps['onClick'] = (e) => {
@@ -194,6 +196,7 @@ function Catalog(): JSX.Element {
               <Card
                 hoverable
                 className={styles.card}
+                onClick={() => navigate(item.id!)}
                 cover={
                   item.masterVariant.scopedPriceDiscounted ? (
                     <Badge.Ribbon
