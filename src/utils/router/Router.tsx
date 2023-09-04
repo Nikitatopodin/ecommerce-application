@@ -58,7 +58,6 @@ const router = createBrowserRouter(
         }
       />
       <Route path="/catalog/*" element={<Catalog />} />
-      <Route path="/profile" element={<ProfilePage />} />
       <Route
         path="/profile"
         element={

@@ -80,7 +80,7 @@ function LoginPage(): JSX.Element {
             </Button>
           </Col>
           <Col>
-            <Button type="link" onClick={() => navigate('/userDataForm')}>
+            <Button type="link" onClick={() => navigate('/registration')}>
               Create account
             </Button>
           </Col>
