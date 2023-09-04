@@ -73,7 +73,7 @@ const items: MenuProps['items'] = [
   getItem('IN MEMORIES', 'logo', logoStyle, undefined, 'logo'),
   getItem('Home', ''),
   getItem('About us', 'aboutUs'),
-  getItem('Catalogue', 'catalogue'),
+  getItem('Catalog', 'catalog'),
   getItem('Contacts', 'contacts'),
 ];
 
@@ -95,7 +95,7 @@ export default function NavComponent(): JSX.Element {
       dispatch(activeMenuItemsReducer(''));
       setCurrent('');
       navigate('/');
-    } else if (e.key === 'catalogue') {
+    } else if (e.key === 'catalog') {
       dispatch(activeMenuItemsReducer(e.key));
       setCurrent(e.key);
       navigate(`/catalog`);

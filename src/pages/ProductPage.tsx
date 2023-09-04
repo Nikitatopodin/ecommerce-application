@@ -30,8 +30,14 @@ function Product() {
     images: productData.masterVariant.images,
     description: productData.description!['en-US'],
     prices: [
-      productData.masterVariant.prices![0],
-      productData.variants[0].prices![0],
+      [
+        productData.masterVariant.prices![0].value,
+        productData.masterVariant.prices![0].discounted?.value,
+      ],
+      [
+        productData.variants[0].prices![0].value,
+        productData.variants[0].prices![0].discounted?.value,
+      ],
     ],
   };
 
@@ -45,21 +51,27 @@ function Product() {
     }
   };
 
-  const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
-  };
+  const onChange = () => {};
 
   useEffect(() => {}, [currentSize]);
   return (
-    <Row style={{ padding: '2.5em 3em', justifyContent: 'center' }}>
+    <Row
+      style={{
+        padding: '2.5em 3em',
+        margin: '2.5em 3em',
+        justifyContent: 'center',
+        border: '1px solid black',
+      }}
+    >
       <Col style={{ width: '25%', marginRight: '10px' }}>
-        <Row style={{ fontWeight: 'bold', margin: '10px 0' }}>
+        <Row style={{ fontWeight: 'bold', margin: '10px 0', fontSize: '2em' }}>
           {productInfo.name}
         </Row>
         <Image
           src={productInfo.images![0].url}
           onClick={showModal}
           preview={false}
+          style={{ cursor: 'pointer' }}
         />
         <Modal
           open={open}
@@ -67,6 +79,7 @@ function Product() {
           onCancel={handleCancel}
           cancelButtonProps={{ style: { display: 'none' } }}
           okButtonProps={{ style: { display: 'none' } }}
+          destroyOnClose
         >
           <Carousel
             afterChange={onChange}
@@ -76,6 +89,7 @@ function Product() {
               width: '100%',
               marginLeft: 'auto',
             }}
+            dots={{ className: 'dots' }}
           >
             <Image
               src={productInfo.images![0].url}
@@ -90,17 +104,19 @@ function Product() {
           </Carousel>
         </Modal>
       </Col>
-      <Col style={{ marginLeft: '10px' }}>
-        <Row style={{ fontWeight: 'bold', margin: '10px 0' }}>
-          Size:
-          <Col>
+      <Col style={{ marginLeft: '10px', marginTop: '3.1vw' }}>
+        <Row style={{ fontWeight: 'bold', margin: '10px 0', fontSize: '20px' }}>
+          Size:&nbsp;
+          <Col style={{ display: 'flex', gap: '5px' }}>
             <Button
+              type={currentSize === 0 ? 'primary' : 'default'}
               style={{ width: '5rem' }}
               onClick={(e) => onSizeButtonClick(e.target)}
             >
               Medium
             </Button>
             <Button
+              type={currentSize === 1 ? 'primary' : 'default'}
               style={{ width: '5rem' }}
               onClick={(e) => onSizeButtonClick(e.target)}
             >
@@ -108,17 +124,36 @@ function Product() {
             </Button>
           </Col>
         </Row>
-        <Row style={{ margin: '10px 0' }}>
-          <span style={{ fontWeight: 'bold' }}>Description:</span>
+        <Row style={{ margin: '10px 0', fontSize: '20px' }}>
+          <span style={{ fontWeight: 'bold' }}>Description:&nbsp;</span>
           {productInfo.description}
         </Row>
-        <Row style={{ margin: '10px 0' }}>
-          <span style={{ fontWeight: 'bold' }}>Price:</span> $
-          {`${Math.trunc(
-            productInfo.prices[currentSize].value.centAmount / 100,
-          )}.${(productInfo.prices[currentSize].value.centAmount % 100)
-            .toString()
-            .padStart(2, '0')}`}
+        <Row style={{ margin: '10px 0', fontSize: '20px' }}>
+          <span style={{ fontWeight: 'bold' }}>Price:&nbsp;</span>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            {productInfo.prices[currentSize][1] && (
+              <div className="price">
+                {(
+                  productInfo.prices[currentSize][1]!.centAmount / 100
+                ).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
+              </div>
+            )}
+            <div
+              className={
+                productInfo.prices[currentSize][1]! ? 'price-old' : 'price'
+              }
+            >
+              {(
+                productInfo.prices[currentSize][0]!.centAmount / 100
+              ).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })}
+            </div>
+          </div>
         </Row>
       </Col>
     </Row>

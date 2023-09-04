@@ -7,11 +7,7 @@ import { Header } from 'antd/es/layout/layout';
 import Meta from 'antd/es/card/Meta';
 import type { MenuProps } from 'antd';
 import CatalogMenu from './CatalogMenu';
-import {
-  getCategories,
-  getProductById,
-  getProducts,
-} from '../../services/customerRequests';
+import { getCategories, getProducts } from '../../services/customerRequests';
 import { IProductQueryArgs } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
@@ -21,7 +17,6 @@ import {
   addDataAttributes,
 } from '../../redux/slices/catalogSlice';
 import './catalog.css';
-import { productInfoReducer } from '../../redux/slices/productInfoSlice';
 
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
@@ -106,21 +101,6 @@ function Catalog(): JSX.Element {
       dispatch(addDataAttributes(Array.from(findAttributes)));
     }
   }, [dataProducts]);
-  const openProductInfo: (productId: string) => void = (productId: string) => {
-    getProductById(productId).then((productData) => {
-      const info = {
-        name: productData.body.name['en-US'],
-        images: productData.body.masterVariant.images,
-        description: productData.body.description!['en-US'],
-        prices: [
-          productData.body.masterVariant.prices![0],
-          productData.body.variants[0].prices![0],
-        ],
-      };
-      navigate(productId);
-      dispatch(productInfoReducer(info));
-    });
-  };
 
   return (
     <Layout>
@@ -192,7 +172,7 @@ function Catalog(): JSX.Element {
                       src={item.masterVariant!.images![0].url}
                     />
                   }
-                  onClick={() => openProductInfo(item.id!)}
+                  onClick={() => navigate(item.id!)}
                 >
                   <Meta
                     title={item.name['en-US']}
