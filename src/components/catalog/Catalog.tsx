@@ -124,24 +124,16 @@ function Catalog(): JSX.Element {
           <CatalogMenu />
         </Sider>
       ) : (
-        <>
-          <SettingOutlined
-            style={{
-              color: '#bdbdbd',
-            }}
-            onClick={showDrawer}
-          />
-          <Drawer
-            title="Filter settings"
-            placement="left"
-            onClose={onClose}
-            open={open}
-            key="left"
-            width={300}
-          >
-            <CatalogMenu />
-          </Drawer>
-        </>
+        <Drawer
+          title="Filter settings"
+          placement="left"
+          onClose={onClose}
+          open={open}
+          key="left"
+          width={300}
+        >
+          <CatalogMenu />
+        </Drawer>
       )}
       <Layout style={{ display: 'flex', gap: 10 }}>
         <Menu
@@ -151,30 +143,41 @@ function Catalog(): JSX.Element {
           items={[...categoriesData!]}
           style={menuStyle}
         />
-        <Select
-          placeholder="Select a sorting option"
-          value={settings.sort}
-          onChange={(value) => dispatch(addSortCatalog(value))}
-          style={{ width: 240, marginLeft: '.9em' }}
-          options={[
-            {
-              value: 'price asc',
-              label: 'Sort by ascending prices',
-            },
-            {
-              value: 'price desc',
-              label: 'Sort by descending prices',
-            },
-            {
-              value: 'name.en-us asc',
-              label: 'Sort by ascending names',
-            },
-            {
-              value: 'name.en-us desc',
-              label: 'Sort by descending names',
-            },
-          ]}
-        />
+        <div className={styles.settingsWrapper}>
+          <Select
+            placeholder="Select a sorting option"
+            value={settings.sort}
+            onChange={(value) => dispatch(addSortCatalog(value))}
+            style={{ width: 240, marginLeft: '.9em' }}
+            options={[
+              {
+                value: 'price asc',
+                label: 'Sort by ascending prices',
+              },
+              {
+                value: 'price desc',
+                label: 'Sort by descending prices',
+              },
+              {
+                value: 'name.en-us asc',
+                label: 'Sort by ascending names',
+              },
+              {
+                value: 'name.en-us desc',
+                label: 'Sort by descending names',
+              },
+            ]}
+          />
+          {isCollapsedSettings && (
+            <SettingOutlined
+              style={{
+                color: '#bdbdbd',
+                fontSize: '26px',
+              }}
+              onClick={showDrawer}
+            />
+          )}
+        </div>
         <List
           grid={{
             gutter: 16,
@@ -192,13 +195,24 @@ function Catalog(): JSX.Element {
                 hoverable
                 className={styles.card}
                 cover={
-                  <Badge.Ribbon text="Love">
+                  item.masterVariant.scopedPriceDiscounted ? (
+                    <Badge.Ribbon
+                      text={item.masterVariant.scopedPriceDiscounted && 'Sale'}
+                      color={item.masterVariant.scopedPriceDiscounted && 'red'}
+                    >
+                      <img
+                        alt="example"
+                        src={item.masterVariant!.images![0].url}
+                        className={styles.picture}
+                      />
+                    </Badge.Ribbon>
+                  ) : (
                     <img
                       alt="example"
                       src={item.masterVariant!.images![0].url}
                       className={styles.picture}
                     />
-                  </Badge.Ribbon>
+                  )
                 }
               >
                 <Meta
