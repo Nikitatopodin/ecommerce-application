@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
-import { Badge, Card, Layout, List, Menu, Select } from 'antd';
+import { Badge, Card, Drawer, Layout, List, Menu, Select } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import Meta from 'antd/es/card/Meta';
+import { SettingOutlined } from '@ant-design/icons';
 import CatalogMenu from './CatalogMenu';
 import { getCategories, getProducts } from '../../services/customerRequests';
 import { IProductQueryArgs } from '../../types/types';
@@ -25,10 +26,7 @@ const searchKey = 'text.en-us';
 
 function Catalog(): JSX.Element {
   const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
-  const [isCollapsibleSettings, setCollapsibleSettings] = useState(
-    window.innerWidth < 720,
-  );
-  const [isCollapsedSettings, setCollapsedSettings] = useState(
+  const [isCollapsedSettings, setIsCollapsedSettings] = useState(
     window.innerWidth < 720,
   );
 
@@ -105,36 +103,46 @@ function Catalog(): JSX.Element {
     }
   }, [dataProducts]);
 
-  window.addEventListener('resize', () => {
-    setCollapsibleSettings(window.innerWidth < 720);
-    setCollapsedSettings(window.innerWidth < 720);
-  });
+  window.addEventListener('resize', () =>
+    setIsCollapsedSettings(window.innerWidth < 720),
+  );
+
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Layout>
-      <Sider
-        style={{ background: 'transparent', padding: 14 }}
-        collapsible={isCollapsibleSettings}
-        collapsed={isCollapsedSettings}
-        collapsedWidth={0}
-        zeroWidthTriggerStyle={{
-          background: 'gray',
-          transform: `translate(0, -110px) ${
-            !isCollapsedSettings ? 'rotate(180deg)' : ''
-          }`,
-        }}
-        onCollapse={() => setCollapsedSettings(!isCollapsedSettings)}
-        // breakpoint={{
-        //   xs: '480px',
-        //   sm: '576px',
-        //   md: '768px',
-        //   lg: '992px',
-        //   xl: '1200px',
-        //   xxl: '1600px',
-        // }}
-      >
-        <CatalogMenu />
-      </Sider>
+      {!isCollapsedSettings ? (
+        <Sider style={{ background: 'transparent', padding: 14 }}>
+          <CatalogMenu />
+        </Sider>
+      ) : (
+        <>
+          <SettingOutlined
+            style={{
+              color: '#bdbdbd',
+            }}
+            onClick={showDrawer}
+          />
+          <Drawer
+            title="Filter settings"
+            placement="left"
+            onClose={onClose}
+            open={open}
+            key="left"
+            width={300}
+          >
+            <CatalogMenu />
+          </Drawer>
+        </>
+      )}
       <Layout style={{ display: 'flex', gap: 10 }}>
         <Menu
           onClick={onClick}
