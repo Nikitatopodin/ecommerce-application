@@ -28,7 +28,7 @@ const signUp = (data: MyCustomerDraft) => {
 
 const getProfile = (): Promise<ClientResponse<Customer>> => {
   const apiRoot = createExistingApiRoot();
-  return apiRoot.productProjections().search().get().execute();
+  return apiRoot.me().get().execute();
 };
 
 const updateProfile = (values: Customer, version: number) => {

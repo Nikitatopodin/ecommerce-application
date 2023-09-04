@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Badge, Card, Drawer, Layout, List, Menu, Select } from 'antd';
+import { useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Sider from 'antd/es/layout/Sider';
 import Meta from 'antd/es/card/Meta';
@@ -16,6 +17,12 @@ import {
   addSortCatalog,
 } from '../../redux/slices/catalogSlice';
 import styles from './Сatalog.module.css';
+import BreadcrumbComponent from './breadcrumb/BreadcrumbComponent';
+
+interface ICategory {
+  label: string;
+  key: string;
+}
 
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
@@ -26,8 +33,9 @@ const menuStyle: React.CSSProperties = {
 const searchKey = 'text.en-us';
 
 function Catalog(): JSX.Element {
-  const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
-  const [isCollapsedSettings, setIsCollapsedSettings] = useState(
+  const [, setSearchParams] = useSearchParams();
+  const [categoriesData, setCategoriesData] = useState<ICategory[]>([]);
+  const [isCollapsedSettings, setCollapsedSettings] = useState(
     window.innerWidth < 720,
   );
 
@@ -42,7 +50,7 @@ function Catalog(): JSX.Element {
   useEffect(() => {
     getCategories()
       .then((data) => {
-        const categoriesArr: MenuProps['items'] = [];
+        const categoriesArr: ICategory[] = [];
         data.body.results.forEach((item) => {
           categoriesArr.push({
             label: item.name['en-US'],
@@ -53,6 +61,12 @@ function Catalog(): JSX.Element {
       })
       .catch(console.log);
   }, []);
+
+  function getCategoryLabel(): string | undefined {
+    return categoriesData
+      .find((elem) => elem.key === settings.currentCategory)
+      ?.label.toLowerCase();
+  }
 
   useEffect(() => {
     const queryParams: IProductQueryArgs = {
@@ -65,6 +79,7 @@ function Catalog(): JSX.Element {
     };
     if (settings.currentCategory) {
       queryParams.filter.push(`categories.id:"${settings.currentCategory}"`);
+      setSearchParams(() => `category=${getCategoryLabel()}`);
     }
     if (settings.sort) {
       queryParams.sort = settings.sort;
@@ -106,7 +121,7 @@ function Catalog(): JSX.Element {
   }, [dataProducts]);
 
   window.addEventListener('resize', () =>
-    setIsCollapsedSettings(window.innerWidth < 720),
+    setCollapsedSettings(window.innerWidth < 720),
   );
 
   const [open, setOpen] = useState(false);
@@ -180,6 +195,7 @@ function Catalog(): JSX.Element {
             />
           )}
         </div>
+        <BreadcrumbComponent category={getCategoryLabel()} />
         <List
           grid={{
             gutter: 16,
