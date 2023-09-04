@@ -1,0 +1,38 @@
+.ant-row .product-title {
+  min-width: 200px;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.product-info {
+  font-size: 3rem;
+}
+
+.product-left {
+  display: 'flex';
+  flex-direction: 'column';
+  width: '50%';
+  margin-right: '10px';
+  align-items: 'center';
+}
+
+.ant-image .product-img {
+  max-width: 500px;
+  width: 100%;
+}
+
+.ant-row {
+  font-size: 1.1rem;
+}
+
+
+@media (max-width: 600px){
+	.ant-row .product-title {
+		font-size: 1.5rem;
+	}
+
+  .ant-image .product-img {
+    position: relative;
+    max-width: 500px;
+  }
+}

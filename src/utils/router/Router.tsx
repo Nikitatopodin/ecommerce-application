@@ -16,7 +16,7 @@ import FooterComponent from '../../layouts/footer/Footer';
 import { activeMenuItemsReducer } from '../../redux/slices/navMenuSlice';
 import { useAppDispatch } from '../../hooks/hooks';
 import ProfilePage from '../../pages/profilePage/ProfilePage';
-import Product from '../../pages/ProductPage';
+import Product from '../../pages/productPage/ProductPage';
 import { getProductById } from '../../services/customerRequests';
 import CatalogPage from '../../pages/CatalogPage';
 import PrivateNonAuthRoute from './PrivateNonAuthRoute';

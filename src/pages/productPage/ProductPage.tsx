@@ -1,3 +1,4 @@
+import './ProductPage.css';
 import { Button, Col, Row, Image, Carousel, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { ProductProjection } from '@commercetools/platform-sdk';
@@ -43,7 +44,7 @@ function Product() {
 
   const onSizeButtonClick = (e: EventTarget) => {
     if (e instanceof Node) {
-      if (e.textContent! === 'Small') {
+      if (e.textContent! === '7*10') {
         setCurrentSize(1);
       } else {
         setCurrentSize(0);
@@ -63,15 +64,15 @@ function Product() {
         border: '1px solid black',
       }}
     >
-      <Col style={{ width: '25%', marginRight: '10px' }}>
-        <Row style={{ fontWeight: 'bold', margin: '10px 0', fontSize: '2em' }}>
+      <Col className="product-left">
+        <Row className="product-title" style={{ flexGrow: '1' }}>
           {productInfo.name}
         </Row>
         <Image
           src={productInfo.images![0].url}
           onClick={showModal}
           preview={false}
-          style={{ cursor: 'pointer' }}
+          className="product-img"
         />
         <Modal
           open={open}
@@ -104,31 +105,34 @@ function Product() {
           </Carousel>
         </Modal>
       </Col>
-      <Col style={{ marginLeft: '10px', marginTop: '3.1vw' }}>
-        <Row style={{ fontWeight: 'bold', margin: '10px 0', fontSize: '20px' }}>
+      <Col
+        style={{ marginLeft: '10px', marginTop: '2rem' }}
+        className="product-info"
+      >
+        <Row style={{ fontWeight: 'bold', margin: '10px 0' }}>
           Size:&nbsp;
-          <Col style={{ display: 'flex', gap: '5px' }}>
+          <Row style={{ gap: '5px', justifyContent: 'space-between' }}>
             <Button
               type={currentSize === 0 ? 'primary' : 'default'}
-              style={{ width: '5rem' }}
+              style={{ width: '5rem', fontSize: '1.05rem', lineHeight: '1rem' }}
               onClick={(e) => onSizeButtonClick(e.target)}
             >
-              Medium
+              {productData.masterVariant.attributes![1].value.label}
             </Button>
             <Button
               type={currentSize === 1 ? 'primary' : 'default'}
-              style={{ width: '5rem' }}
+              style={{ width: '5rem', fontSize: '1.05rem', lineHeight: '1rem' }}
               onClick={(e) => onSizeButtonClick(e.target)}
             >
-              Small
+              {productData.variants[0].attributes![1].value.label}
             </Button>
-          </Col>
+          </Row>
         </Row>
-        <Row style={{ margin: '10px 0', fontSize: '20px' }}>
+        <Row style={{ margin: '10px 0' }}>
           <span style={{ fontWeight: 'bold' }}>Description:&nbsp;</span>
           {productInfo.description}
         </Row>
-        <Row style={{ margin: '10px 0', fontSize: '20px' }}>
+        <Row style={{ margin: '10px 0' }}>
           <span style={{ fontWeight: 'bold' }}>Price:&nbsp;</span>
           <div style={{ display: 'flex', gap: '10px' }}>
             {productInfo.prices[currentSize][1] && (
