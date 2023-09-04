@@ -1,9 +1,10 @@
 import React from 'react';
+import Title from 'antd/es/typography/Title';
 import { Button, Form, Input, Modal } from 'antd';
-import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import updatePasswordThunk from '../../../redux/actions/updatePasswordThunk';
-import PasswordFields from '../../../components/form/userDataForm/PasswordFields';
-import { fieldsProps } from '../../../components/form/userDataForm/formProps/fieldsProps';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
+import updatePasswordThunk from '../../../../redux/actions/updatePasswordThunk';
+import PasswordFields from '../../../../components/form/userDataForm/PasswordFields';
+import { fieldsProps } from '../../../../components/form/userDataForm/formProps/fieldsProps';
 
 interface IProps {
   isModalOpen: boolean;
@@ -32,7 +33,6 @@ function ChangePasswordModal({ isModalOpen, setModalOpen }: IProps) {
   };
   return (
     <Modal
-      title="Add new address"
       open={isModalOpen}
       onCancel={() => setModalOpen(false)}
       footer={[
@@ -44,12 +44,19 @@ function ChangePasswordModal({ isModalOpen, setModalOpen }: IProps) {
         >
           Change password
         </Button>,
-        <Button form="changePassword" onClick={() => setModalOpen(false)}>
+        <Button
+          form="changePassword"
+          key="cancel"
+          onClick={() => setModalOpen(false)}
+        >
           Cancel
         </Button>,
       ]}
     >
-      <Form onFinish={onFinish} id="changePassword">
+      <Title style={{ textAlign: 'center', marginBottom: '1.5em' }} level={3}>
+        Change password
+      </Title>
+      <Form name="changePassword" id="changePassword" onFinish={onFinish}>
         <Form.Item {...fieldsProps.currentPassword.props}>
           <Input.Password placeholder="Password" />
         </Form.Item>

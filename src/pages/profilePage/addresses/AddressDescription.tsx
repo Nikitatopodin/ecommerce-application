@@ -63,7 +63,7 @@ function AddressCard({ setEditMode, address }: ICardProps) {
   );
 }
 
-function AddressesDescription({
+function AddressDescription({
   address,
   isDefault,
   setEditMode,
@@ -78,4 +78,4 @@ function AddressesDescription({
   return <AddressCard setEditMode={setEditMode} address={address} />;
 }
 
-export default AddressesDescription;
+export default AddressDescription;

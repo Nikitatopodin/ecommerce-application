@@ -1,0 +1,31 @@
+.settingsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.priceWrapper {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.price {
+  font-weight: 700;
+}
+
+.priceOld {
+  font-weight: 400;
+  text-decoration: line-through;
+}
+
+.card {
+  width: 240px;
+  height: 480px;
+  margin: 0 auto;
+}
+
+.picture {
+  width: 100%;
+  height: 311px;
+}

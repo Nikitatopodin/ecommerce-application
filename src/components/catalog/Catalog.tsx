@@ -1,32 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, Layout, List, Menu, Select } from 'antd';
-import Sider from 'antd/es/layout/Sider';
-import Title from 'antd/es/typography/Title';
-import { Header } from 'antd/es/layout/layout';
-import Meta from 'antd/es/card/Meta';
 import type { MenuProps } from 'antd';
+import { Badge, Card, Drawer, Layout, List, Menu, Select } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import Sider from 'antd/es/layout/Sider';
+import Meta from 'antd/es/card/Meta';
+import { SettingOutlined } from '@ant-design/icons';
 import CatalogMenu from './CatalogMenu';
 import { getCategories, getProducts } from '../../services/customerRequests';
 import { IProductQueryArgs } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import {
-  addDataCatalog,
   addCurrentCategory,
-  addSortCatalog,
   addDataAttributes,
+  addDataCatalog,
+  addSortCatalog,
 } from '../../redux/slices/catalogSlice';
-import './catalog.css';
+import styles from './Сatalog.module.css';
 
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
   display: 'flex',
+  margin: '0 1em',
 };
 
 const searchKey = 'text.en-us';
 
 function Catalog(): JSX.Element {
   const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
+  const [isCollapsedSettings, setIsCollapsedSettings] = useState(
+    window.innerWidth < 720,
+  );
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { dataProducts, settings } = useAppSelector((state) => state.catalog);
@@ -58,7 +62,6 @@ function Catalog(): JSX.Element {
           settings.price[0] * 100
         } to ${settings.price[1] * 100})`,
       ],
-      // filter: 'variants.scopedPriceDiscounter:true',
     };
     if (settings.currentCategory) {
       queryParams.filter.push(`categories.id:"${settings.currentCategory}"`);
@@ -102,35 +105,52 @@ function Catalog(): JSX.Element {
     }
   }, [dataProducts]);
 
+  window.addEventListener('resize', () =>
+    setIsCollapsedSettings(window.innerWidth < 720),
+  );
+
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Layout>
-      <Header
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          background: 'transparent',
-        }}
-      >
-        <Title level={2}>Catalog</Title>
-      </Header>
-      <Layout>
+      {!isCollapsedSettings ? (
         <Sider style={{ background: 'transparent', padding: 14 }}>
           <CatalogMenu />
         </Sider>
-        <Layout style={{ display: 'flex', gap: 10 }}>
-          <Menu
-            onClick={onClick}
-            selectedKeys={[settings.currentCategory]}
-            mode="horizontal"
-            items={[...categoriesData!]}
-            style={menuStyle}
-          />
+      ) : (
+        <Drawer
+          title="Filter settings"
+          placement="left"
+          onClose={onClose}
+          open={open}
+          key="left"
+          width={300}
+        >
+          <CatalogMenu />
+        </Drawer>
+      )}
+      <Layout style={{ display: 'flex', gap: 10 }}>
+        <Menu
+          onClick={onClick}
+          selectedKeys={[settings.currentCategory]}
+          mode="horizontal"
+          items={[...categoriesData!]}
+          style={menuStyle}
+        />
+        <div className={styles.settingsWrapper}>
           <Select
             placeholder="Select a sorting option"
             value={settings.sort}
             onChange={(value) => dispatch(addSortCatalog(value))}
-            style={{ width: 240 }}
+            style={{ width: 240, marginLeft: '.9em' }}
             options={[
               {
                 value: 'price asc',
@@ -150,66 +170,89 @@ function Catalog(): JSX.Element {
               },
             ]}
           />
-          <List
-            grid={{
-              gutter: 16,
-              xs: 1,
-              sm: 1,
-              md: 2,
-              lg: 3,
-              xl: 4,
-              xxl: 4,
-            }}
-            dataSource={dataProducts}
-            renderItem={(item) => (
-              <List.Item>
-                <Card
-                  hoverable
-                  style={{ width: 240 }}
-                  cover={
+          {isCollapsedSettings && (
+            <SettingOutlined
+              style={{
+                color: '#bdbdbd',
+                fontSize: '26px',
+              }}
+              onClick={showDrawer}
+            />
+          )}
+        </div>
+        <List
+          grid={{
+            gutter: 16,
+            xs: 1,
+            sm: 2,
+            md: 2,
+            lg: 3,
+            xl: 4,
+            xxl: 4,
+          }}
+          dataSource={dataProducts}
+          renderItem={(item) => (
+            <List.Item>
+              <Card
+                hoverable
+                className={styles.card}
+                onClick={() => navigate(item.id!)}
+                cover={
+                  item.masterVariant.scopedPriceDiscounted ? (
+                    <Badge.Ribbon
+                      text={item.masterVariant.scopedPriceDiscounted && 'Sale'}
+                      color={item.masterVariant.scopedPriceDiscounted && 'red'}
+                    >
+                      <img
+                        alt="example"
+                        src={item.masterVariant!.images![0].url}
+                        className={styles.picture}
+                      />
+                    </Badge.Ribbon>
+                  ) : (
                     <img
                       alt="example"
                       src={item.masterVariant!.images![0].url}
+                      className={styles.picture}
                     />
-                  }
-                  onClick={() => navigate(item.id!)}
-                >
-                  <Meta
-                    title={item.name['en-US']}
-                    description={item.description!['en-US']}
-                  />
-                  <div className="price-wrapper">
-                    {item.masterVariant.scopedPriceDiscounted && (
-                      <div className="price">
-                        {(
-                          item.masterVariant.price!.discounted!.value
-                            .centAmount / 100
-                        ).toLocaleString('en-US', {
-                          style: 'currency',
-                          currency: 'USD',
-                        })}
-                      </div>
-                    )}
-                    <div
-                      className={
-                        item.masterVariant.scopedPriceDiscounted
-                          ? 'price-old'
-                          : 'price'
-                      }
-                    >
+                  )
+                }
+              >
+                <Meta
+                  title={item.name['en-US']}
+                  description={item.description!['en-US']}
+                />
+                <div className={styles.priceWrapper}>
+                  {item.masterVariant.scopedPriceDiscounted && (
+                    <div className={styles.price}>
                       {(
-                        item.masterVariant.price!.value.centAmount / 100
+                        item.masterVariant.price!.discounted!.value.centAmount /
+                        100
                       ).toLocaleString('en-US', {
                         style: 'currency',
                         currency: 'USD',
                       })}
                     </div>
+                  )}
+                  <div
+                    className={
+                      item.masterVariant.scopedPriceDiscounted
+                        ? styles.priceOld
+                        : styles.price
+                    }
+                  >
+                    {(
+                      item.masterVariant.price!.value.centAmount / 100
+                    ).toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}
                   </div>
-                </Card>
-              </List.Item>
-            )}
-          />
-        </Layout>
+                </div>
+              </Card>
+            </List.Item>
+          )}
+        />
       </Layout>
     </Layout>
   );

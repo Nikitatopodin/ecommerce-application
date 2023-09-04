@@ -13,7 +13,7 @@ const updateAddressThunk =
     version: number,
     defaultBillingAddress: boolean,
     isBilling: boolean,
-    setEditMode: (isEditMode: boolean) => void,
+    setModalOpen: (isModalOpen: boolean) => void,
   ) =>
   async (dispatch: DispatchType) => {
     try {
@@ -40,7 +40,7 @@ const updateAddressThunk =
         .catch(() => {
           message.error('Something went wrong, please try again');
         });
-      setEditMode(false);
+      setModalOpen(false);
     } catch (e) {
       console.log(e);
     }
