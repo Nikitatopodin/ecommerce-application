@@ -26,6 +26,13 @@ const searchKey = 'text.en-us';
 
 function Catalog(): JSX.Element {
   const [categoriesData, setCategoriesData] = useState<MenuProps['items']>([]);
+  const [isCollapsibleSettings, setIsCollapsibleSettings] = useState(
+    window.innerWidth < 720,
+  );
+  const [isCollapsedSettings, setIsCollapsedSettings] = useState(
+    window.innerWidth < 720,
+  );
+
   const dispatch = useAppDispatch();
   const { dataProducts, settings } = useAppSelector((state) => state.catalog);
 
@@ -56,7 +63,6 @@ function Catalog(): JSX.Element {
           settings.price[0] * 100
         } to ${settings.price[1] * 100})`,
       ],
-      // filter: 'variants.scopedPriceDiscounter:true',
     };
     if (settings.currentCategory) {
       queryParams.filter.push(`categories.id:"${settings.currentCategory}"`);
@@ -100,6 +106,11 @@ function Catalog(): JSX.Element {
     }
   }, [dataProducts]);
 
+  window.addEventListener('resize', () => {
+    setIsCollapsibleSettings(window.innerWidth < 720);
+    setIsCollapsedSettings(window.innerWidth < 720);
+  });
+
   return (
     <Layout>
       <Header
@@ -113,7 +124,27 @@ function Catalog(): JSX.Element {
         <Title level={2}>Catalog</Title>
       </Header>
       <Layout>
-        <Sider style={{ background: 'transparent', padding: 14 }}>
+        <Sider
+          style={{ background: 'transparent', padding: 14 }}
+          collapsible={isCollapsibleSettings}
+          collapsed={isCollapsedSettings}
+          collapsedWidth={0}
+          zeroWidthTriggerStyle={{
+            background: 'gray',
+            transform: `translate(0, -110px) ${
+              !isCollapsedSettings ? 'rotate(180deg)' : ''
+            }`,
+          }}
+          onCollapse={() => setIsCollapsedSettings(!isCollapsedSettings)}
+          // breakpoint={{
+          //   xs: '480px',
+          //   sm: '576px',
+          //   md: '768px',
+          //   lg: '992px',
+          //   xl: '1200px',
+          //   xxl: '1600px',
+          // }}
+        >
           <CatalogMenu />
         </Sider>
         <Layout style={{ display: 'flex', gap: 10 }}>
@@ -152,7 +183,7 @@ function Catalog(): JSX.Element {
             grid={{
               gutter: 16,
               xs: 1,
-              sm: 1,
+              sm: 2,
               md: 2,
               lg: 3,
               xl: 4,
