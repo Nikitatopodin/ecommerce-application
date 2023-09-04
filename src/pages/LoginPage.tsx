@@ -1,24 +1,14 @@
-import React, { useState } from 'react';
-import {
-  Button,
-  Col,
-  Form,
-  FormInstance,
-  Input,
-  message,
-  Row,
-  Typography,
-} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Form, FormInstance, Input, Row, Typography } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { useNavigate } from 'react-router-dom';
-import { signIn } from '../services/customerRequests';
-import { useAppDispatch } from '../hooks/hooks';
-import { loginReducer } from '../redux/slices/authorizationSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import {
   errorLayout,
   fieldsProps,
   tailFormItemLayout,
 } from '../components/form/userDataForm/formProps/fieldsProps';
+import signInThunk from '../redux/actions/signInThunk';
 
 function LoginPage(): JSX.Element {
   const [form] = Form.useForm();
@@ -27,18 +17,21 @@ function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const isAuthorized = useAppSelector(
+    (state) => state.authorization.isAuthorized,
+  );
+
+  useEffect(() => {
+    if (isAuthorized) {
+      navigate('/');
+    }
+  }, [isAuthorized]);
+
+  const SUCCESS_MESSAGE = 'You have successfully signed in';
+
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
-    signIn(values)
-      .then((response) => {
-        const userData = response.body.customer;
-        dispatch(loginReducer({ isAuthorized: true, userData }));
-        message.success('You have successfully signed in');
-        navigate('/');
-      })
-      .catch(() => {
-        setLoginError(true);
-      });
+    dispatch(signInThunk(values, setLoginError, SUCCESS_MESSAGE));
   };
 
   return (
