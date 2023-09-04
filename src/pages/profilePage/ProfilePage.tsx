@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Button, Col, Divider, Row } from 'antd';
-import ProfileInfoForm from './profileInfo/ProfileInfoForm';
 import ProfileInfoDescription from './profileInfo/ProfileInfoDescription';
 import { useAppSelector } from '../../hooks/hooks';
 import Addresses from './addresses/Addresses';
 import NewAddressModal from './newAddressModal/NewAddressModal';
+import EditProfileModal from './editProfileModal/EditProfileModal';
 
 function ProfilePage() {
-  const [isPersonalDataEditMode, setPersonalDataEditMode] = useState(false);
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isProfileModalOpen, setProfileModalOpen] = useState(false);
+  const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
 
   const addresses = useAppSelector(
     (state) => state.authorization.userData?.addresses,
@@ -28,20 +28,21 @@ function ProfilePage() {
 
   return (
     <Row justify="center" style={{ margin: '1em auto' }}>
-      {isModalOpen && (
+      {isPasswordModalOpen && (
         <NewAddressModal
-          isModalOpen={isModalOpen}
-          setModalOpen={setModalOpen}
+          isModalOpen={isPasswordModalOpen}
+          setModalOpen={setPasswordModalOpen}
         />
       )}
       <Col span={12}>
         <>
-          <Divider orientation="left">Personal Info</Divider>
-
-          {isPersonalDataEditMode ? (
-            <ProfileInfoForm setEditMode={setPersonalDataEditMode} />
+          {isProfileModalOpen ? (
+            <EditProfileModal
+              isModalOpen={isProfileModalOpen}
+              setModalOpen={setProfileModalOpen}
+            />
           ) : (
-            <ProfileInfoDescription setEditMode={setPersonalDataEditMode} />
+            <ProfileInfoDescription setEditMode={setProfileModalOpen} />
           )}
 
           <Divider orientation="left">Shipping addresses</Divider>
@@ -78,7 +79,7 @@ function ProfilePage() {
 
           <Button
             type="primary"
-            onClick={() => setModalOpen(true)}
+            onClick={() => setPasswordModalOpen(true)}
             style={{ marginTop: '1em' }}
           >
             Add new address

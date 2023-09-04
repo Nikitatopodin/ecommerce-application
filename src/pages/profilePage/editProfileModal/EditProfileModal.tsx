@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Input, message, Row } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
+import { Button, Form, Input, message, Modal } from 'antd';
+import Title from 'antd/es/typography/Title';
 import { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
+import { fieldsProps } from '../../../components/form/userDataForm/formProps/fieldsProps';
 import PersonalDataFormFields from '../../../components/form/userDataForm/PersonalDataFormFields';
-import {
-  fieldsProps,
-  tailFormItemLayout,
-} from '../../../components/form/userDataForm/formProps/fieldsProps';
 import { updateProfile } from '../../../services/customerRequests';
 import { setProfileData } from '../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 
-interface ICallBack {
-  setEditMode: (isEditMode: boolean) => void;
+interface IProps {
+  isModalOpen: boolean;
+  setModalOpen: (isModalOpen: boolean) => void;
 }
 
-function ProfileInfoForm({ setEditMode }: ICallBack) {
+function EditProfileModal({ isModalOpen, setModalOpen }: IProps) {
   const [isEmailError, setEmailError] = useState(false);
   const userData = useAppSelector((state) => state.authorization.userData);
   const dispatch = useAppDispatch();
-
   const onFinish = async (values: Customer) => {
     if (userData) {
       updateProfile(values, userData.version)
@@ -35,7 +33,7 @@ function ProfileInfoForm({ setEditMode }: ICallBack) {
             }),
           );
           message.success('Your personal data is up to date');
-          setEditMode(false);
+          setModalOpen(false);
         })
         .catch(() => {
           setEmailError(true);
@@ -45,36 +43,44 @@ function ProfileInfoForm({ setEditMode }: ICallBack) {
         });
     }
   };
+
   return (
-    <Form
-      name="userDataUpdate"
-      style={{ maxWidth: 400, marginTop: '1em' }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      autoComplete="off"
+    <Modal
+      open={isModalOpen}
+      onCancel={() => setModalOpen(false)}
+      footer={[
+        <Button
+          form="editProfile"
+          key="submit"
+          htmlType="submit"
+          type="primary"
+        >
+          Edit
+        </Button>,
+        <Button
+          form="editProfile"
+          onClick={() => setModalOpen(false)}
+          key="cancel"
+        >
+          Cancel
+        </Button>,
+      ]}
     >
-      <FormItem
-        {...fieldsProps.email.props}
-        initialValue={userData?.email}
-        validateStatus={isEmailError ? 'error' : ''}
-      >
-        <Input placeholder="E-mail" onChange={() => setEmailError(false)} />
-      </FormItem>
-      <PersonalDataFormFields />
-      <Form.Item {...tailFormItemLayout}>
-        <Row>
-          <Col>
-            <Button type="primary" htmlType="submit">
-              Confirm
-            </Button>
-          </Col>
-          <Col offset={2}>
-            <Button onClick={() => setEditMode(false)}>Cancel</Button>
-          </Col>
-        </Row>
-      </Form.Item>
-    </Form>
+      <Title style={{ textAlign: 'center', marginBottom: '1.5em' }} level={3}>
+        Change password
+      </Title>
+      <Form name="editProfile" id="editProfile" onFinish={onFinish}>
+        <FormItem
+          {...fieldsProps.email.props}
+          initialValue={userData?.email}
+          validateStatus={isEmailError ? 'error' : ''}
+        >
+          <Input placeholder="E-mail" onChange={() => setEmailError(false)} />
+        </FormItem>
+        <PersonalDataFormFields />
+      </Form>
+    </Modal>
   );
 }
 
-export default ProfileInfoForm;
+export default EditProfileModal;
