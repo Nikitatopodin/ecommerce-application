@@ -17,6 +17,7 @@ import FooterComponent from '../../layouts/footer/Footer';
 import { activeMenuItemsReducer } from '../../redux/slices/navMenuSlice';
 import { useAppDispatch } from '../../hooks/hooks';
 import Product from '../../pages/ProductPage';
+import { getProductById } from '../../services/customerRequests';
 
 function Layout() {
   const dispatch = useAppDispatch();
@@ -56,8 +57,12 @@ const router = createBrowserRouter(
       />
       <Route path="/catalog" element={<Catalog />} />
       <Route
-        path="/catalog/70e1f084-be81-4c7d-8174-e3112f4aa0f8"
+        path="/catalog/:productId"
         element={<Product />}
+        loader={async ({ params }) => {
+          const data = await getProductById(params.productId!);
+          return data.body;
+        }}
       />
     </Route>,
   ),

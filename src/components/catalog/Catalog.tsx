@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Card, Layout, List, Menu, Select } from 'antd';
 import Sider from 'antd/es/layout/Sider';
@@ -7,6 +8,8 @@ import { Header } from 'antd/es/layout/layout';
 import Meta from 'antd/es/card/Meta';
 import type { MenuProps } from 'antd';
 import CatalogMenu from './CatalogMenu';
+import { getProductById } from '../../services/customerRequests';
+import { productInfoReducer } from '../../redux/slices/productInfoSlice';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -53,6 +56,7 @@ const data = [
     title: 'Happy birthbay',
     image: './hb.JPG',
     description: 'sdlfkhslndf sjdfhlkjdf',
+    id: 'aefd5bf5-bfac-4211-b40b-f029701b461f',
   },
   {
     title: 'Happy birthbay',
@@ -90,14 +94,27 @@ function Catalog(): JSX.Element {
   const [current, setCurrent] = useState('');
   const [selectedSort, setSelectedSort] = useState<string>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log(e.key);
     setCurrent(e.key);
   };
 
-  const openProductInfo: (id: string) => void = (id: string) => {
-    navigate(id);
+  const openProductInfo: (productId: string) => void = (productId: string) => {
+    getProductById(productId).then((productData) => {
+      const info = {
+        name: productData.body.name['en-US'],
+        images: productData.body.masterVariant.images,
+        description: productData.body.description!['en-US'],
+        prices: [
+          productData.body.masterVariant.prices![0],
+          productData.body.variants[0].prices![0],
+        ],
+      };
+      navigate(productId);
+      dispatch(productInfoReducer(info));
+    });
   };
 
   return (
@@ -165,7 +182,7 @@ function Catalog(): JSX.Element {
                   hoverable
                   style={{ width: 240 }}
                   cover={<img alt="example" src="./hb.JPG" />}
-                  onClick={() => openProductInfo(item.id)}
+                  onClick={() => openProductInfo(item.id!)}
                 >
                   <Meta title={item.title} description={item.description} />
                   <div>

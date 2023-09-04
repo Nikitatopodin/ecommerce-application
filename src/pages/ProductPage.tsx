@@ -1,77 +1,124 @@
-import { Button, Col, Row, Image, Carousel } from 'antd';
-import React, { useEffect } from 'react';
-import { getProductById } from '../services/customerRequests';
-import { productInfoReducer } from '../redux/slices/productInfoSlice';
-import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { Button, Col, Row, Image, Carousel, Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { ProductProjection } from '@commercetools/platform-sdk';
+import { useLoaderData } from 'react-router-dom';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
   color: '#fff',
   lineHeight: '160px',
+  width: '25vw',
   textAlign: 'center',
   background: '#364d79',
 };
 
 function Product() {
-  const productID = '70e1f084-be81-4c7d-8174-e3112f4aa0f8';
-  const dispatch = useAppDispatch();
-  const productInfo = useAppSelector((state) => state.productInfo);
+  const [open, setOpen] = useState(false);
 
-  const onClick = () => {
-    getProductById(productID).then((data) => {
-      const info = {
-        name: data.body.name['en-US'],
-        images: data.body.masterVariant.images,
-        description: data.body.description!['en-US'],
-        prices: data.body.masterVariant.prices,
-      };
-      dispatch(productInfoReducer(info));
-    });
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+  const productData: ProductProjection = useLoaderData() as ProductProjection;
+  const [currentSize, setCurrentSize] = useState(0);
+
+  const productInfo = {
+    name: productData.name['en-US'],
+    images: productData.masterVariant.images,
+    description: productData.description!['en-US'],
+    prices: [
+      productData.masterVariant.prices![0],
+      productData.variants[0].prices![0],
+    ],
+  };
+
+  const onSizeButtonClick = (e: EventTarget) => {
+    if (e instanceof Node) {
+      if (e.textContent! === 'Small') {
+        setCurrentSize(1);
+      } else {
+        setCurrentSize(0);
+      }
+    }
   };
 
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
   };
 
-  useEffect(() => {
-    console.log(productInfo);
-  }, [productInfo]);
+  useEffect(() => {}, [currentSize]);
   return (
-    <Row style={{ padding: '2.5em 3em' }}>
-      <Col style={{ width: '50%', marginRight: '10px' }}>
-        <Image.PreviewGroup
-          items={[...productInfo.images.map((image) => image.url)]}
-          preview={{
-            onChange: (current, prev) =>
-              console.log(`current index: ${current}, prev index: ${prev}`),
-          }}
+    <Row style={{ padding: '2.5em 3em', justifyContent: 'center' }}>
+      <Col style={{ width: '25%', marginRight: '10px' }}>
+        <Row style={{ fontWeight: 'bold', margin: '10px 0' }}>
+          {productInfo.name}
+        </Row>
+        <Image
+          src={productInfo.images![0].url}
+          onClick={showModal}
+          preview={false}
+        />
+        <Modal
+          open={open}
+          title={productInfo.name}
+          onCancel={handleCancel}
+          cancelButtonProps={{ style: { display: 'none' } }}
+          okButtonProps={{ style: { display: 'none' } }}
         >
           <Carousel
             afterChange={onChange}
             style={{
               backgroundColor: 'black',
               border: '1px solid black',
-              width: '50%',
+              width: '100%',
               marginLeft: 'auto',
             }}
           >
-            <Image src={productInfo.images[0].url} style={contentStyle} />
+            <Image
+              src={productInfo.images![0].url}
+              style={contentStyle}
+              preview={false}
+            />
+            <Image
+              src={productInfo.images![1].url}
+              style={contentStyle}
+              preview={false}
+            />
           </Carousel>
-        </Image.PreviewGroup>
+        </Modal>
       </Col>
-      <Col style={{ marginLeft: '10px', marginTop: 'auto' }}>
-        <Row style={{ fontWeight: 'bold' }}>{productInfo.name}</Row>
-        <Row>Description: {productInfo.description}</Row>
-        <Row>
-          Price: $
-          {`${Math.trunc(productInfo.prices[0].value.centAmount / 100)}.${(
-            productInfo.prices[0].value.centAmount % 100
-          )
+      <Col style={{ marginLeft: '10px' }}>
+        <Row style={{ fontWeight: 'bold', margin: '10px 0' }}>
+          Size:
+          <Col>
+            <Button
+              style={{ width: '5rem' }}
+              onClick={(e) => onSizeButtonClick(e.target)}
+            >
+              Medium
+            </Button>
+            <Button
+              style={{ width: '5rem' }}
+              onClick={(e) => onSizeButtonClick(e.target)}
+            >
+              Small
+            </Button>
+          </Col>
+        </Row>
+        <Row style={{ margin: '10px 0' }}>
+          <span style={{ fontWeight: 'bold' }}>Description:</span>
+          {productInfo.description}
+        </Row>
+        <Row style={{ margin: '10px 0' }}>
+          <span style={{ fontWeight: 'bold' }}>Price:</span> $
+          {`${Math.trunc(
+            productInfo.prices[currentSize].value.centAmount / 100,
+          )}.${(productInfo.prices[currentSize].value.centAmount % 100)
             .toString()
             .padStart(2, '0')}`}
-        </Row>
-        <Row>
-          <Button onClick={onClick}>Get Product</Button>
         </Row>
       </Col>
     </Row>

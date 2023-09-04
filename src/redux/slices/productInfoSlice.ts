@@ -6,7 +6,7 @@ const productInfoSlice = createSlice({
     name: 'name',
     images: [{ url: 'unknown' }, { url: 'unknown' }],
     description: 'description',
-    prices: [{ value: { centAmount: 0 } }],
+    prices: [{ value: { centAmount: 0 } }, { value: { centAmount: 0 } }],
   },
   reducers: {
     productInfoReducer(state, action) {
