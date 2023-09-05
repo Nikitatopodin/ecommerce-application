@@ -92,7 +92,7 @@ const addAddressId = (
 ) => {
   const apiRoot = createExistingApiRoot();
   const body: MyCustomerUpdate = {
-    version: version + 1,
+    version,
     actions: [
       {
         action: isBilling ? 'addBillingAddressId' : 'addShippingAddressId',

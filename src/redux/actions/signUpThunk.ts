@@ -16,7 +16,7 @@ const signUpThunk =
         if (shippingAddressId) {
           responseWithAddressIds = addAddressId(
             shippingAddressId,
-            response.body.customer.version - 1,
+            response.body.customer.version,
             false,
           );
         }
@@ -25,7 +25,7 @@ const signUpThunk =
           if (billingAddressId) {
             responseWithAddressIds = addAddressId(
               billingAddressId,
-              response.body.customer.version - 1,
+              response.body.customer.version,
               true,
             );
           }
