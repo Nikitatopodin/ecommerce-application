@@ -11,26 +11,19 @@ const signUpThunk =
     signUp(convertFormData(values))
       .then(() => signIn(values))
       .then((response) => {
-        let responseWithAddressIds;
         const shippingAddressId = response.body.customer.addresses[0].id;
-        if (shippingAddressId) {
-          responseWithAddressIds = addAddressId(
-            shippingAddressId,
-            response.body.customer.version,
-            false,
-          );
+        return addAddressId(
+          shippingAddressId!,
+          response.body.customer.version,
+          false,
+        );
+      })
+      .then((response) => {
+        if (response.body.addresses[1]) {
+          const billingAddressId = response.body.addresses[1].id;
+          return addAddressId(billingAddressId!, response.body.version, true);
         }
-        if (response.body.customer.addresses[1]) {
-          const billingAddressId = response.body.customer.addresses[1].id;
-          if (billingAddressId) {
-            responseWithAddressIds = addAddressId(
-              billingAddressId,
-              response.body.customer.version,
-              true,
-            );
-          }
-        }
-        return responseWithAddressIds;
+        return response;
       })
       .then((response) => {
         dispatch(

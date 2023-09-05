@@ -15,15 +15,15 @@ import createExistingApiRoot from './flows/existing';
 import createAnonymousApiRoot from './flows/anonymous';
 import { IProductQueryArgs } from '../types/types';
 
+const signUp = (data: MyCustomerDraft) => {
+  const anonymousApiRoot = createAnonymousApiRoot();
+  return anonymousApiRoot.me().signup().post({ body: data }).execute();
+};
+
 const signIn = (userData: CustomerSignin) => {
   const apiPasswordRoot = createApiRoot(userData.email, userData.password);
   localStorage.removeItem('token');
   return apiPasswordRoot.me().login().post({ body: userData }).execute();
-};
-
-const signUp = (data: MyCustomerDraft) => {
-  const anonymousApiRoot = createAnonymousApiRoot();
-  return anonymousApiRoot.me().signup().post({ body: data }).execute();
 };
 
 const getProfile = (): Promise<ClientResponse<Customer>> => {
