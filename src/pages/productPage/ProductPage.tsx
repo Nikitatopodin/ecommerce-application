@@ -13,6 +13,14 @@ const contentStyle: React.CSSProperties = {
   background: '#364d79',
 };
 
+const productCarouselStyle: React.CSSProperties = {
+  backgroundColor: 'black',
+  border: '1px solid black',
+  maxWidth: '350px',
+  marginTop: '10px',
+  marginLeft: 'auto',
+};
+
 function Product() {
   const [open, setOpen] = useState(false);
 
@@ -57,23 +65,36 @@ function Product() {
   useEffect(() => {}, [currentSize]);
   return (
     <Row
+      gutter={[16, 16]}
       style={{
-        padding: '2.5em 3em',
-        margin: '2.5em 3em',
+        padding: '1em 2em',
+        margin: '1em 2em',
         justifyContent: 'center',
         border: '1px solid black',
       }}
     >
       <Col className="product-left">
-        <Row className="product-title" style={{ flexGrow: '1' }}>
-          {productInfo.name}
-        </Row>
-        <Image
-          src={productInfo.images![0].url}
-          onClick={showModal}
-          preview={false}
-          className="product-img"
-        />
+        <Row className="product-title">{productInfo.name}</Row>
+        <Carousel
+          afterChange={onChange}
+          style={productCarouselStyle}
+          dots={{ className: 'dots' }}
+        >
+          <Image
+            src={productInfo.images![0].url}
+            style={contentStyle}
+            preview={false}
+            className="product-img"
+            onClick={showModal}
+          />
+          <Image
+            src={productInfo.images![1].url}
+            style={contentStyle}
+            preview={false}
+            className="product-img"
+            onClick={showModal}
+          />
+        </Carousel>
         <Modal
           open={open}
           title={productInfo.name}
@@ -88,7 +109,6 @@ function Product() {
               backgroundColor: 'black',
               border: '1px solid black',
               width: '100%',
-              marginLeft: 'auto',
             }}
             dots={{ className: 'dots' }}
           >
@@ -106,7 +126,7 @@ function Product() {
         </Modal>
       </Col>
       <Col
-        style={{ marginLeft: '10px', marginTop: '2rem' }}
+        style={{ marginTop: '2.5rem', paddingLeft: '10px' }}
         className="product-info"
       >
         <Row style={{ fontWeight: 'bold', margin: '10px 0' }}>
