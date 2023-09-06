@@ -66,14 +66,14 @@ const authSubMenu = getItem(
   profileStyle,
   <UserOutlined style={userIconStyle} />,
   undefined,
-  [getItem('Sign Out', 'logout')],
+  [getItem('Profile', 'profile'), getItem('Sign Out', 'logout')],
 );
 
 const items: MenuProps['items'] = [
   getItem('IN MEMORIES', 'logo', logoStyle, undefined, 'logo'),
   getItem('Home', ''),
   getItem('About us', 'aboutUs'),
-  getItem('Catalogue', 'catalogue'),
+  getItem('Catalog', 'catalog'),
   getItem('Contacts', 'contacts'),
 ];
 
@@ -95,11 +95,16 @@ export default function NavComponent(): JSX.Element {
       dispatch(activeMenuItemsReducer(''));
       setCurrent('');
       navigate('/');
+    } else if (e.key === 'catalog') {
+      dispatch(activeMenuItemsReducer(e.key));
+      setCurrent(e.key);
+      navigate(`/catalog`);
     } else if (e.key === 'logout') {
-      dispatch(loginReducer(false));
+      dispatch(loginReducer({ isAuthorized: false, userData: null }));
       dispatch(activeMenuItemsReducer(''));
       setCurrent('');
       navigate('/');
+      localStorage.removeItem('token');
       message.success('You have successfully signed out');
     } else {
       dispatch(activeMenuItemsReducer(e.key));

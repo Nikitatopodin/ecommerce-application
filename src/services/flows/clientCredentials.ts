@@ -1,24 +1,33 @@
 import {
   ClientBuilder,
   type HttpMiddlewareOptions,
-  AnonymousAuthMiddlewareOptions,
+  AuthMiddlewareOptions,
+  TokenStore,
 } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import apiDataUser from '../apiData';
+import apiDataUser from './apiData';
 
 export enum ResponseCodes {
-  signupError = 'DuplicateField',
+  loginError = 'InvalidCredentials',
 }
 
 const projectKey = apiDataUser.PROJECT_KEY;
 const scopes = [apiDataUser.SCOPES];
 
-const options: AnonymousAuthMiddlewareOptions = {
+const options: AuthMiddlewareOptions = {
   host: apiDataUser.AUTH_URL,
   projectKey: apiDataUser.PROJECT_KEY,
   credentials: {
     clientId: apiDataUser.CLIENT_ID,
     clientSecret: apiDataUser.CLIENT_SECRET,
+  },
+  tokenCache: {
+    get() {
+      return JSON.parse(localStorage.getItem('token')!) as TokenStore;
+    },
+    set(cache) {
+      localStorage.setItem('token', JSON.stringify(cache));
+    },
   },
   scopes,
   fetch,
@@ -31,13 +40,15 @@ const httpMiddlewareOptions: HttpMiddlewareOptions = {
 
 const ctpClient = new ClientBuilder()
   .withProjectKey(projectKey)
-  .withAnonymousSessionFlow(options)
+  .withClientCredentialsFlow(options)
   .withHttpMiddleware(httpMiddlewareOptions)
   .withLoggerMiddleware()
   .build();
 
-const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
+const apiClienCredentialsRoot = createApiBuilderFromCtpClient(
+  ctpClient,
+).withProjectKey({
   projectKey: apiDataUser.PROJECT_KEY,
 });
 
-export default apiRoot;
+export default apiClienCredentialsRoot;

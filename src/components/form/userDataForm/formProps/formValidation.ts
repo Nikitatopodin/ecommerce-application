@@ -27,6 +27,37 @@ const formValidation: IFormValidation = {
         'Password must not contain leading or trailing whitespace. Please make sure to remove any spaces and try again.',
     },
   ],
+  firstName: [
+    {
+      required: true,
+      message: 'Please input your first name',
+      whitespace: true,
+    },
+    {
+      pattern: /^[a-zA-Z ]+$/,
+      message:
+        'First name you entered contains invalid characters. Please ensure that it only contains alphabetic characters (A-Z or a-z) and try again',
+    },
+  ],
+  lastName: [
+    {
+      required: true,
+      message: 'Please input your last name',
+      whitespace: true,
+    },
+    {
+      pattern: /^[a-zA-Z ]+$/,
+      message:
+        'Last name you entered contains invalid characters. Please ensure that it only contains alphabetic characters (A-Z or a-z) and try again',
+    },
+  ],
+  dateOfBirth: [
+    {
+      type: 'object' as const,
+      required: true,
+      message: 'Please select time!',
+    },
+  ],
   country: [
     {
       required: true,

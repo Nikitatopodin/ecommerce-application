@@ -1,0 +1,11 @@
+.profileInfo{
+    display: flex;
+    height: 3em;
+    align-items: center;
+    padding: .5em;
+}
+.profileInfo:hover{
+    cursor: pointer;
+    background-color: #f5f4f2;
+    transition: all 500ms;
+}

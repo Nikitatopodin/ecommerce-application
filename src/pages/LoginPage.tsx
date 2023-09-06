@@ -1,24 +1,14 @@
-import React, { useState } from 'react';
-import {
-  Button,
-  Col,
-  Form,
-  FormInstance,
-  Input,
-  Row,
-  Typography,
-  message,
-} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Form, FormInstance, Input, Row, Typography } from 'antd';
 import { CustomerSignin } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { useNavigate } from 'react-router-dom';
-import { checkData, signIn } from '../services/login/apiLogIn';
-import { ResponseCodes } from '../services/login/apiRoot';
-import { useAppDispatch } from '../hooks/hooks';
-import { loginReducer } from '../redux/slices/authorizationSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import {
+  errorLayout,
   fieldsProps,
   tailFormItemLayout,
-} from '../components/form/fieldsProps';
+} from '../components/form/userDataForm/formProps/fieldsProps';
+import signInThunk from '../redux/actions/signInThunk';
 
 function LoginPage(): JSX.Element {
   const [form] = Form.useForm();
@@ -27,25 +17,21 @@ function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const isAuthorized = useAppSelector(
+    (state) => state.authorization.isAuthorized,
+  );
+
+  useEffect(() => {
+    if (isAuthorized) {
+      navigate('/');
+    }
+  }, [isAuthorized]);
+
+  const SUCCESS_MESSAGE = 'You have successfully signed in';
+
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {
-    checkData(values)
-      .then(() => {
-        signIn(values).then(() => {
-          dispatch(loginReducer(true));
-          message.success('You have successfully signed in');
-          navigate('/');
-        });
-      })
-      .catch((err) => {
-        const errorMessage = err.body.errors[0].code;
-        if (errorMessage === ResponseCodes.loginError) {
-          setLoginError(true);
-          message.error(
-            "Sorry, the provided account doesn't exist. Please check the email or password or consider creating a new account",
-          );
-        }
-      });
+    dispatch(signInThunk(values, setLoginError, SUCCESS_MESSAGE));
   };
 
   return (
@@ -58,21 +44,28 @@ function LoginPage(): JSX.Element {
     >
       <h1 style={{ textAlign: 'center' }}>Sign in</h1>
 
-      <Form.Item {...fieldsProps.email.props}>
+      <Form.Item
+        {...fieldsProps.email.props}
+        validateStatus={isLoginError ? 'error' : ''}
+      >
         <Input placeholder="E-mail" id="login-email" />
       </Form.Item>
 
-      <Form.Item {...fieldsProps.password.props}>
+      <Form.Item
+        {...fieldsProps.password.props}
+        validateStatus={isLoginError ? 'error' : ''}
+      >
         <Input.Password placeholder="Password" id="login-password" />
       </Form.Item>
-      <Form.Item>
-        {isLoginError && (
+
+      {isLoginError && (
+        <Form.Item {...errorLayout}>
           <Typography.Text type="danger">
             Sorry, the provided account doesn&apos;t exist. Please check the
             email or password or consider creating a new account
           </Typography.Text>
-        )}
-      </Form.Item>
+        </Form.Item>
+      )}
 
       <Form.Item {...tailFormItemLayout}>
         <Row gutter={16}>

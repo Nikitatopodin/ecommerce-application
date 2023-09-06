@@ -1,6 +1,6 @@
 import formValidation from './formValidation';
 
-const formItemLayout = {
+export const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 8 },
@@ -20,6 +20,19 @@ export const tailFormItemLayout = {
     sm: {
       span: 16,
       offset: 8,
+    },
+  },
+};
+
+export const errorLayout = {
+  wrapperCol: {
+    xs: {
+      span: 16,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 6,
     },
   },
 };
@@ -58,6 +71,14 @@ export const fieldsProps = {
       rules: formValidation.email,
     },
   },
+  currentPassword: {
+    props: {
+      name: 'currentPassword',
+      label: 'Current Password',
+      hasFeedback: true,
+      rules: formValidation.password,
+    },
+  },
   password: {
     props: {
       name: 'password',
@@ -85,18 +106,7 @@ export const fieldsProps = {
       name: 'firstName',
       label: 'First name',
       hasFeedback: true,
-      rules: [
-        {
-          required: true,
-          message: 'Please input your first name',
-          whitespace: true,
-        },
-        {
-          pattern: /^[a-zA-Z ]+$/,
-          message:
-            'First name you entered contains invalid characters. Please ensure that it only contains alphabetic characters (A-Z or a-z) and try again',
-        },
-      ],
+      rules: formValidation.firstName,
     },
   },
   lastName: {
@@ -104,37 +114,20 @@ export const fieldsProps = {
       name: 'lastName',
       label: 'Last name',
       hasFeedback: true,
-      rules: [
-        {
-          required: true,
-          message: 'Please input your last name',
-          whitespace: true,
-        },
-        {
-          pattern: /^[a-zA-Z ]+$/,
-          message:
-            'Last name you entered contains invalid characters. Please ensure that it only contains alphabetic characters (A-Z or a-z) and try again',
-        },
-      ],
+      rules: formValidation.lastName,
     },
   },
-  birthday: {
+  dateOfBirth: {
     props: {
-      name: 'birthday',
+      name: 'dateOfBirth',
       label: 'Date of birth',
       hasFeedback: true,
     },
-    rules: [
-      {
-        type: 'object' as const,
-        required: true,
-        message: 'Please select time!',
-      },
-    ],
+    rules: formValidation.dateOfBirth,
   },
-  oneAddress: {
+  isAddressSingle: {
     props: {
-      name: 'oneAddress',
+      name: 'isAddressSingle',
       valuePropName: 'checked',
       ...tailFormItemLayout,
     },

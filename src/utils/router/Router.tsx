@@ -1,20 +1,25 @@
 import React, { useEffect } from 'react';
 import {
-  Route,
-  createRoutesFromElements,
   createBrowserRouter,
+  createRoutesFromElements,
   Outlet,
+  Route,
   useLocation,
 } from 'react-router-dom';
 import Main from '../../pages/MainPage';
 import ErrorPage from '../../pages/ErrorPage';
 import LoginPage from '../../pages/LoginPage';
-import Registration from '../../pages/RegistrationPage';
+import Registration from '../../pages/registartionPage/RegistrationPage';
 import PrivateRoute from './PrivateRoute';
 import HeaderComponent from '../../layouts/header/Header';
 import FooterComponent from '../../layouts/footer/Footer';
 import { activeMenuItemsReducer } from '../../redux/slices/navMenuSlice';
 import { useAppDispatch } from '../../hooks/hooks';
+import ProfilePage from '../../pages/profilePage/ProfilePage';
+import Product from '../../pages/productPage/ProductPage';
+import { getProductById } from '../../services/customerRequests';
+import PrivateNonAuthRoute from './PrivateNonAuthRoute';
+import CatalogPage from '../../pages/CatalogPage';
 
 function Layout() {
   const dispatch = useAppDispatch();
@@ -51,6 +56,24 @@ const router = createBrowserRouter(
             <Registration />
           </PrivateRoute>
         }
+      />
+      <Route path="/catalog/*" element={<CatalogPage />} />
+      <Route
+        path="/profile"
+        element={
+          <PrivateNonAuthRoute>
+            <ProfilePage />
+          </PrivateNonAuthRoute>
+        }
+      />
+
+      <Route
+        path="/catalog/:productId"
+        element={<Product />}
+        loader={async ({ params }) => {
+          const data = await getProductById(params.productId!);
+          return data.body;
+        }}
       />
     </Route>,
   ),

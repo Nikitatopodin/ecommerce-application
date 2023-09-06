@@ -1,10 +1,11 @@
 import {
   ClientBuilder,
   type HttpMiddlewareOptions,
+  TokenStore,
   PasswordAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import apiDataUser from '../apiData';
+import apiDataUser from './apiData';
 
 export enum ResponseCodes {
   loginError = 'InvalidCredentials',
@@ -25,6 +26,14 @@ function createApiRoot(email: string, password: string) {
         password,
       },
     },
+    tokenCache: {
+      get() {
+        return JSON.parse(localStorage.getItem('token')!) as TokenStore;
+      },
+      set(cache) {
+        localStorage.setItem('token', JSON.stringify(cache));
+      },
+    },
     scopes,
     fetch,
   };
@@ -40,7 +49,7 @@ function createApiRoot(email: string, password: string) {
     .withHttpMiddleware(httpMiddlewareOptions)
     .withLoggerMiddleware()
     .build();
-
+  localStorage.removeItem('token');
   return createApiBuilderFromCtpClient(ctpClient).withProjectKey({
     projectKey: apiDataUser.PROJECT_KEY,
   });
