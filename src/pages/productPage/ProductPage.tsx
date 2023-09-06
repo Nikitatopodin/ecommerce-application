@@ -76,6 +76,7 @@ function Product() {
       <Col className="product-left">
         <Row className="product-title">{productInfo.name}</Row>
         <Carousel
+          autoplay
           afterChange={onChange}
           style={productCarouselStyle}
           dots={{ className: 'dots' }}
