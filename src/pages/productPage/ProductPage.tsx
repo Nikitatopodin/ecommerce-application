@@ -22,6 +22,7 @@ const productCarouselStyle: React.CSSProperties = {
 };
 
 function Product() {
+  const productData: ProductProjection = useLoaderData() as ProductProjection;
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -31,7 +32,7 @@ function Product() {
   const handleCancel = () => {
     setOpen(false);
   };
-  const productData: ProductProjection = useLoaderData() as ProductProjection;
+
   const [currentSize, setCurrentSize] = useState(0);
 
   const productInfo = {

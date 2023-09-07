@@ -57,7 +57,7 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       />
-      <Route path="/catalog/*" element={<CatalogPage />} />
+      <Route path="/catalog" element={<CatalogPage />} />
       <Route
         path="/profile"
         element={
@@ -68,6 +68,7 @@ const router = createBrowserRouter(
       />
 
       <Route
+        index
         path="/catalog/:productId"
         element={<Product />}
         loader={async ({ params }) => {

@@ -29,7 +29,7 @@ function PersonalDataFormFields() {
           ...fieldsProps.dateOfBirth.rules,
           () => ({
             validator(_, value) {
-              if (Date.now() - value.$d.getTime() > 378691200000) {
+              if (value && Date.now() - value.$d.getTime() > 378691200000) {
                 return Promise.resolve();
               }
               return Promise.reject(
