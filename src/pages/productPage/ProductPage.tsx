@@ -21,7 +21,7 @@ const productCarouselStyle: React.CSSProperties = {
   marginLeft: 'auto',
 };
 
-function Product() {
+function ProductPage() {
   const productData: ProductProjection = useLoaderData() as ProductProjection;
   const [open, setOpen] = useState(false);
 
@@ -185,4 +185,4 @@ function Product() {
     </Row>
   );
 }
-export default Product;
+export default ProductPage;

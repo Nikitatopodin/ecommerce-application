@@ -2,7 +2,6 @@
   "name": "ecommerce-application",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
     "@commercetools/importapi-sdk": "^4.6.2",

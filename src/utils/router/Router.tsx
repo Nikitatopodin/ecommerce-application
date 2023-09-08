@@ -16,7 +16,7 @@ import FooterComponent from '../../layouts/footer/Footer';
 import { activeMenuItemsReducer } from '../../redux/slices/navMenuSlice';
 import { useAppDispatch } from '../../hooks/hooks';
 import ProfilePage from '../../pages/profilePage/ProfilePage';
-import Product from '../../pages/productPage/ProductPage';
+import ProductPage from '../../pages/productPage/ProductPage';
 import { getProductById } from '../../services/customerRequests';
 import PrivateNonAuthRoute from './PrivateNonAuthRoute';
 import CatalogPage from '../../pages/CatalogPage';
@@ -69,8 +69,8 @@ const router = createBrowserRouter(
 
       <Route
         index
-        path="/catalog/:productId"
-        element={<Product />}
+        path="catalog/:productId"
+        element={<ProductPage />}
         loader={async ({ params }) => {
           const data = await getProductById(params.productId!);
           return data.body;
