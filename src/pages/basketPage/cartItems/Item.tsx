@@ -1,10 +1,18 @@
 import React from 'react';
 import { Card } from 'antd';
 
-function Item() {
+interface IProps {
+  name: string;
+  price: string;
+  picture: string;
+}
+
+function Item({ name, price, picture }: IProps) {
   return (
     <Card style={{ width: '90%' }}>
-      <p>Card content</p>
+      <p>{name}</p>
+      <p>{price}</p>
+      <img alt="Item" src={picture} style={{ width: '30vw' }} />
     </Card>
   );
 }
