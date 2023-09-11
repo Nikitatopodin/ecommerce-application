@@ -20,6 +20,7 @@ import ProductPage from '../../pages/productPage/ProductPage';
 import { getProductById } from '../../services/customerRequests';
 import PrivateNonAuthRoute from './PrivateNonAuthRoute';
 import CatalogPage from '../../pages/CatalogPage';
+import BasketPage from '../../pages/basketPage/BasketPage';
 
 function Layout() {
   const dispatch = useAppDispatch();
@@ -63,6 +64,22 @@ const router = createBrowserRouter(
         element={
           <PrivateNonAuthRoute>
             <ProfilePage />
+          </PrivateNonAuthRoute>
+        }
+      />
+      <Route
+        path="/catalog"
+        element={
+          <PrivateNonAuthRoute>
+            <CatalogPage />
+          </PrivateNonAuthRoute>
+        }
+      />
+      <Route
+        path="/cart"
+        element={
+          <PrivateNonAuthRoute>
+            <BasketPage />
           </PrivateNonAuthRoute>
         }
       />
