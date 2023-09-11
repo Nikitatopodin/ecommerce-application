@@ -1,7 +1,13 @@
 import { message } from 'antd';
 import { DispatchType } from '../../hooks/hooks';
-import { updateCart } from '../../services/customerRequests';
+import {
+  createCart,
+  getCart,
+  updateCart,
+} from '../../services/customerRequests';
 import { setProfileData } from '../slices/authorizationSlice';
+import getCartThunk from './getCartThunk';
+import { updateCartReducer } from '../slices/cartSlice';
 
 const updateCartThunk =
   (
@@ -11,18 +17,21 @@ const updateCartThunk =
     quantity: number,
     cartId: string,
   ) =>
-  async (dispatch: DispatchType) => {
+  (dispatch: DispatchType) => {
     try {
+      dispatch(getCartThunk());
       updateCart(version, productId, variantId, quantity, cartId)
         .then((response) => {
+          console.log('update cart thunk', response);
           dispatch(
-              // todo: replace with new reducer setCart
-            setProfileData({
-              ...response.body,
+            updateCartReducer({
+              ...response,
               version: response.body.version,
             }),
           );
-          message.success('Great choice! You\'ve successfully added the item to your cart.');
+          message.success(
+            "Great choice! You've successfully added the item to your cart.",
+          );
         })
         .catch(() => {
           message.error('Something went wrong, please try again');

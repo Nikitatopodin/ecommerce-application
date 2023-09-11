@@ -178,6 +178,11 @@ const getCategories = () => {
   return apiRoot.categories().get().execute();
 };
 
+const getCart = () => {
+  const apiRoot = createExistingApiRoot();
+  return apiRoot.me().activeCart().get().execute();
+}
+
 const createCart = (currency: string) => {
   const apiRoot = createExistingApiRoot();
   const body = {
@@ -222,6 +227,7 @@ export {
   getProducts,
   getProductById,
   getCategories,
+  getCart,
   createCart,
   updateCart,
 };
