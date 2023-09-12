@@ -75,14 +75,7 @@ const router = createBrowserRouter(
           </PrivateNonAuthRoute>
         }
       />
-      <Route
-        path="/cart"
-        element={
-          <PrivateNonAuthRoute>
-            <BasketPage />
-          </PrivateNonAuthRoute>
-        }
-      />
+      <Route path="/cart" element={<BasketPage />} />
 
       <Route
         index
