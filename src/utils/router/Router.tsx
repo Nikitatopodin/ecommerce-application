@@ -20,6 +20,7 @@ import ProductPage from '../../pages/productPage/ProductPage';
 import { getProductById } from '../../services/customerRequests';
 import PrivateNonAuthRoute from './PrivateNonAuthRoute';
 import CatalogPage from '../../pages/CatalogPage';
+import AboutUsPage from '../../pages/aboutUs/AboutUsPage';
 
 function Layout() {
   const dispatch = useAppDispatch();
@@ -76,6 +77,7 @@ const router = createBrowserRouter(
           return data.body;
         }}
       />
+      <Route path="/about" element={<AboutUsPage />} />
     </Route>,
   ),
 );

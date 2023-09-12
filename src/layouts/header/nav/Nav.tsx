@@ -72,7 +72,7 @@ const authSubMenu = getItem(
 const items: MenuProps['items'] = [
   getItem('IN MEMORIES', 'logo', logoStyle, undefined, 'logo'),
   getItem('Home', ''),
-  getItem('About us', 'aboutUs'),
+  getItem('About us', 'about'),
   getItem('Catalog', 'catalog'),
   getItem('Contacts', 'contacts'),
 ];
