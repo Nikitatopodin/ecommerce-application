@@ -1,11 +1,6 @@
 import { message } from 'antd';
 import { DispatchType } from '../../hooks/hooks';
-import {
-  createCart,
-  getCart,
-  updateCart,
-} from '../../services/customerRequests';
-import { setProfileData } from '../slices/authorizationSlice';
+import { updateCart } from '../../services/customerRequests';
 import getCartThunk from './getCartThunk';
 import { updateCartReducer } from '../slices/cartSlice';
 

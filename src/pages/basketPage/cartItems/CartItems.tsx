@@ -10,13 +10,7 @@ function CartItems() {
     <>
       <Title level={3}>Shopping Cart</Title>
       {items?.map((item) => {
-        return (
-          <Item
-            name={item.name['en-US']}
-            price={`${item.totalPrice.centAmount} ${item.totalPrice.currencyCode}`}
-            picture={item.variant.images![0].url}
-          />
-        );
+        return <Item item={item} key={item.id} />;
       })}
     </>
   );

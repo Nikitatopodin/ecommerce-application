@@ -47,8 +47,9 @@ export default function NavComponent(): JSX.Element {
   const isAuthorized = useAppSelector(
     (state) => state.authorization.isAuthorized,
   );
-  // todo: replace with a real value, when get it
-  const cartItemsCount = 10;
+  const cartItemsCount = useAppSelector(
+    (state) => state.cart.cart?.totalLineItemQuantity,
+  );
   const activeItem = useAppSelector((state) => state.navMenu.activeKey);
 
   function getItem(
@@ -97,7 +98,6 @@ export default function NavComponent(): JSX.Element {
     [getItem('Profile', 'profile'), getItem('Sign Out', 'logout')],
   );
 
-  // todo: replace with a real count value, when get it
   const cart = getItem(
     '',
     'cart',

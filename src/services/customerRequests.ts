@@ -181,7 +181,7 @@ const getCategories = () => {
 const getCart = () => {
   const apiRoot = createExistingApiRoot();
   return apiRoot.me().activeCart().get().execute();
-}
+};
 
 const createCart = (currency: string) => {
   const apiRoot = createExistingApiRoot();
