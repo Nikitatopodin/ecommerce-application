@@ -6,15 +6,7 @@ import styles from './SummaryInfo.module.css';
 import { useAppSelector } from '../../../hooks/hooks';
 
 function SummaryInfo() {
-  const cartItemsCount = useAppSelector(
-    (state) => state.cart.cart?.totalLineItemQuantity,
-  );
-  const totalCartPrice = useAppSelector(
-    (state) => state.cart.cart?.totalPrice.centAmount,
-  );
-  const currencyCode = useAppSelector(
-    (state) => state.cart.cart?.totalPrice.currencyCode,
-  );
+  const cart = useAppSelector((state) => state.cart.cart);
 
   return (
     <Card className={styles.summaryCard}>
@@ -23,13 +15,15 @@ function SummaryInfo() {
       </Title>
       <Row>
         <Text type="secondary" style={{ fontSize: '1em' }}>
-          {cartItemsCount}
-          {cartItemsCount && cartItemsCount > 1 ? ' items' : ' item'}
+          {cart?.totalLineItemQuantity}
+          {cart?.totalLineItemQuantity && cart.totalLineItemQuantity > 1
+            ? ' items'
+            : ' item'}
         </Text>
       </Row>
       <Row>
         <Text type="secondary" style={{ fontSize: '1em', marginBottom: '1em' }}>
-          Total: {totalCartPrice} {currencyCode}
+          Total: {cart?.totalPrice.centAmount} {cart?.totalPrice.currencyCode}
         </Text>
       </Row>
       <Button type="primary">Checkout</Button>

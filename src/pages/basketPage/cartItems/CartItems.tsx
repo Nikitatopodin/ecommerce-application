@@ -1,6 +1,6 @@
 import React from 'react';
 import Title from 'antd/es/typography/Title';
-import Item from './Item';
+import Item from './Item/Item';
 import { useAppSelector } from '../../../hooks/hooks';
 
 function CartItems() {

@@ -1,32 +1,35 @@
 import { message } from 'antd';
 import { DispatchType } from '../../hooks/hooks';
-import { addCartItem } from '../../services/customerRequests';
-import getCartThunk from './getCartThunk';
+import { removeCartItem } from '../../services/customerRequests';
 import { updateCartReducer } from '../slices/cartSlice';
 
-const updateCartThunk =
+const removeCartItemThunk =
   (
     version: number,
-    productId: string,
-    variantId: number,
-    quantity: number,
     cartId: string,
+    lineItemId: string,
+    quantity: number,
+    currencyCode: string,
+    centAmount: number,
   ) =>
   (dispatch: DispatchType) => {
     try {
-      dispatch(getCartThunk());
-      addCartItem(version, productId, variantId, quantity, cartId)
+      removeCartItem(
+        version,
+        cartId,
+        lineItemId,
+        quantity,
+        currencyCode,
+        centAmount,
+      )
         .then((response) => {
-          console.log('update cart thunk', response);
           dispatch(
             updateCartReducer({
               ...response,
               version: response.body.version,
             }),
           );
-          message.success(
-            "Great choice! You've successfully added the item to your cart.",
-          );
+          message.success('The item has been removed from your cart.');
         })
         .catch(() => {
           message.error('Something went wrong, please try again');
@@ -36,4 +39,4 @@ const updateCartThunk =
     }
   };
 
-export default updateCartThunk;
+export default removeCartItemThunk;

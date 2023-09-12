@@ -2,12 +2,19 @@ import React from 'react';
 import { LineItem } from '@commercetools/platform-sdk';
 import { Card, Col, InputNumber, Row } from 'antd';
 import Title from 'antd/es/typography/Title';
+import { DeleteOutlined } from '@ant-design/icons';
+import styles from './Item.module.css';
+import removeCartItemThunk from '../../../../redux/actions/removeCartItemThunk';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 
 interface IProps {
   item: LineItem;
 }
 
 function Item({ item }: IProps) {
+  const cart = useAppSelector((state) => state.cart.cart);
+  const dispatch = useAppDispatch();
+  console.log('ITEM', cart, cart?.totalPrice.centAmount);
   // todo: implement quantity change
   return (
     <Card style={{ width: '95%' }}>
@@ -29,6 +36,21 @@ function Item({ item }: IProps) {
             max={100}
             defaultValue={item.quantity}
             onChange={(value) => console.log(value)}
+          />
+          <DeleteOutlined
+            className={styles.binIcon}
+            onClick={() =>
+              dispatch(
+                removeCartItemThunk(
+                  cart!.version,
+                  cart!.id,
+                  item.id,
+                  item.quantity,
+                  item.totalPrice.currencyCode,
+                  item.totalPrice.centAmount,
+                ),
+              )
+            }
           />
         </Col>
       </Row>

@@ -1,0 +1,8 @@
+.binIcon {
+    margin-left: 1em;
+    font-size: 16px;
+}
+
+.binIcon:hover {
+    cursor: pointer;
+}

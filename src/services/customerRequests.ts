@@ -191,7 +191,7 @@ const createCart = (currency: string) => {
   return apiRoot.me().carts().post({ body }).execute();
 };
 
-const updateCart = (
+const addCartItem = (
   version: number,
   productId: string,
   variantId: number,
@@ -207,6 +207,32 @@ const updateCart = (
         productId,
         variantId,
         quantity,
+      },
+    ],
+  };
+  return apiRoot.me().carts().withId({ ID: cartId }).post({ body }).execute();
+};
+
+const removeCartItem = (
+  version: number,
+  cartId: string,
+  lineItemId: string,
+  quantity: number,
+  currencyCode: string,
+  centAmount: number,
+) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCartUpdate = {
+    version,
+    actions: [
+      {
+        action: 'removeLineItem',
+        lineItemId,
+        quantity,
+        externalPrice: {
+          currencyCode,
+          centAmount,
+        },
       },
     ],
   };
@@ -229,5 +255,6 @@ export {
   getCategories,
   getCart,
   createCart,
-  updateCart,
+  addCartItem,
+  removeCartItem,
 };
