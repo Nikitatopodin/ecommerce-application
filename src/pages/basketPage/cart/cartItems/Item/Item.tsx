@@ -4,8 +4,8 @@ import { Card, Col, InputNumber, Row } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { DeleteOutlined } from '@ant-design/icons';
 import styles from './Item.module.css';
-import removeCartItemThunk from '../../../../redux/actions/removeCartItemThunk';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
+import removeCartItemThunk from '../../../../../redux/actions/removeCartItemThunk';
+import { useAppDispatch, useAppSelector } from '../../../../../hooks/hooks';
 
 interface IProps {
   item: LineItem;
@@ -14,10 +14,9 @@ interface IProps {
 function Item({ item }: IProps) {
   const cart = useAppSelector((state) => state.cart.cart);
   const dispatch = useAppDispatch();
-  console.log('ITEM', cart, cart?.totalPrice.centAmount);
   // todo: implement quantity change
   return (
-    <Card style={{ width: '95%' }}>
+    <Card className={styles.itemCard}>
       <Row>
         <Col span={12}>
           <img

@@ -1,0 +1,18 @@
+.summaryCard {
+    width: 25vw;
+    height: 40vw;
+    margin-top: 4.8em;
+}
+
+.title {
+    margin-top: 0;
+}
+
+@media (max-width: 700px) {
+    .summaryCard {
+        width: 100%;
+        height: unset;
+        margin-top: 0;
+        margin-bottom: 2em;
+    }
+}

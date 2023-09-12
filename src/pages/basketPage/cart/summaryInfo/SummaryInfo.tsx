@@ -3,7 +3,7 @@ import { Button, Card, Row } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import styles from './SummaryInfo.module.css';
-import { useAppSelector } from '../../../hooks/hooks';
+import { useAppSelector } from '../../../../hooks/hooks';
 
 function SummaryInfo() {
   const cart = useAppSelector((state) => state.cart.cart);
