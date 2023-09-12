@@ -13,7 +13,6 @@ interface IPerson {
 function PersonCard({ name, title, picture }: IPerson) {
   return (
     <Card
-      hoverable
       className={styles.card}
       cover={
         <img
@@ -23,7 +22,9 @@ function PersonCard({ name, title, picture }: IPerson) {
         />
       }
     >
-      <Title level={3}>{name}</Title>
+      <Title level={3} className={styles.title}>
+        {name}
+      </Title>
       <Text>{title}</Text>
     </Card>
   );
