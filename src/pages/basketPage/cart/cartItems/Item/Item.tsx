@@ -17,7 +17,6 @@ function Item({ item }: IProps) {
   // todo: implement quantity change
 
   const removeItem = () => {
-    console.log('remove', cart?.version, cart?.id, item);
     dispatch(
       removeCartItemThunk(
         cart!.version,

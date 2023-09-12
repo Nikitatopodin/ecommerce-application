@@ -17,7 +17,6 @@ const updateCartThunk =
       dispatch(getCartThunk());
       addCartItem(version, productId, variantId, quantity, cartId)
         .then((response) => {
-          console.log('update cart thunk', response);
           dispatch(
             updateCartReducer({
               ...response,
