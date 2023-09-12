@@ -15,6 +15,21 @@ function Item({ item }: IProps) {
   const cart = useAppSelector((state) => state.cart.cart);
   const dispatch = useAppDispatch();
   // todo: implement quantity change
+
+  const removeItem = () => {
+    console.log('remove', cart?.version, cart?.id, item);
+    dispatch(
+      removeCartItemThunk(
+        cart!.version,
+        cart!.id,
+        item.id,
+        item.quantity,
+        item.totalPrice.currencyCode,
+        item.totalPrice.centAmount,
+      ),
+    );
+  };
+
   return (
     <Card className={styles.itemCard}>
       <Row>
@@ -38,18 +53,7 @@ function Item({ item }: IProps) {
           />
           <DeleteOutlined
             className={styles.binIcon}
-            onClick={() =>
-              dispatch(
-                removeCartItemThunk(
-                  cart!.version,
-                  cart!.id,
-                  item.id,
-                  item.quantity,
-                  item.totalPrice.currencyCode,
-                  item.totalPrice.centAmount,
-                ),
-              )
-            }
+            onClick={() => removeItem()}
           />
         </Col>
       </Row>

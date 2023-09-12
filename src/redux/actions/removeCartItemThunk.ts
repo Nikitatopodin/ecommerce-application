@@ -25,7 +25,7 @@ const removeCartItemThunk =
         .then((response) => {
           dispatch(
             updateCartReducer({
-              ...response,
+              ...response.body,
               version: response.body.version,
             }),
           );
