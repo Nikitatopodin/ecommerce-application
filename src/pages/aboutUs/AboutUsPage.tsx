@@ -1,5 +1,7 @@
 import React from 'react';
-import PersonCard from './PersonCard';
+import PersonCard from './personCard/PersonCard';
+import styles from './AboutUsPage.module.css';
+import mashaPicture from '../../assets/images/mashabogdanova.jpg';
 
 function AboutUsPage() {
   const aboutUsInfo = [
@@ -7,24 +9,24 @@ function AboutUsPage() {
       id: 1,
       name: 'Maria Bogdanova',
       title: 'Team lead',
-      picture: '../../assets/images/mashabogdanova.jpg',
+      picture: mashaPicture,
     },
     {
       id: 2,
       name: 'Maria Bogdanova',
       title: 'Team lead',
-      picture: '../../assets/images/mashabogdanova.jpg',
+      picture: mashaPicture,
     },
     {
       id: 3,
       name: 'Maria Bogdanova',
       title: 'Team lead',
-      picture: '../../assets/images/mashabogdanova.jpg',
+      picture: mashaPicture,
     },
   ];
 
   return (
-    <>
+    <div className={styles.aboutUs}>
       {aboutUsInfo.map((person) => (
         <PersonCard
           key={person.id}
@@ -33,7 +35,7 @@ function AboutUsPage() {
           picture={person.picture}
         />
       ))}
-    </>
+    </div>
   );
 }
 

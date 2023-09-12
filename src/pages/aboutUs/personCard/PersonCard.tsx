@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
+import styles from './PersonCard.module.css';
 
 interface IPerson {
   name: string;
@@ -13,10 +14,16 @@ function PersonCard({ name, title, picture }: IPerson) {
   return (
     <Card
       hoverable
-      style={{ width: 240 }}
-      cover={<img alt="teammate" src={picture} />}
+      className={styles.card}
+      cover={
+        <img
+          alt="teammate"
+          src={picture}
+          style={{ borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+        />
+      }
     >
-      <Title>{name}</Title>
+      <Title level={3}>{name}</Title>
       <Text>{title}</Text>
     </Card>
   );
