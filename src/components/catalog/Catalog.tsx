@@ -14,7 +14,7 @@ import {
   addDataAttributes,
   addDataCatalog,
   addSortCatalog,
-  addTotalCards,
+  setTotalCards,
 } from '../../redux/slices/catalogSlice';
 import styles from './Сatalog.module.css';
 import BreadcrumbComponent from './breadcrumb/BreadcrumbComponent';
@@ -102,7 +102,7 @@ function Catalog(): JSX.Element {
     getProducts(queryParams)
       .then((data) => {
         dispatch(addDataCatalog(data.body.results));
-        dispatch(addTotalCards(data.body.total));
+        dispatch(setTotalCards(data.body.total));
       })
       .catch(console.log);
   }, [settings]);
@@ -209,7 +209,7 @@ function Catalog(): JSX.Element {
             md: 2,
             lg: 3,
             xl: 4,
-            xxl: 4,
+            xxl: 5,
           }}
           dataSource={dataProducts}
           renderItem={(item) => (

@@ -58,8 +58,14 @@ const catalogSlice = createSlice({
     addSearchString(state, action) {
       state.settings.search = action.payload;
     },
-    addTotalCards(state, action) {
+    setTotalCards(state, action) {
       state.settings.totalCards = action.payload;
+    },
+    setCurrentPage(state, action) {
+      state.settings.currentPage = action.payload;
+    },
+    setCardsOnPage(state, action) {
+      state.settings.cardsOnPage = action.payload;
     },
     resetFilter(state) {
       state.settings = {
@@ -85,7 +91,9 @@ export const {
   setAttributes,
   changePrice,
   addSearchString,
-  addTotalCards,
+  setTotalCards,
+  setCurrentPage,
+  setCardsOnPage,
   resetFilter,
 } = catalogSlice.actions;
 
