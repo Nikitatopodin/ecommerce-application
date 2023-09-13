@@ -11,6 +11,9 @@ interface ICatalogData {
     attributes: string[];
     price: [number, number];
     search: string;
+    totalCards: number;
+    currentPage: number;
+    cardsOnPage: number;
   };
 }
 
@@ -24,6 +27,9 @@ const initialState: ICatalogData = {
     attributes: [],
     price: [0.3, 5],
     search: '',
+    totalCards: 21,
+    currentPage: 1,
+    cardsOnPage: 10,
   },
 };
 
@@ -52,6 +58,9 @@ const catalogSlice = createSlice({
     addSearchString(state, action) {
       state.settings.search = action.payload;
     },
+    addTotalCards(state, action) {
+      state.settings.totalCards = action.payload;
+    },
     resetFilter(state) {
       state.settings = {
         sort: null,
@@ -60,6 +69,9 @@ const catalogSlice = createSlice({
         attributes: [],
         price: [0.3, 5],
         search: '',
+        totalCards: 21,
+        currentPage: 1,
+        cardsOnPage: 10,
       };
     },
   },
@@ -73,6 +85,7 @@ export const {
   setAttributes,
   changePrice,
   addSearchString,
+  addTotalCards,
   resetFilter,
 } = catalogSlice.actions;
 

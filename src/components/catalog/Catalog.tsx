@@ -14,9 +14,11 @@ import {
   addDataAttributes,
   addDataCatalog,
   addSortCatalog,
+  addTotalCards,
 } from '../../redux/slices/catalogSlice';
 import styles from './Сatalog.module.css';
 import BreadcrumbComponent from './breadcrumb/BreadcrumbComponent';
+import PaginationCatalog from './pagination/PaginationCatalog';
 
 interface ICategory {
   label: string;
@@ -69,6 +71,9 @@ function Catalog(): JSX.Element {
 
   useEffect(() => {
     const queryParams: IProductQueryArgs = {
+      limit: settings.cardsOnPage,
+      offset:
+        settings.currentPage * settings.cardsOnPage - settings.cardsOnPage,
       priceCurrency: 'USD',
       filter: [
         `variants.scopedPrice.value.centAmount:range (${
@@ -97,6 +102,7 @@ function Catalog(): JSX.Element {
     getProducts(queryParams)
       .then((data) => {
         dispatch(addDataCatalog(data.body.results));
+        dispatch(addTotalCards(data.body.total));
       })
       .catch(console.log);
   }, [settings]);
@@ -268,6 +274,7 @@ function Catalog(): JSX.Element {
             </List.Item>
           )}
         />
+        <PaginationCatalog />
       </Layout>
     </Layout>
   );
