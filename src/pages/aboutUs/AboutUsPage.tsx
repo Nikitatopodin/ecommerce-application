@@ -51,6 +51,20 @@ function AboutUsPage() {
           />
         ))}
       </div>
+      <Row className={styles.RSSInfo}>
+        <a href="https://rs.school/">
+          <img
+            src="https://rs.school/images/rs_school.svg"
+            alt="RS School logo"
+            className={styles.RSSLogo}
+          />
+          <Row>
+            <Text type="secondary">
+              The website was created during <br /> the RSS JS/Frontend course
+            </Text>
+          </Row>
+        </a>
+      </Row>
     </>
   );
 }

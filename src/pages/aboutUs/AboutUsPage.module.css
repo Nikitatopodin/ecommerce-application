@@ -4,6 +4,19 @@
     gap: 1em;
     padding: 2em 4em;
 }
+.RSSInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1em;
+    text-align: center;
+}
+.RSSLogo {
+    display: block;
+    margin: auto;
+    padding-bottom: .5em;
+    width: 8vw;
+}
 
 @media (max-width: 700px) {
     .personCards {
