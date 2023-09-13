@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { DispatchType } from '../../hooks/hooks';
 import { signIn } from '../../services/customerRequests';
 import { loginReducer } from '../slices/authorizationSlice';
+import getCartThunk from './getCartThunk';
 
 const signInThunk =
   (
@@ -12,21 +13,17 @@ const signInThunk =
   ) =>
   async (dispatch: DispatchType) => {
     try {
-      signIn(values)
-        .then((response) => {
-          const userData = response.body.customer;
-          dispatch(loginReducer({ isAuthorized: true, userData }));
-          if (successMessage) {
-            message.success(`${successMessage}`);
-          }
-        })
-        .catch(() => {
-          if (setLoginError) {
-            setLoginError(true);
-          }
-        });
+      const response = await signIn(values);
+      const userData = response.body.customer;
+      dispatch(loginReducer({ isAuthorized: true, userData }));
+      dispatch(getCartThunk());
+      if (successMessage) {
+        message.success(`${successMessage}`);
+      }
     } catch (e) {
-      console.log(e);
+      if (setLoginError) {
+        setLoginError(true);
+      }
     }
   };
 

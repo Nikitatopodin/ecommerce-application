@@ -1,11 +1,11 @@
 .logo.ant-menu-item-selected {
-  color: black;
+    color: black;
 }
 
 .logo::after {
-  display: none;
+    display: none;
 }
 
 .logo::before {
-  display: none;
+    display: none;
 }
