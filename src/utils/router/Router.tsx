@@ -9,7 +9,7 @@ import {
 import Main from '../../pages/MainPage';
 import ErrorPage from '../../pages/ErrorPage';
 import LoginPage from '../../pages/LoginPage';
-import Registration from '../../pages/registartionPage/RegistrationPage';
+import Registration from '../../pages/registrationPage/RegistrationPage';
 import PrivateRoute from './PrivateRoute';
 import HeaderComponent from '../../layouts/header/Header';
 import FooterComponent from '../../layouts/footer/Footer';
