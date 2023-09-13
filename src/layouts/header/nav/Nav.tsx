@@ -7,7 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { activeMenuItemsReducer } from '../../../redux/slices/navMenuSlice';
+import { updateCartReducer } from '../../../redux/slices/cartSlice';
 
+// todo: вынести стили в стилевый файл можно?
 const userIconStyle: React.CSSProperties = {
   fontSize: 16,
 };
@@ -122,6 +124,7 @@ export default function NavComponent(): JSX.Element {
   }, [activeItem]);
 
   const onClick: MenuProps['onClick'] = (e) => {
+    // todo: поменять на switch
     if (e.key === 'logo') {
       dispatch(activeMenuItemsReducer(''));
       setCurrent('');
@@ -134,7 +137,9 @@ export default function NavComponent(): JSX.Element {
       setCurrent(e.key);
       navigate('/cart');
     } else if (e.key === 'logout') {
+      // todo: инкапсулировать логику в thunk
       dispatch(loginReducer({ isAuthorized: false, userData: null }));
+      dispatch(updateCartReducer({ cart: null }));
       dispatch(activeMenuItemsReducer(''));
       setCurrent('');
       navigate('/');
