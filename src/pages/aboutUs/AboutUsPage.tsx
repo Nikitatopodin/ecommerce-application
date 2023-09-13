@@ -11,7 +11,11 @@ function AboutUsPage() {
     {
       id: 1,
       name: 'Maria Bogdanova',
-      title: 'Team lead',
+      title:
+        'I graduated from Moscow State University with a degree in psychology. ' +
+        "I used to work as a children's neuropsychologist. Some time ago I moved to Poland " +
+        'and started studying front-end development at RS School. After this course I hope ' +
+        'to find a job as a Frontend developer.',
       picture: mashaPicture,
     },
     {

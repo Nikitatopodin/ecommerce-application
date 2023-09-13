@@ -1,14 +1,14 @@
 .aboutUsInfo {
     display: flex;
     justify-content: space-between;
-    padding: 2em 7em 0;
+    padding: 2em 9em 0;
 }
 
 .personCards {
     display: flex;
     justify-content: space-between;
     gap: 1em;
-    padding: 2em 7em;
+    padding: 2em 10em;
 }
 
 .RSSInfo {
@@ -25,6 +25,7 @@
     padding-bottom: .5em;
     width: 8vw;
 }
+
 .RSSLogo:hover {
     animation: pump 500ms;
 }
@@ -41,14 +42,18 @@
     }
 }
 
-@media (max-width: 750px) {
-    .aboutUsInfo {
+@media (max-width: 950px) {
+    .aboutUsInfo, .personCards {
         padding: 2em 2em 0;
     }
+}
+
+@media (max-width: 750px) {
     .personCards {
         flex-direction: column;
         align-items: center;
     }
+
     .RSSLogo {
         display: block;
         margin: auto;

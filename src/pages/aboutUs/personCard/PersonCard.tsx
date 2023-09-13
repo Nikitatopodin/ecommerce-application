@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, Row } from 'antd';
+import { GithubOutlined } from '@ant-design/icons';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import styles from './PersonCard.module.css';
@@ -26,6 +27,12 @@ function PersonCard({ name, title, picture }: IPerson) {
         {name}
       </Title>
       <Text>{title}</Text>
+      <Row className={styles.githubLink}>
+        <a href="https://github.com/MashaBogdanova">
+          <GithubOutlined />
+          <Text type="secondary"> Explore GitHub profile</Text>
+        </a>
+      </Row>
     </Card>
   );
 }
