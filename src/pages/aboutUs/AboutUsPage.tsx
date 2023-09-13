@@ -30,7 +30,7 @@ function AboutUsPage() {
 
   return (
     <>
-      <Row style={{ padding: '2em 4em 0' }}>
+      <Row className={styles.aboutUsInfo}>
         <Title level={2} style={{ marginTop: 0 }}>
           About Us
         </Title>

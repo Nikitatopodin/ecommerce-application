@@ -22,7 +22,7 @@ function PersonCard({ name, title, picture }: IPerson) {
         />
       }
     >
-      <Title level={3} className={styles.title}>
+      <Title level={4} className={styles.title}>
         {name}
       </Title>
       <Text>{title}</Text>
