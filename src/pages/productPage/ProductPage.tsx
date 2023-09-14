@@ -47,7 +47,8 @@ function ProductPage() {
     ],
   };
   const getProductId = (element: LineItem) =>
-    element.productId === productData.id;
+    element.productId === productData.id &&
+    element.variant.id === currentSize + 1;
 
   const addItemToCart = () => {
     dispatch(
