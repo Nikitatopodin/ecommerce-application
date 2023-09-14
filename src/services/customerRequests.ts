@@ -217,9 +217,9 @@ const removeCartItem = (
   version: number,
   cartId: string,
   lineItemId: string,
-  quantity: number,
   currencyCode: string,
   centAmount: number,
+  quantity?: number,
 ) => {
   const apiRoot = createExistingApiRoot();
   const body: MyCartUpdate = {

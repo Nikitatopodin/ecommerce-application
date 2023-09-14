@@ -1,8 +1,11 @@
 import './ProductPage.css';
 import { Button, Col, Row, Image, Carousel, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { ProductProjection } from '@commercetools/platform-sdk';
+import { LineItem, ProductProjection } from '@commercetools/platform-sdk';
 import { useLoaderData } from 'react-router-dom';
+import updateCartThunk from '../../redux/actions/updateCartThunk';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import removeCartItemThunk from '../../redux/actions/removeCartItemThunk';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -24,16 +27,9 @@ const productCarouselStyle: React.CSSProperties = {
 function ProductPage() {
   const productData: ProductProjection = useLoaderData() as ProductProjection;
   const [open, setOpen] = useState(false);
-
-  const showModal = () => {
-    setOpen(true);
-  };
-
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
   const [currentSize, setCurrentSize] = useState(0);
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cart.cart);
 
   const productInfo = {
     name: productData.name['en-US'],
@@ -49,6 +45,40 @@ function ProductPage() {
         productData.variants[0].prices![0].discounted?.value,
       ],
     ],
+  };
+  const getProductId = (element: LineItem) =>
+    element.productId === productData.id &&
+    element.variant.id === currentSize + 1;
+
+  const addItemToCart = () => {
+    dispatch(
+      updateCartThunk(
+        cart!.version,
+        productData.id,
+        currentSize + 1,
+        1,
+        cart!.id,
+      ),
+    );
+  };
+  const removeItemfromCart = () => {
+    dispatch(
+      removeCartItemThunk(
+        cart!.version,
+        cart!.id,
+        cart!.lineItems.find(getProductId)!.id,
+        'USD',
+        productInfo.prices[currentSize][0]!.centAmount,
+      ),
+    );
+  };
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
   };
 
   const onSizeButtonClick = (e: EventTarget) => {
@@ -181,6 +211,17 @@ function ProductPage() {
             </div>
           </div>
         </Row>
+        <Button
+          onClick={
+            cart?.lineItems.some(getProductId)
+              ? removeItemfromCart
+              : addItemToCart
+          }
+        >
+          {cart?.lineItems.some(getProductId)
+            ? 'Remove from Cart'
+            : 'Add to Cart'}
+        </Button>
       </Col>
     </Row>
   );
