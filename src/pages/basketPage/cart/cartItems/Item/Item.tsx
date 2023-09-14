@@ -22,9 +22,9 @@ function Item({ item }: IProps) {
         cart!.version,
         cart!.id,
         item.id,
-        item.quantity,
         item.totalPrice.currencyCode,
         item.totalPrice.centAmount,
+        item.quantity,
       ),
     );
   };

@@ -17,12 +17,7 @@ const updateCartThunk =
       dispatch(getCartThunk());
       addCartItem(version, productId, variantId, quantity, cartId)
         .then((response) => {
-          dispatch(
-            updateCartReducer({
-              ...response,
-              version: response.body.version,
-            }),
-          );
+          dispatch(updateCartReducer(response.body));
           message.success(
             "Great choice! You've successfully added the item to your cart.",
           );

@@ -8,9 +8,9 @@ const removeCartItemThunk =
     version: number,
     cartId: string,
     lineItemId: string,
-    quantity: number,
     currencyCode: string,
     centAmount: number,
+    quantity?: number,
   ) =>
   (dispatch: DispatchType) => {
     try {
@@ -18,9 +18,9 @@ const removeCartItemThunk =
         version,
         cartId,
         lineItemId,
-        quantity,
         currencyCode,
         centAmount,
+        quantity,
       )
         .then((response) => {
           dispatch(
