@@ -15,7 +15,7 @@ function BasketPage() {
       navigate('/catalog');
     }
   }, [isNavigate]);
-  console.log(items);
+
   if (items && items.length > 0) {
     return <Cart />;
   }
