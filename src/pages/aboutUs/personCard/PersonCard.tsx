@@ -7,11 +7,13 @@ import styles from './PersonCard.module.css';
 
 interface IPerson {
   name: string;
-  title: string;
+  role: string;
+  about: string;
+  githubLink: string;
   picture: string;
 }
 
-function PersonCard({ name, title, picture }: IPerson) {
+function PersonCard({ name, role, about, githubLink, picture }: IPerson) {
   return (
     <Card
       className={styles.card}
@@ -19,16 +21,26 @@ function PersonCard({ name, title, picture }: IPerson) {
         <img
           alt="teammate"
           src={picture}
-          style={{ borderTopRightRadius: 10, borderTopLeftRadius: 10 }}
+          style={{
+            borderTopRightRadius: 10,
+            borderTopLeftRadius: 10,
+            height: 316,
+            objectFit: 'cover',
+          }}
         />
       }
     >
-      <Title level={4} className={styles.title}>
+      <Title level={4} className={styles.about}>
         {name}
       </Title>
-      <Text>{title}</Text>
+      <Text type="secondary" italic>
+        {role}
+      </Text>
+      <Row>
+        <Text>{about}</Text>
+      </Row>
       <Row className={styles.githubLink}>
-        <a href="https://github.com/MashaBogdanova">
+        <a href={githubLink}>
           <GithubOutlined />
           <Text type="secondary"> Explore GitHub profile</Text>
         </a>

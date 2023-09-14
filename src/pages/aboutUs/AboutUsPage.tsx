@@ -5,29 +5,39 @@ import Title from 'antd/es/typography/Title';
 import PersonCard from './personCard/PersonCard';
 import styles from './AboutUsPage.module.css';
 import mashaPicture from '../../assets/images/mashabogdanova.jpg';
+import ilyaPicture from '../../assets/images/ilyakhokhanov.jpg';
 
 function AboutUsPage() {
   const aboutUsInfo = [
     {
       id: 1,
       name: 'Maria Bogdanova',
-      title:
+      role: 'Team lead, frontend developer',
+      about:
         'I graduated from Moscow State University with a degree in psychology. ' +
         "I used to work as a children's neuropsychologist. Some time ago I moved to Poland " +
         'and started studying front-end development at RS School. After this course I hope ' +
         'to find a job as a Frontend developer.',
+      githubLink: 'https://github.com/ilyakhokhanov',
       picture: mashaPicture,
     },
     {
       id: 2,
-      name: 'Maria Bogdanova',
-      title: 'Team lead',
-      picture: mashaPicture,
+      name: 'Ilya Khokhanov',
+      role: 'Frontend developer, content manager',
+      about:
+        'Frontend developer Ilya, from Yaroslavl. Started studying frontend in February 2022.' +
+        'Stack: JS, TS, React, Redux.\n' +
+        'Idea of the project was submitted by my wife, who is the author of postcards.',
+      githubLink: 'https://github.com/ilyakhokhanov',
+      picture: ilyaPicture,
     },
     {
       id: 3,
       name: 'Maria Bogdanova',
-      title: 'Team lead',
+      role: 'Frontend developer, crisis manager',
+      about: 'Team lead',
+      githubLink: 'https://github.com/ilyakhokhanov',
       picture: mashaPicture,
     },
   ];
@@ -50,7 +60,9 @@ function AboutUsPage() {
           <PersonCard
             key={person.id}
             name={person.name}
-            title={person.title}
+            role={person.role}
+            about={person.about}
+            githubLink={person.githubLink}
             picture={person.picture}
           />
         ))}
