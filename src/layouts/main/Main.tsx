@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout, Typography } from 'antd';
 import styles from './Main.module.css';
-import HomePageCarousel from './HomePageCarousel';
+import HomePageCarousel from './carousel/HomePageCarousel';
 
 const { Content } = Layout;
 const { Title } = Typography;

@@ -1,0 +1,11 @@
+.carousel {
+    display: flex;
+    width: 55vw;
+    margin: 5vh auto;
+}
+
+@media (max-width: 950px) {
+    .carousel {
+        width: 90vw;
+    }
+}
