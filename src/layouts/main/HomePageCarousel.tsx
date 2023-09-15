@@ -5,10 +5,6 @@ import CarouselCard from './carouselCard/CarouselCard';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import homePageCarouselThunk from '../../redux/actions/homePageCarouselThunk';
 
-// interface IProps {
-//   cards: string[][];
-// }
-
 function HomePageCarousel() {
   const dispatch = useAppDispatch();
   const cards = useAppSelector((state) => state.homePageCarousel.cards);
@@ -17,7 +13,7 @@ function HomePageCarousel() {
   }, []);
 
   return (
-    <Carousel autoplay className={styles.carousel}>
+    <Carousel autoplay dots={false} className={styles.carousel}>
       {cards.map((cardsPack) => (
         <CarouselCard cardsPack={cardsPack} key={Date.now()} />
       ))}

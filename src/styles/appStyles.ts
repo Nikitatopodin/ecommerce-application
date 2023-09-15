@@ -8,7 +8,7 @@ const styles = {
     colorTextBase: '#4f4f4f',
     colorPrimaryBorder: '#f0eeeb',
     colorPrimaryBgHover: '#f7f6f4',
-    colorPrimaryBg: '#fcfbfa',
+    colorPrimaryBg: '#f5f5f5',
   },
   components: {
     Button: {

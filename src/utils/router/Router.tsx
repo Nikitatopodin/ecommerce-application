@@ -30,11 +30,19 @@ function Layout() {
     dispatch(activeMenuItemsReducer(activeMenuItem));
   }, [location]);
   return (
-    <>
+    <div
+      style={{
+        height: '100vh',
+        backgroundColor: '#f5f5f5',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
       <HeaderComponent />
       <Outlet />
       <FooterComponent />
-    </>
+    </div>
   );
 }
 

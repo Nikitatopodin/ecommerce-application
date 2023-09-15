@@ -15,11 +15,11 @@ const titleStyle: React.CSSProperties = {
 export default function MainComponent() {
   return (
     <Content className={styles.main}>
-      <HomePageCarousel />
       <Title style={titleStyle}>
         POSTCARDS THAT WILL INCREASE YOUR AVERAGE CHECK <br />
         AND WILL BE REMEMBERED BY YOUR CLIENTS
       </Title>
+      <HomePageCarousel />
     </Content>
   );
 }
