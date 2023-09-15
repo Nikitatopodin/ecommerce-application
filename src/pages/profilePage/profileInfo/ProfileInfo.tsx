@@ -30,11 +30,12 @@ function ProfileInfo({ setEditMode }: IProps) {
     <Row gutter={20} align="top">
       <Col span={20}>
         <Row justify="center">
-          <Title>
+          <Title style={{ margin: '0.5em' }}>
             {userData?.firstName} {userData?.lastName}
           </Title>
         </Row>
         <Row justify="center">
+          <Text>E-mail:&nbsp;</Text>
           <Text type="secondary" italic>
             {userData?.email}
           </Text>
@@ -55,7 +56,7 @@ function ProfileInfo({ setEditMode }: IProps) {
       <Col span={4}>
         <Popover content={popoverContent} arrow={false} placement="bottom">
           <SettingOutlined
-            style={{ color: '#bdbdbd' }}
+            style={{ color: '#bdbdbd', fontSize: 16, marginTop: '2.5em' }}
             onClick={() => {
               setEditMode(true);
             }}

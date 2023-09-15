@@ -1,5 +1,6 @@
 import React from 'react';
-import { Badge, Button, Card, Descriptions, DescriptionsProps } from 'antd';
+import { Badge, Button, Card, Row } from 'antd';
+import Text from 'antd/es/typography/Text';
 import { BaseAddress } from '@commercetools/platform-sdk';
 import removeAddressThunk from '../../../redux/actions/removeAddressThunk';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
@@ -21,33 +22,32 @@ function AddressCard({ setEditMode, address }: ICardProps) {
   );
   const dispatch = useAppDispatch();
 
-  const addresses: DescriptionsProps['items'] = [
-    {
-      key: '1',
-      label: 'Postal code',
-      children: address.postalCode,
-    },
-    {
-      key: '2',
-      label: 'Country',
-      children: address.country === 'RU' ? 'Russia' : 'USA',
-    },
-    {
-      key: '3',
-      label: 'City',
-      children: address.city,
-    },
-    {
-      key: '4',
-      label: 'Street',
-      children: address.streetName,
-    },
-  ];
   return (
-    <Card size="small" style={{ marginTop: '.5em' }}>
-      <Descriptions layout="vertical" items={addresses} />
-      <Button type="link" onClick={() => setEditMode(true)}>
-        Change address
+    <Card
+      size="small"
+      style={{ marginTop: '.5em', margin: 'auto', paddingLeft: '1em' }}
+    >
+      <Row>
+        <Text type="secondary" italic>
+          {address.postalCode}
+        </Text>
+      </Row>
+      <Row>
+        <Text type="secondary" italic>
+          {address.country === 'RU' ? 'Russia' : 'USA'}, {address.city}
+        </Text>
+      </Row>
+      <Row>
+        <Text type="secondary" italic>
+          {address.streetName}
+        </Text>
+      </Row>
+      <Button
+        type="link"
+        onClick={() => setEditMode(true)}
+        style={{ padding: 0 }}
+      >
+        Edit
       </Button>
       <Button
         type="link"
@@ -57,7 +57,7 @@ function AddressCard({ setEditMode, address }: ICardProps) {
           }
         }}
       >
-        Delete address
+        Delete
       </Button>
     </Card>
   );

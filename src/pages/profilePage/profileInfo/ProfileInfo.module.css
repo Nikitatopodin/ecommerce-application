@@ -1,7 +1,6 @@
 .profileInfo{
     display: flex;
     height: 3em;
-    align-items: center;
     padding: .5em;
 }
 .profileInfo:hover{
