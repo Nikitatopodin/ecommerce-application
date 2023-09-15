@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pagination, PaginationProps } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import {
@@ -39,7 +39,7 @@ function PaginationCatalog() {
     }
   }
 
-  changeCardsOnPage();
+  useEffect(() => changeCardsOnPage(), []);
 
   window.addEventListener('resize', () => changeCardsOnPage());
 
