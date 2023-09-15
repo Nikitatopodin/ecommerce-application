@@ -4,6 +4,7 @@ import { Card, Col, InputNumber, Row } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { DeleteOutlined } from '@ant-design/icons';
 import styles from './Item.module.css';
+import changeProductQuantityThunk from '../../../../../redux/actions/changeProductQuantityThunk';
 import removeCartItemThunk from '../../../../../redux/actions/removeCartItemThunk';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/hooks';
 
@@ -48,7 +49,16 @@ function Item({ item }: IProps) {
             min={1}
             max={100}
             defaultValue={item.quantity}
-            onChange={(value) => console.log(value)}
+            onChange={(value) =>
+              dispatch(
+                changeProductQuantityThunk(
+                  cart!.version,
+                  item.id,
+                  cart!.id,
+                  value!,
+                ),
+              )
+            }
           />
           <DeleteOutlined
             className={styles.binIcon}

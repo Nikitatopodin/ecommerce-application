@@ -239,6 +239,27 @@ const removeCartItem = (
   return apiRoot.me().carts().withId({ ID: cartId }).post({ body }).execute();
 };
 
+const changeProductQuantity = (
+  version: number,
+  lineItemId: string,
+  cartId: string,
+  quantity: number,
+) => {
+  const apiRoot = createExistingApiRoot();
+
+  const body: MyCartUpdate = {
+    version,
+    actions: [
+      {
+        action: 'changeLineItemQuantity',
+        lineItemId,
+        quantity,
+      },
+    ],
+  };
+  return apiRoot.me().carts().withId({ ID: cartId }).post({ body }).execute();
+};
+
 export {
   signIn,
   signUp,
@@ -257,4 +278,5 @@ export {
   createCart,
   addCartItem,
   removeCartItem,
+  changeProductQuantity,
 };
