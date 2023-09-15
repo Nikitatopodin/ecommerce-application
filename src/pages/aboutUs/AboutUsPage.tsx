@@ -4,15 +4,16 @@ import Text from 'antd/es/typography/Text';
 import Title from 'antd/es/typography/Title';
 import PersonCard from './personCard/PersonCard';
 import styles from './AboutUsPage.module.css';
-import mashaPicture from '../../assets/images/mashabogdanova.jpg';
-import ilyaPicture from '../../assets/images/ilyakhokhanov.jpg';
+import mashaPicture from '../../assets/images/IMG_9893.jpg';
+import ilyaPicture from '../../assets/images/IMG_9892.jpg';
+// import nikitaPicture from '../../assets/images/IMG_9892.jpg';
 
 function AboutUsPage() {
   const aboutUsInfo = [
     {
       id: 1,
       name: 'Maria Bogdanova',
-      role: 'Team lead, frontend developer',
+      role: 'Frontend developer, team lead',
       about:
         'I graduated from Moscow State University with a degree in psychology. ' +
         "I used to work as a children's neuropsychologist. Some time ago I moved to Poland " +
@@ -35,10 +36,10 @@ function AboutUsPage() {
     {
       id: 3,
       name: 'Maria Bogdanova',
-      role: 'Frontend developer, crisis manager',
+      role: 'Frontend developer, problem solving manager',
       about: 'Team lead',
       githubLink: 'https://github.com/ilyakhokhanov',
-      picture: mashaPicture,
+      picture: ilyaPicture,
     },
   ];
 
@@ -50,9 +51,9 @@ function AboutUsPage() {
         </Title>
         <Text>
           The online store In Memories offers stunning designer greeting cards
-          for any occasion. The website was implemented using the React
-          framework with Redux and the Ant Design library. To organize our work,
-          we used the Jira task scheduler.
+          for any occasion. The website was created during the RSS JS/Frontend
+          course using the React framework with Redux and the Ant Design
+          library.
         </Text>
       </Row>
       <div className={styles.personCards}>
@@ -74,11 +75,6 @@ function AboutUsPage() {
             alt="RS School logo"
             className={styles.RSSLogo}
           />
-          <Row>
-            <Text type="secondary">
-              The website was created during <br /> the RSS JS/Frontend course
-            </Text>
-          </Row>
         </a>
       </Row>
     </>
