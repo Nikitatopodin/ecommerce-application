@@ -6,7 +6,7 @@ import PersonCard from './personCard/PersonCard';
 import styles from './AboutUsPage.module.css';
 import mashaPicture from '../../assets/images/IMG_9893.jpg';
 import ilyaPicture from '../../assets/images/IMG_9892.jpg';
-// import nikitaPicture from '../../assets/images/IMG_9892.jpg';
+import nikitaPicture from '../../assets/images/IMG_9907.jpg';
 
 function AboutUsPage() {
   const aboutUsInfo = [
@@ -15,10 +15,9 @@ function AboutUsPage() {
       name: 'Maria Bogdanova',
       role: 'Frontend developer, team lead',
       about:
-        'I graduated from Moscow State University with a degree in psychology. ' +
-        "I used to work as a children's neuropsychologist. Some time ago I moved to Poland " +
-        'and started studying front-end development at RS School. After this course I hope ' +
-        'to find a job as a Frontend developer.',
+        'Russian emigrant, who used to work as a children neuropsychologist. ' +
+        "Now she's studying Frontend development and hopes to find her dream job in Poland. " +
+        'Organized team work processes and code review, implemented profile, log in, about us and home page.',
       githubLink: 'https://github.com/ilyakhokhanov',
       picture: mashaPicture,
     },
@@ -27,19 +26,22 @@ function AboutUsPage() {
       name: 'Ilya Khokhanov',
       role: 'Frontend developer, content manager',
       about:
-        'Frontend developer Ilya, from Yaroslavl. Started studying frontend in February 2022.' +
-        'Stack: JS, TS, React, Redux.\n' +
-        'Idea of the project was submitted by my wife, who is the author of postcards.',
+        'Frontend developer from Yaroslavl. Started studying frontend in February 2022. ' +
+        'Idea of the project was submitted by his wife, who is the postcards designer. ' +
+        'Implemented catalog and registration page, configured cards photos, descriptions and categories.',
       githubLink: 'https://github.com/ilyakhokhanov',
       picture: ilyaPicture,
     },
     {
       id: 3,
-      name: 'Maria Bogdanova',
+      name: 'Nikita Bykovsky',
       role: 'Frontend developer, problem solving manager',
-      about: 'Team lead',
-      githubLink: 'https://github.com/ilyakhokhanov',
-      picture: ilyaPicture,
+      about:
+        'Former translator who is trying his best at studying Frontend development. ' +
+        'May be at some point he will become a Fullstack developer. ' +
+        'Installed main project packages, implemented base layout and product page, made tests and configured deployment.',
+      githubLink: 'https://github.com/Nikitatopodin',
+      picture: nikitaPicture,
     },
   ];
 
@@ -51,9 +53,9 @@ function AboutUsPage() {
         </Title>
         <Text>
           The online store In Memories offers stunning designer greeting cards
-          for any occasion. The website was created during the RSS JS/Frontend
-          course using the React framework with Redux and the Ant Design
-          library.
+          for any occasion. The website was created during the{' '}
+          <a href="https://rs.school/">RSS JS/Frontend course</a> using the
+          React framework with Redux and the Ant Design library.
         </Text>
       </Row>
       <div className={styles.personCards}>
