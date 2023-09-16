@@ -1,0 +1,11 @@
+.cart {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+@media (max-width: 700px) {
+    .cart {
+        flex-direction: column;
+        padding: 0 1em;
+    }
+}

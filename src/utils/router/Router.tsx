@@ -9,7 +9,7 @@ import {
 import Main from '../../pages/MainPage';
 import ErrorPage from '../../pages/ErrorPage';
 import LoginPage from '../../pages/LoginPage';
-import Registration from '../../pages/registartionPage/RegistrationPage';
+import Registration from '../../pages/registrationPage/RegistrationPage';
 import PrivateRoute from './PrivateRoute';
 import HeaderComponent from '../../layouts/header/Header';
 import FooterComponent from '../../layouts/footer/Footer';
@@ -20,6 +20,7 @@ import ProductPage from '../../pages/productPage/ProductPage';
 import { getProductById } from '../../services/customerRequests';
 import PrivateNonAuthRoute from './PrivateNonAuthRoute';
 import CatalogPage from '../../pages/CatalogPage';
+import BasketPage from '../../pages/basketPage/BasketPage';
 import AboutUsPage from '../../pages/aboutUs/AboutUsPage';
 
 function Layout() {
@@ -74,6 +75,15 @@ const router = createBrowserRouter(
           </PrivateNonAuthRoute>
         }
       />
+      <Route
+        path="/catalog"
+        element={
+          <PrivateNonAuthRoute>
+            <CatalogPage />
+          </PrivateNonAuthRoute>
+        }
+      />
+      <Route path="/cart" element={<BasketPage />} />
 
       <Route
         index

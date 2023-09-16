@@ -6,6 +6,7 @@ import {
 import {
   BaseAddress,
   ClientResponse,
+  MyCartUpdate,
   type MyCustomerDraft,
   MyCustomerUpdate,
 } from '@commercetools/platform-sdk';
@@ -177,6 +178,88 @@ const getCategories = () => {
   return apiRoot.categories().get().execute();
 };
 
+const getCart = () => {
+  const apiRoot = createExistingApiRoot();
+  return apiRoot.me().activeCart().get().execute();
+};
+
+const createCart = (currency: string) => {
+  const apiRoot = createExistingApiRoot();
+  const body = {
+    currency,
+  };
+  return apiRoot.me().carts().post({ body }).execute();
+};
+
+const addCartItem = (
+  version: number,
+  productId: string,
+  variantId: number,
+  quantity: number,
+  cartId: string,
+) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCartUpdate = {
+    version,
+    actions: [
+      {
+        action: 'addLineItem',
+        productId,
+        variantId,
+        quantity,
+      },
+    ],
+  };
+  return apiRoot.me().carts().withId({ ID: cartId }).post({ body }).execute();
+};
+
+const removeCartItem = (
+  version: number,
+  cartId: string,
+  lineItemId: string,
+  currencyCode: string,
+  centAmount: number,
+  quantity?: number,
+) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCartUpdate = {
+    version,
+    actions: [
+      {
+        action: 'removeLineItem',
+        lineItemId,
+        quantity,
+        externalPrice: {
+          currencyCode,
+          centAmount,
+        },
+      },
+    ],
+  };
+  return apiRoot.me().carts().withId({ ID: cartId }).post({ body }).execute();
+};
+
+const changeProductQuantity = (
+  version: number,
+  lineItemId: string,
+  cartId: string,
+  quantity: number,
+) => {
+  const apiRoot = createExistingApiRoot();
+
+  const body: MyCartUpdate = {
+    version,
+    actions: [
+      {
+        action: 'changeLineItemQuantity',
+        lineItemId,
+        quantity,
+      },
+    ],
+  };
+  return apiRoot.me().carts().withId({ ID: cartId }).post({ body }).execute();
+};
+
 export {
   signIn,
   signUp,
@@ -191,4 +274,9 @@ export {
   getProducts,
   getProductById,
   getCategories,
+  getCart,
+  createCart,
+  addCartItem,
+  removeCartItem,
+  changeProductQuantity,
 };

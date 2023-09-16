@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
-import { Badge, Card, Drawer, Layout, List, Menu, Select } from 'antd';
+import { Badge, Button, Card, Drawer, Layout, List, Menu, Select } from 'antd';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { LineItem } from '@commercetools/platform-sdk';
 import Sider from 'antd/es/layout/Sider';
 import Meta from 'antd/es/card/Meta';
 import { MenuOutlined } from '@ant-design/icons';
@@ -14,9 +15,13 @@ import {
   addDataAttributes,
   addDataCatalog,
   addSortCatalog,
+  setTotalCards,
 } from '../../redux/slices/catalogSlice';
 import styles from './Сatalog.module.css';
 import BreadcrumbComponent from './breadcrumb/BreadcrumbComponent';
+import PaginationCatalog from './pagination/PaginationCatalog';
+import updateCartThunk from '../../redux/actions/updateCartThunk';
+import removeCartItemThunk from '../../redux/actions/removeCartItemThunk';
 
 interface ICategory {
   label: string;
@@ -41,6 +46,7 @@ function Catalog(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { dataProducts, settings } = useAppSelector((state) => state.catalog);
+  const cart = useAppSelector((state) => state.cart.cart);
 
   const onClick: MenuProps['onClick'] = (e) => {
     dispatch(addCurrentCategory(e.key));
@@ -69,6 +75,9 @@ function Catalog(): JSX.Element {
 
   useEffect(() => {
     const queryParams: IProductQueryArgs = {
+      limit: settings.cardsOnPage,
+      offset:
+        settings.currentPage * settings.cardsOnPage - settings.cardsOnPage,
       priceCurrency: 'USD',
       filter: [
         `variants.scopedPrice.value.centAmount:range (${
@@ -97,6 +106,7 @@ function Catalog(): JSX.Element {
     getProducts(queryParams)
       .then((data) => {
         dispatch(addDataCatalog(data.body.results));
+        dispatch(setTotalCards(data.body.total));
       })
       .catch(console.log);
   }, [settings]);
@@ -131,6 +141,31 @@ function Catalog(): JSX.Element {
 
   const onClose = () => {
     setOpen(false);
+  };
+
+  const getProductId = (element: LineItem, id: string) =>
+    element.productId === id;
+
+  const addItemToCart = (event: React.MouseEvent, id: string) => {
+    event.stopPropagation();
+    dispatch(updateCartThunk(cart!.version, id, 1, 1, cart!.id));
+  };
+
+  const removeItemfromCart = (
+    event: React.MouseEvent,
+    id: string,
+    price: number,
+  ) => {
+    event.stopPropagation();
+    dispatch(
+      removeCartItemThunk(
+        cart!.version,
+        cart!.id,
+        cart!.lineItems.find((elemnt) => getProductId(elemnt, String(id)))!.id,
+        'USD',
+        price,
+      ),
+    );
   };
 
   return (
@@ -203,7 +238,7 @@ function Catalog(): JSX.Element {
             md: 2,
             lg: 3,
             xl: 4,
-            xxl: 4,
+            xxl: 5,
           }}
           dataSource={dataProducts}
           renderItem={(item) => (
@@ -264,10 +299,30 @@ function Catalog(): JSX.Element {
                     })}
                   </div>
                 </div>
+                <Button
+                  onClick={(event) =>
+                    cart?.lineItems.some((elemnt) =>
+                      getProductId(elemnt, String(item.id)),
+                    )
+                      ? removeItemfromCart(
+                          event,
+                          String(item.id),
+                          item.masterVariant.price!.value.centAmount,
+                        )
+                      : addItemToCart(event, String(item.id))
+                  }
+                >
+                  {cart?.lineItems.some((elemnt) =>
+                    getProductId(elemnt, String(item.id)),
+                  )
+                    ? 'Remove from Cart'
+                    : 'Add to Cart'}
+                </Button>
               </Card>
             </List.Item>
           )}
         />
+        <PaginationCatalog />
       </Layout>
     </Layout>
   );

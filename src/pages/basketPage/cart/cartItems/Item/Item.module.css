@@ -1,0 +1,17 @@
+.itemCard {
+    width: 60vw;
+    margin-bottom: 1em;
+}
+.binIcon {
+    margin-left: 1em;
+    font-size: 16px;
+}
+.binIcon:hover {
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .itemCard {
+        width: 100%;
+    }
+}
