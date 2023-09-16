@@ -1,15 +1,10 @@
 import React from 'react';
 import { Layout, Typography } from 'antd';
+import styles from './Main.module.css';
+import HomePageCarousel from './carousel/HomePageCarousel';
 
 const { Content } = Layout;
 const { Title } = Typography;
-
-const mainStyle: React.CSSProperties = {
-  color: '#000',
-  padding: '10vh',
-  lineHeight: '40px',
-  backgroundColor: '#f5f5f5',
-};
 
 const titleStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -19,13 +14,12 @@ const titleStyle: React.CSSProperties = {
 
 export default function MainComponent() {
   return (
-    <Content style={mainStyle}>
-      <Typography>
-        <Title style={titleStyle}>
-          POSTCARDS THAT WILL INCREASE YOUR AVERAGE CHECK <br />
-          AND WILL BE REMEMBERED BY YOUR CLIENTS
-        </Title>
-      </Typography>
+    <Content className={styles.main}>
+      <Title style={titleStyle}>
+        POSTCARDS THAT WILL INCREASE YOUR AVERAGE CHECK <br />
+        AND WILL BE REMEMBERED BY YOUR CLIENTS
+      </Title>
+      <HomePageCarousel />
     </Content>
   );
 }

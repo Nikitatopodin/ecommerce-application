@@ -1,0 +1,28 @@
+.card img {
+
+}
+
+.card {
+    width: 22vw;
+    border-radius: 10px;
+}
+
+.title {
+    margin-top: 0;
+}
+
+.githubLink {
+    margin-top: .5em;
+}
+
+@media (max-width: 950px) {
+    .card {
+        width: 50vw;
+    }
+}
+
+@media (max-width: 550px) {
+    .card {
+        width: 80vw;
+    }
+}

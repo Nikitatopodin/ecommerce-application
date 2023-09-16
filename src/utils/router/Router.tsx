@@ -21,6 +21,7 @@ import { getProductById } from '../../services/customerRequests';
 import PrivateNonAuthRoute from './PrivateNonAuthRoute';
 import CatalogPage from '../../pages/CatalogPage';
 import BasketPage from '../../pages/basketPage/BasketPage';
+import AboutUsPage from '../../pages/aboutUs/AboutUsPage';
 
 function Layout() {
   const dispatch = useAppDispatch();
@@ -30,11 +31,18 @@ function Layout() {
     dispatch(activeMenuItemsReducer(activeMenuItem));
   }, [location]);
   return (
-    <>
+    <div
+      style={{
+        backgroundColor: '#f5f5f5',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
       <HeaderComponent />
       <Outlet />
       <FooterComponent />
-    </>
+    </div>
   );
 }
 
@@ -86,6 +94,7 @@ const router = createBrowserRouter(
           return data.body;
         }}
       />
+      <Route path="/about" element={<AboutUsPage />} />
     </Route>,
   ),
 );

@@ -1,0 +1,61 @@
+.aboutUsInfo {
+    display: flex;
+    justify-content: space-between;
+    padding: 2em 9em 0;
+}
+
+.personCards {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    padding: 2em 10em;
+}
+
+.RSSInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .2em 0;
+}
+
+.RSSLogo {
+    width: 7vw;
+}
+
+.RSSLogo:hover {
+    animation: pump 500ms;
+}
+
+@keyframes pump {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 950px) {
+    .aboutUsInfo, .personCards {
+        padding: 2em 2em 0;
+    }
+    .RSSInfo {
+        padding: 2em 0 0;
+    }
+    .RSSLogo {
+        width: 15vw;
+    }
+}
+
+@media (max-width: 750px) {
+    .personCards {
+        flex-direction: column;
+        align-items: center;
+    }
+    .RSSLogo {
+        width: 20vw;
+    }
+}

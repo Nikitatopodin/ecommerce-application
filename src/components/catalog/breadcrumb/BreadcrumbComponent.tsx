@@ -13,15 +13,15 @@ function BreadcrumbComponent({ category }: IProps) {
       items={[
         {
           href: '/',
-          title: <HomeOutlined />,
+          bio: <HomeOutlined />,
         },
         {
           href: '/catalog',
-          title: 'Catalog',
+          bio: 'Catalog',
         },
         {
           href: `/catalog?category=${category}`,
-          title: category,
+          bio: category,
         },
       ]}
     />

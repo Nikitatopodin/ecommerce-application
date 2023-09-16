@@ -1,0 +1,16 @@
+.cardsWrapper {
+    display: flex;
+    gap: 1em;
+    justify-content: space-around;
+}
+
+.picture {
+    max-width: 220px;
+    max-height: 260px;
+}
+
+@media (max-width: 650px) {
+    .carouselWrapper {
+
+    }
+}

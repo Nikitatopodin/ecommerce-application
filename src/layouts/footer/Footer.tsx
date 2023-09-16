@@ -8,8 +8,6 @@ const footerStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   textAlign: 'center',
-  color: '#fff',
-  backgroundColor: '#f5f5f5',
 };
 
 export default function FooterComponent() {

@@ -9,31 +9,25 @@ import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { activeMenuItemsReducer } from '../../../redux/slices/navMenuSlice';
 import { updateCartReducer } from '../../../redux/slices/cartSlice';
 
-// todo: вынести стили в стилевый файл можно?
 const userIconStyle: React.CSSProperties = {
   fontSize: 16,
 };
-
 const basketIconStyle: React.CSSProperties = {
   fontSize: 17,
 };
-
 const menuStyle: React.CSSProperties = {
   backgroundColor: '#f5f5f5',
   display: 'flex',
   justifyContent: 'space-between',
 };
-
 const profileStyle: React.CSSProperties = {
   marginRight: '1vw',
 };
-
 const basketStyle: React.CSSProperties = {
   marginLeft: 'auto',
   marginRight: 0,
   padding: '0px 0px 0px 10px',
 };
-
 const logoStyle: React.CSSProperties = {
   fontSize: 20,
   marginLeft: '1vw',
@@ -74,14 +68,6 @@ export default function NavComponent(): JSX.Element {
     } as MenuItem;
   }
 
-  const items: MenuProps['items'] = [
-    getItem('IN MEMORIES', 'logo', logoStyle, undefined, 'logo'),
-    getItem('Home', ''),
-    getItem('About us', 'aboutUs'),
-    getItem('Catalog', 'catalog'),
-    getItem('Contacts', 'contacts'),
-  ];
-
   const nonAuthSubMenu = getItem(
     '',
     'subMenu',
@@ -99,6 +85,14 @@ export default function NavComponent(): JSX.Element {
     undefined,
     [getItem('Profile', 'profile'), getItem('Sign Out', 'logout')],
   );
+
+  const items: MenuProps['items'] = [
+    getItem('IN MEMORIES', 'logo', logoStyle, undefined, 'logo'),
+    getItem('Home', ''),
+    getItem('About us', 'about'),
+    getItem('Catalog', 'catalog'),
+    getItem('Contacts', 'contacts'),
+  ];
 
   const cart = getItem(
     '',

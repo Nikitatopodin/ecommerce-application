@@ -1,0 +1,15 @@
+.profilePage {
+    width: 30vw;
+}
+
+@media (max-width: 1000px) {
+    .profilePage {
+        width: 50vw;
+    }
+}
+
+@media (max-width: 700px) {
+    .profilePage {
+        width: 70vw;
+    }
+}
