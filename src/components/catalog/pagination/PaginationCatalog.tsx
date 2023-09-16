@@ -52,6 +52,7 @@ function PaginationCatalog() {
       pageSizeOptions={[2, 4, 6, 8, 10, 20]}
       pageSize={cardsOnPage}
       onChange={onChange}
+      style={{ margin: 'auto' }}
     />
   );
 }

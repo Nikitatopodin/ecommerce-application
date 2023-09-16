@@ -18,8 +18,8 @@ export const tailFormItemLayout = {
       offset: 0,
     },
     sm: {
-      span: 16,
-      offset: 8,
+      span: 18,
+      offset: 6,
     },
   },
 };
@@ -43,6 +43,7 @@ const formStyle = {
   padding: '2.5em 3em',
   border: 'solid 1px #f0f0f0',
   borderRadius: '.5em',
+  backgroundColor: 'white',
 };
 
 export const fieldsProps = {

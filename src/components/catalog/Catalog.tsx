@@ -169,7 +169,7 @@ function Catalog(): JSX.Element {
   };
 
   return (
-    <Layout>
+    <Layout style={{ padding: '1em' }}>
       {!isCollapsedSettings ? (
         <Sider style={{ background: 'transparent', padding: 14 }}>
           <CatalogMenu />
@@ -300,6 +300,7 @@ function Catalog(): JSX.Element {
                   </div>
                 </div>
                 <Button
+                  className={styles.button}
                   onClick={(event) =>
                     cart?.lineItems.some((elemnt) =>
                       getProductId(elemnt, String(item.id)),

@@ -87,7 +87,9 @@ function RegistrationForm(): JSX.Element {
             </Button>
           </Col>
           <Col>
-            <Button onClick={() => navigate('/login')}>Sign In</Button>
+            <Button type="link" onClick={() => navigate('/login')}>
+              Sign In
+            </Button>
           </Col>
         </Row>
       </Form.Item>
