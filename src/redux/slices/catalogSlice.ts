@@ -1,7 +1,7 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { createSlice } from '@reduxjs/toolkit';
 
-interface ICatalogData {
+export interface ICatalogData {
   dataProducts: ProductProjection[] | [];
   dataAttributes: string[];
   settings: {

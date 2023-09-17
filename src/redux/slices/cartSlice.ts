@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Cart } from '@commercetools/platform-sdk';
 
-interface IInitialState {
+export interface IInitialState {
   cart: Cart | null;
 }
 
