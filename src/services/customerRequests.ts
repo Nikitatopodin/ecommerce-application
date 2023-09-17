@@ -260,6 +260,16 @@ const changeProductQuantity = (
   return apiRoot.me().carts().withId({ ID: cartId }).post({ body }).execute();
 };
 
+const getDiscountCodes = () => {
+  let apiRoot;
+  if (localStorage.getItem('token')) {
+    apiRoot = createExistingApiRoot();
+  } else {
+    apiRoot = createAnonymousApiRoot();
+  }
+  return apiRoot.discountCodes().get().execute();
+};
+
 export {
   signIn,
   signUp,
@@ -279,4 +289,5 @@ export {
   addCartItem,
   removeCartItem,
   changeProductQuantity,
+  getDiscountCodes,
 };

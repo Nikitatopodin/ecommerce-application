@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, Card, Row } from 'antd';
+import React, { useState } from 'react';
+import { Button, Card, Input, Row, Space } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import styles from './SummaryInfo.module.css';
@@ -7,6 +7,7 @@ import { useAppSelector } from '../../../../hooks/hooks';
 
 function SummaryInfo() {
   const cart = useAppSelector((state) => state.cart.cart);
+  const [promoCode, setPromoCode] = useState('');
 
   return (
     <Card className={styles.summaryCard}>
@@ -26,7 +27,20 @@ function SummaryInfo() {
           Total: {cart?.totalPrice.centAmount} {cart?.totalPrice.currencyCode}
         </Text>
       </Row>
-      <Button type="primary">Checkout</Button>
+      <Space.Compact style={{ width: '100%' }}>
+        <Input
+          placeholder="Enter a promo code"
+          value={promoCode}
+          onChange={(e) => setPromoCode(e.target.value)}
+        />
+        <Button type="primary" onClick={() => console.log(promoCode)}>
+          Use promo code
+        </Button>
+      </Space.Compact>
+      <Button style={{ marginTop: 10, marginRight: 10 }} type="primary">
+        Checkout
+      </Button>
+      <Button>Clear cart</Button>
     </Card>
   );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Layout, Typography } from 'antd';
 import styles from './Main.module.css';
 import HomePageCarousel from './carousel/HomePageCarousel';
+import PromoCodes from './promoCodes/promoCodes';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -20,6 +21,7 @@ export default function MainComponent() {
         AND WILL BE REMEMBERED BY YOUR CLIENTS
       </Title>
       <HomePageCarousel />
+      <PromoCodes />
     </Content>
   );
 }
