@@ -1,6 +1,5 @@
 import React from 'react';
-import Title from 'antd/es/typography/Title';
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal, Typography } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 import updatePasswordThunk from '../../../../redux/actions/updatePasswordThunk';
 import PasswordFields from '../../../../components/form/userDataForm/PasswordFields';
@@ -16,6 +15,8 @@ interface IPasswordFormValues {
   password: string;
   confirm: string;
 }
+
+const { Title } = Typography;
 
 function ChangePasswordModal({ isModalOpen, setModalOpen }: IProps) {
   const userEmail = useAppSelector(

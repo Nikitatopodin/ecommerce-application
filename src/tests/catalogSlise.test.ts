@@ -1,5 +1,10 @@
 import catalog, { addDataCatalog } from '../redux/slices/catalogSlice';
 import { ICatalogData } from '../redux/slices/catalogSlice';
+import { cleanup } from '@testing-library/react';
+
+afterEach(() => {
+  cleanup();
+});
 
 const initialState: ICatalogData = {
   dataProducts: [],

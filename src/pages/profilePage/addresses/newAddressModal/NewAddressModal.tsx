@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal, Radio } from 'antd';
-import FormItem from 'antd/es/form/FormItem';
 import AddressesFormFields from '../../../../components/form/userDataForm/AddressesFormFields';
 import formatAddress, {
   IAddressValues,
@@ -35,6 +34,7 @@ function NewAddressModal({ isModalOpen, setModalOpen }: IProps) {
   };
   return (
     <Modal
+      data-testid="newAddressModal"
       title="Add new address"
       open={isModalOpen}
       onCancel={() => setModalOpen(false)}
@@ -50,7 +50,7 @@ function NewAddressModal({ isModalOpen, setModalOpen }: IProps) {
       ]}
     >
       <Form onFinish={onFinish} id="addAddressForm">
-        <FormItem>
+        <Form.Item>
           <Radio.Group
             defaultValue="shipping"
             onChange={() => setBilling((prevState) => !prevState)}
@@ -58,7 +58,7 @@ function NewAddressModal({ isModalOpen, setModalOpen }: IProps) {
             <Radio value="shipping">Shipping address</Radio>
             <Radio value="billing">Billing address</Radio>
           </Radio.Group>
-        </FormItem>
+        </Form.Item>
         <AddressesFormFields isBilling={isBilling} />
       </Form>
     </Modal>

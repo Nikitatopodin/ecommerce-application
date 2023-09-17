@@ -3,6 +3,11 @@ import cart, {
   updateCartReducer,
 } from '../redux/slices/cartSlice';
 import { Cart } from '@commercetools/platform-sdk';
+import { cleanup } from '@testing-library/react';
+
+afterEach(() => {
+  cleanup();
+});
 
 const initialState: IInitialState = {
   cart: null,

@@ -3,8 +3,6 @@ import type { MenuProps } from 'antd';
 import { Badge, Button, Card, Drawer, Layout, List, Menu, Select } from 'antd';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { LineItem } from '@commercetools/platform-sdk';
-import Sider from 'antd/es/layout/Sider';
-import Meta from 'antd/es/card/Meta';
 import { MenuOutlined } from '@ant-design/icons';
 import CatalogMenu from './CatalogMenu';
 import { getCategories, getProducts } from '../../services/customerRequests';
@@ -22,6 +20,9 @@ import BreadcrumbComponent from './breadcrumb/BreadcrumbComponent';
 import PaginationCatalog from './pagination/PaginationCatalog';
 import updateCartThunk from '../../redux/actions/updateCartThunk';
 import removeCartItemThunk from '../../redux/actions/removeCartItemThunk';
+
+const { Sider } = Layout;
+const { Meta } = Card;
 
 interface ICategory {
   label: string;
@@ -169,7 +170,7 @@ function Catalog(): JSX.Element {
   };
 
   return (
-    <Layout style={{ padding: '1em' }}>
+    <Layout style={{ padding: '1em' }} data-testid="catalog">
       {!isCollapsedSettings ? (
         <Sider style={{ background: 'transparent', padding: 14 }}>
           <CatalogMenu />

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import FormItem from 'antd/es/form/FormItem';
-import { Button, Form, Input, message, Modal } from 'antd';
-import Title from 'antd/es/typography/Title';
+import { Button, Form, Input, message, Modal, Typography } from 'antd';
 import { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 import { fieldsProps } from '../../../../components/form/userDataForm/formProps/fieldsProps';
 import PersonalDataFormFields from '../../../../components/form/userDataForm/PersonalDataFormFields';
 import { updateProfile } from '../../../../services/customerRequests';
 import { setProfileData } from '../../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
+
+const { Title } = Typography;
 
 interface IProps {
   isModalOpen: boolean;
@@ -70,13 +70,13 @@ function EditProfileModal({ isModalOpen, setModalOpen }: IProps) {
         Edit profile
       </Title>
       <Form name="editProfile" id="editProfile" onFinish={onFinish}>
-        <FormItem
+        <Form.Item
           {...fieldsProps.email.props}
           initialValue={userData?.email}
           validateStatus={isEmailError ? 'error' : ''}
         >
           <Input placeholder="E-mail" onChange={() => setEmailError(false)} />
-        </FormItem>
+        </Form.Item>
         <PersonalDataFormFields />
       </Form>
     </Modal>

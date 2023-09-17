@@ -1,9 +1,10 @@
 import React from 'react';
-import { Badge, Button, Card, Row } from 'antd';
-import Text from 'antd/es/typography/Text';
+import { Badge, Button, Card, Row, Typography } from 'antd';
 import { BaseAddress } from '@commercetools/platform-sdk';
 import removeAddressThunk from '../../../redux/actions/removeAddressThunk';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+
+const { Text } = Typography;
 
 interface IDescriptionProps {
   address: BaseAddress;
@@ -26,6 +27,7 @@ function AddressCard({ setEditMode, address }: ICardProps) {
     <Card
       size="small"
       style={{ marginTop: '.5em', margin: 'auto', paddingLeft: '1em' }}
+      data-testid={address.id}
     >
       <Row>
         <Text type="secondary" italic>

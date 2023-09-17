@@ -27,7 +27,7 @@ function ProfileInfo({ setEditMode }: IProps) {
   );
 
   return (
-    <Row gutter={20} align="top">
+    <Row gutter={20} align="top" data-testid="profileInfo">
       <Col span={20}>
         <Row justify="center">
           <Title style={{ margin: '0.5em' }}>

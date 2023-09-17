@@ -1,9 +1,13 @@
 import authorization, {
-  loginReducer,
   setProfileData,
   IInitialState,
 } from '../redux/slices/authorizationSlice';
 import { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
+import { cleanup } from '@testing-library/react';
+
+afterEach(() => {
+  cleanup();
+});
 
 const initialState: IInitialState = {
   isAuthorized: JSON.parse(localStorage.getItem('isAuthorized') || 'false'),
