@@ -15,8 +15,8 @@ function AboutUsPage() {
       name: 'Maria Bogdanova',
       role: 'Frontend developer, team lead',
       about:
-        'Russian emigrant, who used to work as a children neuropsychologist. ' +
-        "Now she's studying Frontend development and hopes to find her dream job in Poland. " +
+        'Russian emigrant in Poland, who used to work as a children neuropsychologist. ' +
+        "Now she's studying Frontend development and hopes to find her dream job. " +
         'Organized team work processes and code review, implemented profile, log in, about us and home page.',
       githubLink: 'https://github.com/ilyakhokhanov',
       picture: mashaPicture,
@@ -52,11 +52,23 @@ function AboutUsPage() {
           About Us
         </Title>
         <Text>
-          The online store In Memories offers stunning designer greeting cards
-          for any occasion. The website was created during the{' '}
-          <a href="https://rs.school/">RSS JS/Frontend course</a> using the
-          React framework with Redux and the Ant Design library.
+          Welcome to In Memories online store! Our online platform seamlessly
+          brings the charm of boutique paper shops to the digital realm. The
+          system boasts a user-friendly interface, guiding customers
+          effortlessly from browsing to checkout, fostering a sense of
+          connection and reliability. Customers can explore in-depth product
+          details and effortlessly add chosen items to their cart. For a
+          smoother experience, we provide registration and login features,
+          advanced search functionalities, as well as intuitive categorization
+          and sorting options.
         </Text>
+        <Row style={{ marginTop: '.5em' }}>
+          <Text>
+            The website was created during the{' '}
+            <a href="https://rs.school/">RSS JS/Frontend course</a> using the
+            React framework with Redux and the Ant Design library.
+          </Text>
+        </Row>
       </Row>
       <div className={styles.personCards}>
         {aboutUsInfo.map((person) => (

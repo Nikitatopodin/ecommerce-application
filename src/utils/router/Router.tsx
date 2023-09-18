@@ -22,6 +22,7 @@ import PrivateNonAuthRoute from './PrivateNonAuthRoute';
 import CatalogPage from '../../pages/CatalogPage';
 import BasketPage from '../../pages/basketPage/BasketPage';
 import AboutUsPage from '../../pages/aboutUs/AboutUsPage';
+import styles from './index.module.css';
 
 function Layout() {
   const dispatch = useAppDispatch();
@@ -31,14 +32,7 @@ function Layout() {
     dispatch(activeMenuItemsReducer(activeMenuItem));
   }, [location]);
   return (
-    <div
-      style={{
-        backgroundColor: '#f5f5f5',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}
-    >
+    <div className={styles.main}>
       <HeaderComponent />
       <Outlet />
       <FooterComponent />

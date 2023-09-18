@@ -1,5 +1,5 @@
 import './ProductPage.css';
-import { Button, Col, Row, Image, Carousel, Modal } from 'antd';
+import { Button, Col, Row, Image, Carousel, Modal, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { LineItem, ProductProjection } from '@commercetools/platform-sdk';
 import { useLoaderData } from 'react-router-dom';
@@ -7,6 +7,7 @@ import updateCartThunk from '../../redux/actions/updateCartThunk';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import removeCartItemThunk from '../../redux/actions/removeCartItemThunk';
 
+const { Title, Text } = Typography;
 const contentStyle: React.CSSProperties = {
   margin: 0,
   color: '#fff',
@@ -18,8 +19,8 @@ const contentStyle: React.CSSProperties = {
 
 const productCarouselStyle: React.CSSProperties = {
   backgroundColor: 'black',
-  border: '1px solid black',
   maxWidth: '350px',
+  width: '40vw',
   marginTop: '10px',
   marginLeft: 'auto',
 };
@@ -61,7 +62,7 @@ function ProductPage() {
       ),
     );
   };
-  const removeItemfromCart = () => {
+  const removeItemFromCart = () => {
     dispatch(
       removeCartItemThunk(
         cart!.version,
@@ -91,24 +92,13 @@ function ProductPage() {
     }
   };
 
-  const onChange = () => {};
-
   useEffect(() => {}, [currentSize]);
+
   return (
-    <Row
-      gutter={[16, 16]}
-      style={{
-        padding: '1em 2em',
-        margin: '1em 2em',
-        justifyContent: 'center',
-        border: '1px solid black',
-      }}
-    >
+    <Row gutter={[20, 20]} justify="center" className="wrapper">
       <Col className="product-left">
-        <Row className="product-title">{productInfo.name}</Row>
         <Carousel
           autoplay
-          afterChange={onChange}
           style={productCarouselStyle}
           dots={{ className: 'dots' }}
         >
@@ -136,10 +126,8 @@ function ProductPage() {
           destroyOnClose
         >
           <Carousel
-            afterChange={onChange}
             style={{
               backgroundColor: 'black',
-              border: '1px solid black',
               width: '100%',
             }}
             dots={{ className: 'dots' }}
@@ -161,43 +149,40 @@ function ProductPage() {
         style={{ marginTop: '2.5rem', paddingLeft: '10px' }}
         className="product-info"
       >
-        <Row style={{ fontWeight: 'bold', margin: '10px 0' }}>
-          Size:&nbsp;
-          <Row style={{ gap: '5px', justifyContent: 'space-between' }}>
+        <Title level={2}>{productInfo.name}</Title>
+        <Row gutter={10}>
+          <Col>
             <Button
               type={currentSize === 0 ? 'primary' : 'default'}
-              style={{ width: '5rem', fontSize: '1.05rem', lineHeight: '1rem' }}
               onClick={(e) => onSizeButtonClick(e.target)}
             >
               {productData.masterVariant.attributes![1].value.label}
             </Button>
+          </Col>
+          <Col>
             <Button
               type={currentSize === 1 ? 'primary' : 'default'}
-              style={{ width: '5rem', fontSize: '1.05rem', lineHeight: '1rem' }}
               onClick={(e) => onSizeButtonClick(e.target)}
             >
               {productData.variants[0].attributes![1].value.label}
             </Button>
-          </Row>
+          </Col>
         </Row>
+        <Text style={{ margin: '10px 0' }}>{productInfo.description}</Text>
         <Row style={{ margin: '10px 0' }}>
-          <span style={{ fontWeight: 'bold' }}>Description:&nbsp;</span>
-          {productInfo.description}
-        </Row>
-        <Row style={{ margin: '10px 0' }}>
-          <span style={{ fontWeight: 'bold' }}>Price:&nbsp;</span>
+          <Text>Price:&nbsp;</Text>
           <div style={{ display: 'flex', gap: '10px' }}>
             {productInfo.prices[currentSize][1] && (
-              <div className="price">
+              <Text className="price">
                 {(
                   productInfo.prices[currentSize][1]!.centAmount / 100
                 ).toLocaleString('en-US', {
                   style: 'currency',
                   currency: 'USD',
                 })}
-              </div>
+              </Text>
             )}
-            <div
+            <Text
               className={
                 productInfo.prices[currentSize][1]! ? 'price-old' : 'price'
               }
@@ -208,13 +193,13 @@ function ProductPage() {
                 style: 'currency',
                 currency: 'USD',
               })}
-            </div>
+            </Text>
           </div>
         </Row>
         <Button
           onClick={
             cart?.lineItems.some(getProductId)
-              ? removeItemfromCart
+              ? removeItemFromCart
               : addItemToCart
           }
         >
@@ -226,4 +211,5 @@ function ProductPage() {
     </Row>
   );
 }
+
 export default ProductPage;

@@ -74,14 +74,17 @@ function SummaryInfo() {
           <CheckOutlined />
         </Button>
       </Space.Compact>
-      <Button style={{ marginTop: 10, marginRight: 10 }} type="primary">
-        Checkout
-      </Button>
-      <Button
-        onClick={() => dispatch(removeCartThunk(cart!.version, cart!.id))}
-      >
-        Clear cart
-      </Button>
+
+      <Space.Compact style={{ width: '100%', marginTop: '1em' }}>
+        <Button type="primary" style={{ marginRight: '1em' }}>
+          Checkout
+        </Button>
+        <Button
+          onClick={() => dispatch(removeCartThunk(cart!.version, cart!.id))}
+        >
+          Clear cart
+        </Button>
+      </Space.Compact>
     </Card>
   );
 }
