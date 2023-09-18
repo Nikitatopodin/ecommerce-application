@@ -184,7 +184,12 @@ const getCart = () => {
 };
 
 const createCart = (currency: string) => {
-  const apiRoot = createExistingApiRoot();
+  let apiRoot;
+  if (localStorage.getItem('token')) {
+    apiRoot = createExistingApiRoot();
+  } else {
+    apiRoot = createAnonymousApiRoot();
+  }
   const body = {
     currency,
   };

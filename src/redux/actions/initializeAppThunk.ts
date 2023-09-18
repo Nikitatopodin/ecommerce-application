@@ -12,10 +12,10 @@ const initializeAppThunk = () => async (dispatch: DispatchType) => {
       const userData: Customer = profileResponse.body;
       dispatch(loginReducer({ isAuthorized: true, userData }));
     }
-    dispatch(getCartThunk());
   } catch (e) {
     console.log(e);
   }
+  dispatch(getCartThunk());
 };
 
 export default initializeAppThunk;

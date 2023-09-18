@@ -27,6 +27,7 @@ const createAnonymousApiRoot = () => {
       },
       set(cache) {
         localStorage.setItem('token', JSON.stringify(cache));
+        localStorage.setItem('anonymousToken', JSON.stringify(cache));
       },
     },
     scopes,
