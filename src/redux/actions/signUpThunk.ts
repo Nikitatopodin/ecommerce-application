@@ -8,6 +8,7 @@ import { IRegistrationForm } from '../../types/types';
 const signUpThunk =
   (values: IRegistrationForm, setSignupError: (isSignUp: boolean) => void) =>
   async (dispatch: DispatchType) => {
+    localStorage.removeItem('anonymousToken');
     signUp(convertFormData(values))
       .then(() => signIn(values))
       .then((response) => {
@@ -34,7 +35,6 @@ const signUpThunk =
         );
         message.success('Sign up success');
       })
-      .catch(console.log)
       .catch(() => {
         setSignupError(true);
       });

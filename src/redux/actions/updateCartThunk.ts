@@ -12,19 +12,20 @@ const updateCartThunk =
     quantity: number,
     cartId: string,
   ) =>
-  (dispatch: DispatchType) => {
+  async (dispatch: DispatchType) => {
     try {
-      dispatch(getCartThunk());
-      addCartItem(version, productId, variantId, quantity, cartId)
-        .then((response) => {
-          dispatch(updateCartReducer(response.body));
-          message.success(
-            "Great choice! You've successfully added the item to your cart.",
-          );
-        })
-        .catch(() => {
-          message.error('Something went wrong, please try again');
-        });
+      dispatch(getCartThunk()).then(() => {
+        addCartItem(version, productId, variantId, quantity, cartId)
+          .then((response) => {
+            dispatch(updateCartReducer(response.body));
+            message.success(
+              "Great choice! You've successfully added the item to your cart.",
+            );
+          })
+          .catch(() => {
+            message.error('Something went wrong, please try again');
+          });
+      });
     } catch (e) {
       console.log(e);
     }

@@ -18,8 +18,8 @@ const promoCodesSlice = createSlice({
   initialState,
   reducers: {
     addPromoCodes(state, action) {
+      // eslint-disable-next-line no-param-reassign
       state.promoCodes = action.payload;
-      console.log(state);
     },
   },
 });
