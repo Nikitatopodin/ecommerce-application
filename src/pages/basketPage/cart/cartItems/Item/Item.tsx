@@ -44,7 +44,29 @@ function Item({ item }: IProps) {
           <Title level={4} style={{ margin: 0 }}>
             {item.name['en-US']}
           </Title>
-          <p>{`${item.totalPrice.centAmount} ${item.totalPrice.currencyCode}`}</p>
+          <p>
+            <span>
+              {(Number(item.totalPrice.centAmount) / 100).toLocaleString(
+                'en-US',
+                {
+                  style: 'currency',
+                  currency: 'USD',
+                },
+              )}
+            </span>{' '}
+            {item.totalPrice.centAmount !==
+              item.price.value.centAmount * item.quantity && (
+              <span className={styles.oldPrice}>
+                {(
+                  (Number(item.price.value.centAmount) * item.quantity) /
+                  100
+                ).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
+              </span>
+            )}
+          </p>
           <InputNumber
             min={1}
             max={100}

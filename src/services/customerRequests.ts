@@ -260,6 +260,40 @@ const changeProductQuantity = (
   return apiRoot.me().carts().withId({ ID: cartId }).post({ body }).execute();
 };
 
+const getDiscountCodes = () => {
+  let apiRoot;
+  if (localStorage.getItem('token')) {
+    apiRoot = createExistingApiRoot();
+  } else {
+    apiRoot = createAnonymousApiRoot();
+  }
+  return apiRoot.discountCodes().get().execute();
+};
+
+const usePromoCode = (id: string, version: number, code: string) => {
+  const apiRoot = createExistingApiRoot();
+  const body: MyCartUpdate = {
+    version,
+    actions: [
+      {
+        action: 'addDiscountCode',
+        code,
+      },
+    ],
+  };
+  return apiRoot.me().carts().withId({ ID: id }).post({ body }).execute();
+};
+
+const removeCart = (version: number, cartId: string) => {
+  const apiRoot = createExistingApiRoot();
+  return apiRoot
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .delete({ queryArgs: { version } })
+    .execute();
+};
+
 export {
   signIn,
   signUp,
@@ -279,4 +313,7 @@ export {
   addCartItem,
   removeCartItem,
   changeProductQuantity,
+  usePromoCode,
+  getDiscountCodes,
+  removeCart,
 };

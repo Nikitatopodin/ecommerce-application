@@ -8,6 +8,10 @@
     margin-top: 0;
 }
 
+.oldPrice {
+    text-decoration: line-through;
+}
+
 @media (max-width: 700px) {
     .summaryCard {
         width: 100%;
