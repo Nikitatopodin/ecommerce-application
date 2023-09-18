@@ -28,7 +28,7 @@ function ProfilePage() {
   );
 
   return (
-    <Row justify="center" style={{ height: '80vh' }}>
+    <Row justify="center" style={{ height: '80vh' }} data-testid="profilePage">
       {isPasswordModalOpen && (
         <NewAddressModal
           isModalOpen={isPasswordModalOpen}

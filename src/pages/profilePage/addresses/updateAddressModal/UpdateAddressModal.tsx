@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Form, Modal } from 'antd';
-import Title from 'antd/es/typography/Title';
+import { Button, Form, Modal, Typography } from 'antd';
 import { BaseAddress } from '@commercetools/platform-sdk';
 import AddressesFormFields from '../../../../components/form/userDataForm/AddressesFormFields';
 import formatAddress, {
@@ -8,6 +7,8 @@ import formatAddress, {
 } from '../../../../utils/form/formatAddress';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 import updateAddressThunk from '../../../../redux/actions/updateAddressThunk';
+
+const { Title } = Typography;
 
 interface IProps {
   address: BaseAddress;

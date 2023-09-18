@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
 
-interface IInitialState {
+export interface IInitialState {
   isAuthorized: boolean;
   userData: Customer | null;
 }
