@@ -272,7 +272,6 @@ const getDiscountCodes = () => {
 
 const usePromoCode = (id: string, version: number, code: string) => {
   const apiRoot = createExistingApiRoot();
-
   const body: MyCartUpdate = {
     version,
     actions: [
@@ -282,8 +281,17 @@ const usePromoCode = (id: string, version: number, code: string) => {
       },
     ],
   };
-
   return apiRoot.me().carts().withId({ ID: id }).post({ body }).execute();
+};
+
+const removeCart = (version: number, cartId: string) => {
+  const apiRoot = createExistingApiRoot();
+  return apiRoot
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .delete({ queryArgs: { version } })
+    .execute();
 };
 
 export {
@@ -307,4 +315,5 @@ export {
   changeProductQuantity,
   usePromoCode,
   getDiscountCodes,
+  removeCart,
 };
