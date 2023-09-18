@@ -44,7 +44,12 @@ function Item({ item }: IProps) {
           <Title level={4} style={{ margin: 0 }}>
             {item.name['en-US']}
           </Title>
-          <p>{`${item.totalPrice.centAmount} ${item.totalPrice.currencyCode}`}</p>
+          <p>
+            {(item.totalPrice.centAmount / 100).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            })}
+          </p>
           <InputNumber
             min={1}
             max={100}

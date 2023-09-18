@@ -270,6 +270,22 @@ const getDiscountCodes = () => {
   return apiRoot.discountCodes().get().execute();
 };
 
+const usePromoCode = (id: string, version: number, code: string) => {
+  const apiRoot = createExistingApiRoot();
+
+  const body: MyCartUpdate = {
+    version,
+    actions: [
+      {
+        action: 'addDiscountCode',
+        code,
+      },
+    ],
+  };
+
+  return apiRoot.me().carts().withId({ ID: id }).post({ body }).execute();
+};
+
 export {
   signIn,
   signUp,
@@ -289,5 +305,6 @@ export {
   addCartItem,
   removeCartItem,
   changeProductQuantity,
+  usePromoCode,
   getDiscountCodes,
 };

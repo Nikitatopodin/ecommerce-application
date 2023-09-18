@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
-import { Button, Card, Input, Row, Space } from 'antd';
+import { Button, Card, Input, Row, Space, message } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import styles from './SummaryInfo.module.css';
-import { useAppSelector } from '../../../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
+import { usePromoCode } from '../../../../services/customerRequests';
+import {
+  setInitialPrice,
+  updateCartReducer,
+} from '../../../../redux/slices/cartSlice';
 
 function SummaryInfo() {
-  const cart = useAppSelector((state) => state.cart.cart);
+  const { cart, initialPrice } = useAppSelector((state) => state.cart);
   const [promoCode, setPromoCode] = useState('');
+  const dispatch = useAppDispatch();
+
+  const useDiscount = () => {
+    console.log(cart, initialPrice);
+    usePromoCode(cart!.id, cart!.version, promoCode)
+      .then((response) => {
+        dispatch(setInitialPrice(cart?.totalPrice.centAmount));
+        dispatch(updateCartReducer(response.body));
+      })
+      .catch(() => {
+        message.error('Please enter the current promo code');
+      });
+  };
 
   return (
     <Card className={styles.summaryCard}>
@@ -24,7 +42,19 @@ function SummaryInfo() {
       </Row>
       <Row>
         <Text type="secondary" style={{ fontSize: '1em', marginBottom: '1em' }}>
-          Total: {cart?.totalPrice.centAmount} {cart?.totalPrice.currencyCode}
+          Total:{' '}
+          {(cart!.totalPrice.centAmount / 100).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          })}{' '}
+          {initialPrice !== null ?? (
+            <span className={styles.oldPrice}>
+              {(initialPrice! / 100).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })}
+            </span>
+          )}
         </Text>
       </Row>
       <Space.Compact style={{ width: '100%' }}>
@@ -33,7 +63,7 @@ function SummaryInfo() {
           value={promoCode}
           onChange={(e) => setPromoCode(e.target.value)}
         />
-        <Button type="primary" onClick={() => console.log(promoCode)}>
+        <Button type="primary" onClick={useDiscount}>
           Use promo code
         </Button>
       </Space.Compact>
