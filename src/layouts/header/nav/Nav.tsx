@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
-import { Badge, Menu, message } from 'antd';
+import { Badge, Menu } from 'antd';
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
 import './Nav.css';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
-import { loginReducer } from '../../../redux/slices/authorizationSlice';
 import { activeMenuItemsReducer } from '../../../redux/slices/navMenuSlice';
-import { updateCartReducer } from '../../../redux/slices/cartSlice';
+import signOutThunk from '../../../redux/actions/signOutThunk';
 
 const userIconStyle: React.CSSProperties = {
   fontSize: 16,
@@ -117,31 +116,30 @@ export default function NavComponent(): JSX.Element {
   }, [activeItem]);
 
   const onClick: MenuProps['onClick'] = (e) => {
-    // todo: поменять на switch
-    if (e.key === 'logo') {
-      dispatch(activeMenuItemsReducer(''));
-      setCurrent('');
-      navigate('/');
-    } else if (e.key === 'catalog') {
-      dispatch(activeMenuItemsReducer(e.key));
-      setCurrent(e.key);
-      navigate(`/catalog`);
-    } else if (e.key === 'cart') {
-      setCurrent(e.key);
-      navigate('/cart');
-    } else if (e.key === 'logout') {
-      // todo: инкапсулировать логику в thunk
-      dispatch(loginReducer({ isAuthorized: false, userData: null }));
-      dispatch(updateCartReducer({ cart: null }));
-      dispatch(activeMenuItemsReducer(''));
-      setCurrent('');
-      navigate('/');
-      localStorage.removeItem('token');
-      message.success('You have successfully signed out');
-    } else {
-      dispatch(activeMenuItemsReducer(e.key));
-      setCurrent(e.key);
-      navigate(`/${e.key}`);
+    switch (e.key) {
+      case 'logo':
+        dispatch(activeMenuItemsReducer(''));
+        setCurrent('');
+        navigate('/');
+        break;
+      case 'catalog':
+        dispatch(activeMenuItemsReducer(e.key));
+        setCurrent(e.key);
+        navigate(`/catalog`);
+        break;
+      case 'cart':
+        setCurrent(e.key);
+        navigate('/cart');
+        break;
+      case 'logout':
+        dispatch(signOutThunk());
+        setCurrent('');
+        navigate('/');
+        break;
+      default:
+        dispatch(activeMenuItemsReducer(e.key));
+        setCurrent(e.key);
+        navigate(`/${e.key}`);
     }
   };
 
