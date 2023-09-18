@@ -15,6 +15,7 @@ function SummaryInfo() {
   const dispatch = useAppDispatch();
 
   const useDiscount = () => {
+    console.log(cart);
     usePromoCode(cart!.id, cart!.version, promoCode)
       .then((response) => {
         dispatch(updateCartReducer(response.body));
@@ -27,7 +28,7 @@ function SummaryInfo() {
   const initialTotalPrice = () => {
     let total = 0;
     cart?.lineItems.forEach((item) => {
-      total += item.price.value.centAmount;
+      total += item.price.value.centAmount * item.quantity;
     });
     return total;
   };

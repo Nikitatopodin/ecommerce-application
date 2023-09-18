@@ -56,13 +56,13 @@ function Item({ item }: IProps) {
             </span>{' '}
             {item.totalPrice.centAmount !== item.price.value.centAmount && (
               <span className={styles.oldPrice}>
-                {(Number(item.price.value.centAmount) / 100).toLocaleString(
-                  'en-US',
-                  {
-                    style: 'currency',
-                    currency: 'USD',
-                  },
-                )}
+                {(
+                  (Number(item.price.value.centAmount) * item.quantity) /
+                  100
+                ).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
               </span>
             )}
           </p>
