@@ -12,7 +12,13 @@
     text-decoration: line-through;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
+    .summaryCard {
+        width: 30vw;
+    }
+}
+
+@media (max-width: 800px) {
     .summaryCard {
         width: 100%;
         height: unset;

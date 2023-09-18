@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Badge, Button, Card, Drawer, Layout, List, Menu, Select } from 'antd';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { LineItem } from '@commercetools/platform-sdk';
 import { MenuOutlined } from '@ant-design/icons';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -154,7 +154,7 @@ function Catalog(): JSX.Element {
     dispatch(updateCartThunk(cart!.version, id, 1, 1, cart!.id));
   };
 
-  const removeItemfromCart = (
+  const removeItemFromCart = (
     event: React.MouseEvent,
     id: string,
     price: number,
@@ -305,12 +305,12 @@ function Catalog(): JSX.Element {
                   </div>
                 </div>
                 <Button
-                  className={styles.button}
+                  style={{ marginTop: '1em' }}
                   onClick={(event) =>
-                    cart?.lineItems.some((elemnt) =>
-                      getProductId(elemnt, String(item.id)),
+                    cart?.lineItems.some((element) =>
+                      getProductId(element, String(item.id)),
                     )
-                      ? removeItemfromCart(
+                      ? removeItemFromCart(
                           event,
                           String(item.id),
                           item.masterVariant.price!.value.centAmount,
@@ -318,8 +318,8 @@ function Catalog(): JSX.Element {
                       : addItemToCart(event, String(item.id))
                   }
                 >
-                  {cart?.lineItems.some((elemnt) =>
-                    getProductId(elemnt, String(item.id)),
+                  {cart?.lineItems.some((element) =>
+                    getProductId(element, String(item.id)),
                   )
                     ? 'Remove from Cart'
                     : 'Add to Cart'}

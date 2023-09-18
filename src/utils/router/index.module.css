@@ -1,0 +1,16 @@
+* {
+    font-family: Forum-Regular, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: ClearSans-Regular, sans-serif;
+}

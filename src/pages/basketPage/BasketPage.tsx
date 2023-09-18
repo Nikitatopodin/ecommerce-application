@@ -24,13 +24,13 @@ function BasketPage() {
     <Empty
       description={
         <>
-          <Text type="secondary">Your cart is empty. Start shopping!</Text>
+          <Text type="secondary">Your cart is empty</Text>
           <Row justify="center" style={{ margin: '1em' }}>
-            <Button onClick={() => setNavigate(true)}>Start</Button>
+            <Button onClick={() => setNavigate(true)}>Start shopping!</Button>
           </Row>
         </>
       }
-      style={{ padding: '5em' }}
+      style={{ padding: '5em', height: '80vh' }}
     />
   );
 }

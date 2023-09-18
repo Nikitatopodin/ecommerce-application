@@ -36,7 +36,7 @@ function PersonCard({ name, role, about, githubLink, picture }: IPerson) {
       <Text type="secondary" italic>
         {role}
       </Text>
-      <Row>
+      <Row style={{ marginTop: '.5em' }}>
         <Text>{about}</Text>
       </Row>
       <Row className={styles.githubLink}>

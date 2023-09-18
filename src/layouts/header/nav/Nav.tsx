@@ -89,9 +89,8 @@ export default function NavComponent(): JSX.Element {
   const items: MenuProps['items'] = [
     getItem('IN MEMORIES', 'logo', logoStyle, undefined, 'logo'),
     getItem('Home', ''),
-    getItem('About us', 'about'),
     getItem('Catalog', 'catalog'),
-    getItem('Contacts', 'contacts'),
+    getItem('About us', 'about'),
   ];
 
   const cart = getItem(
