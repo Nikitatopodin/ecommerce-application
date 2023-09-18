@@ -6,6 +6,8 @@ import { LineItem } from '@commercetools/platform-sdk';
 import Sider from 'antd/es/layout/Sider';
 import Meta from 'antd/es/card/Meta';
 import { MenuOutlined } from '@ant-design/icons';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import CatalogMenu from './CatalogMenu';
 import { getCategories, getProducts } from '../../services/customerRequests';
 import { IProductQueryArgs } from '../../types/types';
@@ -253,15 +255,17 @@ function Catalog(): JSX.Element {
                       text={item.masterVariant.scopedPriceDiscounted && 'Sale'}
                       color={item.masterVariant.scopedPriceDiscounted && 'red'}
                     >
-                      <img
+                      <LazyLoadImage
                         alt="example"
+                        effect="blur"
                         src={item.masterVariant!.images![0].url}
                         className={styles.picture}
                       />
                     </Badge.Ribbon>
                   ) : (
-                    <img
+                    <LazyLoadImage
                       alt="example"
+                      effect="blur"
                       src={item.masterVariant!.images![0].url}
                       className={styles.picture}
                     />
