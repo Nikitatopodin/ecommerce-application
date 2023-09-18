@@ -54,7 +54,8 @@ function Item({ item }: IProps) {
                 },
               )}
             </span>{' '}
-            {item.totalPrice.centAmount !== item.price.value.centAmount && (
+            {item.totalPrice.centAmount !==
+              item.price.value.centAmount * item.quantity && (
               <span className={styles.oldPrice}>
                 {(
                   (Number(item.price.value.centAmount) * item.quantity) /

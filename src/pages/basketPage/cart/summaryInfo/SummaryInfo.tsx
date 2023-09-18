@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button, Card, Input, Row, Space, message } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import Title from 'antd/es/typography/Title';
@@ -15,23 +15,24 @@ function SummaryInfo() {
   const dispatch = useAppDispatch();
 
   const useDiscount = () => {
-    console.log(cart);
     usePromoCode(cart!.id, cart!.version, promoCode)
       .then((response) => {
         dispatch(updateCartReducer(response.body));
+        setPromoCode('');
+        message.success('Promo code applied');
       })
       .catch(() => {
         message.error('Please enter the current promo code');
       });
   };
 
-  const initialTotalPrice = () => {
+  const memoTotalPrice = useMemo(() => {
     let total = 0;
     cart?.lineItems.forEach((item) => {
       total += item.price.value.centAmount * item.quantity;
     });
     return total;
-  };
+  }, [cart]);
 
   return (
     <Card className={styles.summaryCard}>
@@ -53,9 +54,9 @@ function SummaryInfo() {
             style: 'currency',
             currency: 'USD',
           })}{' '}
-          {cart!.totalPrice.centAmount !== initialTotalPrice() && (
+          {cart!.totalPrice.centAmount !== memoTotalPrice && (
             <span className={styles.oldPrice}>
-              {(initialTotalPrice() / 100).toLocaleString('en-US', {
+              {(memoTotalPrice / 100).toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'USD',
               })}
