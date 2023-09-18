@@ -270,6 +270,16 @@ const getDiscountCodes = () => {
   return apiRoot.discountCodes().get().execute();
 };
 
+const removeCart = (version: number, cartId: string) => {
+  const apiRoot = createExistingApiRoot();
+  return apiRoot
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .delete({ queryArgs: { version } })
+    .execute();
+};
+
 export {
   signIn,
   signUp,
@@ -290,4 +300,5 @@ export {
   removeCartItem,
   changeProductQuantity,
   getDiscountCodes,
+  removeCart,
 };

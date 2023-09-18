@@ -3,10 +3,12 @@ import { Button, Card, Input, Row, Space } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import styles from './SummaryInfo.module.css';
-import { useAppSelector } from '../../../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
+import removeCartThunk from '../../../../redux/actions/removeCartThunk';
 
 function SummaryInfo() {
   const cart = useAppSelector((state) => state.cart.cart);
+  const dispatch = useAppDispatch();
   const [promoCode, setPromoCode] = useState('');
 
   return (
@@ -40,7 +42,11 @@ function SummaryInfo() {
       <Button style={{ marginTop: 10, marginRight: 10 }} type="primary">
         Checkout
       </Button>
-      <Button>Clear cart</Button>
+      <Button
+        onClick={() => dispatch(removeCartThunk(cart!.version, cart!.id))}
+      >
+        Clear cart
+      </Button>
     </Card>
   );
 }
