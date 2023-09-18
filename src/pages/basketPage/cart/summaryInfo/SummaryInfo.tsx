@@ -6,27 +6,30 @@ import Text from 'antd/es/typography/Text';
 import styles from './SummaryInfo.module.css';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 import { usePromoCode } from '../../../../services/customerRequests';
-import {
-  setInitialPrice,
-  updateCartReducer,
-} from '../../../../redux/slices/cartSlice';
+import { updateCartReducer } from '../../../../redux/slices/cartSlice';
 import removeCartThunk from '../../../../redux/actions/removeCartThunk';
 
 function SummaryInfo() {
-  const { cart, initialPrice } = useAppSelector((state) => state.cart);
+  const { cart } = useAppSelector((state) => state.cart);
   const [promoCode, setPromoCode] = useState('');
   const dispatch = useAppDispatch();
 
   const useDiscount = () => {
-    console.log(cart, initialPrice);
     usePromoCode(cart!.id, cart!.version, promoCode)
       .then((response) => {
-        dispatch(setInitialPrice(cart?.totalPrice.centAmount));
         dispatch(updateCartReducer(response.body));
       })
       .catch(() => {
         message.error('Please enter the current promo code');
       });
+  };
+
+  const initialTotalPrice = () => {
+    let total = 0;
+    cart?.lineItems.forEach((item) => {
+      total += item.price.value.centAmount;
+    });
+    return total;
   };
 
   return (
@@ -49,9 +52,9 @@ function SummaryInfo() {
             style: 'currency',
             currency: 'USD',
           })}{' '}
-          {initialPrice !== null ?? (
+          {cart!.totalPrice.centAmount !== initialTotalPrice() && (
             <span className={styles.oldPrice}>
-              {(initialPrice! / 100).toLocaleString('en-US', {
+              {(initialTotalPrice() / 100).toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'USD',
               })}
