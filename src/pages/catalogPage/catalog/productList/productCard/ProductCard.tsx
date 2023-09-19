@@ -1,13 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Card } from 'antd';
-import Meta from 'antd/es/card/Meta';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { LineItem, ProductProjection } from '@commercetools/platform-sdk';
 import updateCartThunk from '../../../../../redux/actions/updateCartThunk';
 import removeCartItemThunk from '../../../../../redux/actions/removeCartItemThunk';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/hooks';
 import styles from '../../Сatalog.module.css';
+
+const { Meta } = Card;
 
 interface IProps {
   item: ProductProjection;
