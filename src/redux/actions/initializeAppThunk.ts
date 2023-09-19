@@ -5,7 +5,7 @@ import { loginReducer } from '../slices/authorizationSlice';
 import getCartThunk from './getCartThunk';
 
 const initializeAppThunk = () => async (dispatch: DispatchType) => {
-  const isAuthorized = localStorage.getItem('isAuthorized');
+  const isAuthorized = JSON.parse(localStorage.getItem('isAuthorized')!);
   try {
     if (isAuthorized) {
       const profileResponse = await getProfile();
@@ -15,7 +15,7 @@ const initializeAppThunk = () => async (dispatch: DispatchType) => {
   } catch (e) {
     console.log(e);
   }
-  dispatch(getCartThunk());
+  await dispatch(getCartThunk());
 };
 
 export default initializeAppThunk;
