@@ -23,7 +23,7 @@ interface IProps {
   setFilterSettingsOpen: (isFilterSettingsOpen: boolean) => void;
 }
 
-function SearchSettings({
+function FilterSelect({
   settings,
   isSettingsCollapsed,
   setFilterSettingsOpen,
@@ -73,4 +73,4 @@ function SearchSettings({
   );
 }
 
-export default SearchSettings;
+export default FilterSelect;

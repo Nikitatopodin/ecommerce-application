@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Checkbox, Input, Slider } from 'antd';
+import { Button, Checkbox, Input, Slider, Typography } from 'antd';
 import type { SliderMarks } from 'antd/es/slider';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
@@ -11,6 +11,7 @@ import {
 } from '../../../../redux/slices/catalogSlice';
 
 const { Search } = Input;
+const { Title } = Typography;
 
 function CatalogMenu(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -48,7 +49,9 @@ function CatalogMenu(): JSX.Element {
         enterButton
         style={{ marginBottom: 10 }}
       />
-      <h3 style={{ margin: 0 }}>Price</h3>
+      <Title level={5} style={{ margin: 0 }}>
+        Price
+      </Title>
       <Slider
         marks={marks}
         range={{ draggableTrack: true }}
@@ -58,7 +61,9 @@ function CatalogMenu(): JSX.Element {
         step={0.1}
         onChange={onChangePrice}
       />
-      <h3 style={{ margin: 0 }}>Colors and attributes</h3>
+      <Title level={5} style={{ margin: 0 }}>
+        Colors and attributes
+      </Title>
       <Checkbox.Group
         options={dataAttributes}
         value={settings.attributes}

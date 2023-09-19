@@ -16,7 +16,7 @@ import {
 import BreadcrumbComponent from './breadcrumb/BreadcrumbComponent';
 import PaginationCatalog from './pagination/PaginationCatalog';
 import ProductList from './productList/ProductList';
-import SearchSettings from './searchSettings/SearchSettings';
+import FilterSelect from './filterSelect/FilterSelect';
 
 const { Sider } = Layout;
 
@@ -159,7 +159,7 @@ function Catalog(): JSX.Element {
           items={[...categoriesData!]}
           style={menuStyle}
         />
-        <SearchSettings
+        <FilterSelect
           settings={settings}
           isSettingsCollapsed={isSettingsCollapsed}
           setFilterSettingsOpen={setFilterSettingsOpen}
