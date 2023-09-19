@@ -8,9 +8,8 @@ const { Content } = Layout;
 const { Title } = Typography;
 
 const titleStyle: React.CSSProperties = {
-  textAlign: 'center',
-  fontWeight: 400,
-  fontSize: '2.5vw',
+  fontWeight: 300,
+  fontSize: '2.3em',
 };
 
 export default function MainComponent() {

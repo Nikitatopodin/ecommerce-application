@@ -4,16 +4,9 @@ import NavComponent from './nav/Nav';
 
 const { Header } = Layout;
 
-const headerStyle: React.CSSProperties = {
-  color: '#000',
-  paddingInline: 20,
-  lineHeight: '64px',
-  backgroundColor: '#f5f5f5',
-};
-
 export default function HeaderComponent() {
   return (
-    <Header style={headerStyle}>
+    <Header style={{ padding: 0 }}>
       <NavComponent />
     </Header>
   );

@@ -4,18 +4,14 @@ import { Button, Col, notification, Row } from 'antd';
 import { PercentageOutlined } from '@ant-design/icons';
 import Text from 'antd/es/typography/Text';
 import Title from 'antd/es/typography/Title';
-import { getDiscountCodes } from '../../../services/customerRequests';
-import {
-  addPromoCodes,
-  IPromoCode,
-} from '../../../redux/slices/promoCodesSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+import getPromoCodeThunk from '../../../redux/actions/getPromoCodeThunk';
 
 function PromoCodes() {
   const { promoCodes } = useAppSelector((state) => state.promoCodes);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [api, contextHolder] = notification.useNotification();
-  const dispatch = useAppDispatch();
 
   const openNotification = () => {
     api.open({
@@ -39,20 +35,7 @@ function PromoCodes() {
   };
 
   useEffect(() => {
-    getDiscountCodes()
-      .then((data) => {
-        const promoCodesArr: IPromoCode[] = [];
-        data.body.results.forEach((item) => {
-          promoCodesArr.push({
-            title: item.name!['en-US'],
-            description: item.description!['en-US'],
-            id: item.id,
-            code: item.code,
-          });
-        });
-        dispatch(addPromoCodes(promoCodesArr));
-      })
-      .catch(console.log);
+    dispatch(getPromoCodeThunk());
   }, []);
 
   return (
