@@ -2,6 +2,7 @@ import React from 'react';
 import { Carousel } from 'antd';
 import { Image, TypedMoney } from '@commercetools/platform-sdk';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 interface IProps {
   productInfo: {
@@ -27,12 +28,14 @@ function ProductCarousel({ productInfo, setProductModalOpen, style }: IProps) {
   return (
     <Carousel autoplay style={style} dots={{ className: 'dots' }}>
       <LazyLoadImage
+        effect="blur"
         src={productInfo.images![0].url}
         style={contentStyle}
         className="product-img"
         onClick={() => setProductModalOpen && setProductModalOpen(true)}
       />
       <LazyLoadImage
+        effect="blur"
         src={productInfo.images![1].url}
         style={contentStyle}
         className="product-img"
