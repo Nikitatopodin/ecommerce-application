@@ -11,8 +11,8 @@ interface IProps {
     description: string;
     prices: (TypedMoney | undefined)[][];
   };
-  setProductModalOpen?: (isProductModalOpen: boolean) => void;
   style: React.CSSProperties;
+  setProductModalOpen?: (isProductModalOpen: boolean) => void;
 }
 
 const contentStyle: React.CSSProperties = {
@@ -24,7 +24,7 @@ const contentStyle: React.CSSProperties = {
   background: '#364d79',
 };
 
-function ProductCarousel({ productInfo, setProductModalOpen, style }: IProps) {
+function ProductCarousel({ productInfo, style, setProductModalOpen }: IProps) {
   return (
     <Carousel autoplay style={style} dots={{ className: 'dots' }}>
       <LazyLoadImage
@@ -46,3 +46,7 @@ function ProductCarousel({ productInfo, setProductModalOpen, style }: IProps) {
 }
 
 export default ProductCarousel;
+
+ProductCarousel.defaultProps = {
+  setProductModalOpen: undefined,
+};

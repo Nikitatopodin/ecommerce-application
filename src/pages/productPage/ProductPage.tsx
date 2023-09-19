@@ -89,8 +89,8 @@ function ProductPage() {
       <Col className="product-left">
         <ProductCarousel
           productInfo={productInfo}
-          setProductModalOpen={setProductModalOpen}
           style={productCarouselStyle}
+          setProductModalOpen={setProductModalOpen}
         />
         <Modal
           open={isProductModalOpen}
