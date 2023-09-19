@@ -1,33 +1,29 @@
 import './ProductPage.css';
-import { Button, Col, Row, Image, Carousel, Modal, Typography } from 'antd';
+import { Button, Col, Modal, Row, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { LineItem, ProductProjection } from '@commercetools/platform-sdk';
 import { useLoaderData } from 'react-router-dom';
 import updateCartThunk from '../../redux/actions/updateCartThunk';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import removeCartItemThunk from '../../redux/actions/removeCartItemThunk';
+import ProductCarousel from './productCarousel/ProductCarousel';
 
 const { Title, Text } = Typography;
-const contentStyle: React.CSSProperties = {
-  margin: 0,
-  color: '#fff',
-  lineHeight: '160px',
-  width: '25vw',
-  textAlign: 'center',
-  background: '#364d79',
-};
 
 const productCarouselStyle: React.CSSProperties = {
-  backgroundColor: 'black',
-  maxWidth: '350px',
+  maxWidth: 350,
   width: '40vw',
-  marginTop: '10px',
+  marginTop: 10,
   marginLeft: 'auto',
+};
+
+const productCarouselPreviewStyle: React.CSSProperties = {
+  width: '100%',
 };
 
 function ProductPage() {
   const productData: ProductProjection = useLoaderData() as ProductProjection;
-  const [open, setOpen] = useState(false);
+  const [isProductModalOpen, setProductModalOpen] = useState(false);
   const [currentSize, setCurrentSize] = useState(0);
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
@@ -74,12 +70,8 @@ function ProductPage() {
     );
   };
 
-  const showModal = () => {
-    setOpen(true);
-  };
-
   const handleCancel = () => {
-    setOpen(false);
+    setProductModalOpen(false);
   };
 
   const onSizeButtonClick = (e: EventTarget) => {
@@ -97,52 +89,23 @@ function ProductPage() {
   return (
     <Row gutter={[20, 20]} justify="center" className="wrapper">
       <Col className="product-left">
-        <Carousel
-          autoplay
+        <ProductCarousel
+          productInfo={productInfo}
+          setProductModalOpen={setProductModalOpen}
           style={productCarouselStyle}
-          dots={{ className: 'dots' }}
-        >
-          <Image
-            src={productInfo.images![0].url}
-            style={contentStyle}
-            preview={false}
-            className="product-img"
-            onClick={showModal}
-          />
-          <Image
-            src={productInfo.images![1].url}
-            style={contentStyle}
-            preview={false}
-            className="product-img"
-            onClick={showModal}
-          />
-        </Carousel>
+        />
         <Modal
-          open={open}
+          open={isProductModalOpen}
           title={productInfo.name}
           onCancel={handleCancel}
           cancelButtonProps={{ style: { display: 'none' } }}
           okButtonProps={{ style: { display: 'none' } }}
           destroyOnClose
         >
-          <Carousel
-            style={{
-              backgroundColor: 'black',
-              width: '100%',
-            }}
-            dots={{ className: 'dots' }}
-          >
-            <Image
-              src={productInfo.images![0].url}
-              style={contentStyle}
-              preview={false}
-            />
-            <Image
-              src={productInfo.images![1].url}
-              style={contentStyle}
-              preview={false}
-            />
-          </Carousel>
+          <ProductCarousel
+            productInfo={productInfo}
+            style={productCarouselPreviewStyle}
+          />
         </Modal>
       </Col>
       <Col
