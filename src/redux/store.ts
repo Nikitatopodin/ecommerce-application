@@ -5,6 +5,7 @@ import navMenu from './slices/navMenuSlice';
 import catalog from './slices/catalogSlice';
 import cart from './slices/cartSlice';
 import promoCodes from './slices/promoCodesSlice';
+import cartModal from './slices/cartModalSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   catalog,
   cart,
   promoCodes,
+  cartModal,
 });
 
 const setupStore = () => {

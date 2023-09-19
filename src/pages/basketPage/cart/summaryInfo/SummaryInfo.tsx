@@ -7,11 +7,20 @@ import styles from './SummaryInfo.module.css';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 import removeCartThunk from '../../../../redux/actions/removeCartThunk';
 import applyPromoCodeThunk from '../../../../redux/actions/applyPromoCodeThunk';
+import ModalWindow from '../../../../components/cart/modal/ModalWindow';
+import {
+  isOpenCartModalReducer,
+  setCallbackCartModalReducer,
+} from '../../../../redux/slices/cartModalSlice';
 
 function SummaryInfo() {
   const { cart } = useAppSelector((state) => state.cart);
   const [promoCode, setPromoCode] = useState('');
   const dispatch = useAppDispatch();
+
+  dispatch(
+    setCallbackCartModalReducer(removeCartThunk(cart!.version, cart!.id)),
+  );
 
   const memoTotalPrice = useMemo(() => {
     let total = 0;
@@ -78,12 +87,11 @@ function SummaryInfo() {
         <Button type="primary" style={{ marginRight: '1em' }}>
           Checkout
         </Button>
-        <Button
-          onClick={() => dispatch(removeCartThunk(cart!.version, cart!.id))}
-        >
+        <Button onClick={() => dispatch(isOpenCartModalReducer(true))}>
           Clear cart
         </Button>
       </Space.Compact>
+      <ModalWindow />
     </Card>
   );
 }
