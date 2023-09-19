@@ -1,6 +1,6 @@
 import './ProductPage.css';
 import { Button, Col, Modal, Row, Typography } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { LineItem, ProductProjection } from '@commercetools/platform-sdk';
 import { useLoaderData } from 'react-router-dom';
 import updateCartThunk from '../../redux/actions/updateCartThunk';
@@ -83,8 +83,6 @@ function ProductPage() {
       }
     }
   };
-
-  useEffect(() => {}, [currentSize]);
 
   return (
     <Row gutter={[20, 20]} justify="center" className="wrapper">

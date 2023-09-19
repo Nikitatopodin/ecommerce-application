@@ -2,13 +2,15 @@ import React from 'react';
 import { Modal } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import { isOpenCartModalReducer } from '../../../redux/slices/cartModalSlice';
+import removeCartThunk from '../../../redux/actions/removeCartThunk';
 
 function ModalWindow(): JSX.Element {
   const dispatch = useAppDispatch();
-  const { isOpen, callback } = useAppSelector((state) => state.cartModal);
+  const { isOpen } = useAppSelector((state) => state.cartModal);
+  const { cart } = useAppSelector((state) => state.cart);
 
   const handleOk = (): void => {
-    dispatch(callback);
+    dispatch(removeCartThunk(cart!.version, cart!.id));
     dispatch(isOpenCartModalReducer(false));
   };
 

@@ -5,22 +5,14 @@ import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import styles from './SummaryInfo.module.css';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
-import removeCartThunk from '../../../../redux/actions/removeCartThunk';
 import applyPromoCodeThunk from '../../../../redux/actions/applyPromoCodeThunk';
 import ModalWindow from '../../../../components/cart/modal/ModalWindow';
-import {
-  isOpenCartModalReducer,
-  setCallbackCartModalReducer,
-} from '../../../../redux/slices/cartModalSlice';
+import { isOpenCartModalReducer } from '../../../../redux/slices/cartModalSlice';
 
 function SummaryInfo() {
   const { cart } = useAppSelector((state) => state.cart);
   const [promoCode, setPromoCode] = useState('');
   const dispatch = useAppDispatch();
-
-  dispatch(
-    setCallbackCartModalReducer(removeCartThunk(cart!.version, cart!.id)),
-  );
 
   const memoTotalPrice = useMemo(() => {
     let total = 0;
