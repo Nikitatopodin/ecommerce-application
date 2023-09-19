@@ -8,11 +8,20 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 import { usePromoCode } from '../../../../services/customerRequests';
 import { updateCartReducer } from '../../../../redux/slices/cartSlice';
 import removeCartThunk from '../../../../redux/actions/removeCartThunk';
+import ModalWindow from '../../../../components/cart/modal/ModalWindow';
+import {
+  isOpenCartModalReducer,
+  setCallbackCartModalReducer,
+} from '../../../../redux/slices/cartModalSlice';
 
 function SummaryInfo() {
   const { cart } = useAppSelector((state) => state.cart);
   const [promoCode, setPromoCode] = useState('');
   const dispatch = useAppDispatch();
+
+  dispatch(
+    setCallbackCartModalReducer(removeCartThunk(cart!.version, cart!.id)),
+  );
 
   const useDiscount = () => {
     usePromoCode(cart!.id, cart!.version, promoCode)
@@ -79,12 +88,11 @@ function SummaryInfo() {
         <Button type="primary" style={{ marginRight: '1em' }}>
           Checkout
         </Button>
-        <Button
-          onClick={() => dispatch(removeCartThunk(cart!.version, cart!.id))}
-        >
+        <Button onClick={() => dispatch(isOpenCartModalReducer(true))}>
           Clear cart
         </Button>
       </Space.Compact>
+      <ModalWindow />
     </Card>
   );
 }
