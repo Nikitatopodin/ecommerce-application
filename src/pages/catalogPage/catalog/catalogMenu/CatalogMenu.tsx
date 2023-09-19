@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Checkbox, Input, Slider, Space } from 'antd';
+import { Button, Checkbox, Input, Slider } from 'antd';
 import type { SliderMarks } from 'antd/es/slider';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
@@ -39,13 +39,14 @@ function CatalogMenu(): JSX.Element {
   const onSearch = (value: string) => dispatch(addSearchString(value));
 
   return (
-    <Space direction="vertical" style={{ display: 'flex', gap: 50 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
       <Search
         placeholder="search text"
         onSearch={onSearch}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         enterButton
+        style={{ marginBottom: 10 }}
       />
       <h3 style={{ margin: 0 }}>Price</h3>
       <Slider
@@ -72,7 +73,7 @@ function CatalogMenu(): JSX.Element {
       >
         Reset filters
       </Button>
-    </Space>
+    </div>
   );
 }
 
