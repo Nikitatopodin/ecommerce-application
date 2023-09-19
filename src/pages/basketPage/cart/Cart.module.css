@@ -1,11 +1,13 @@
 .cart {
+    padding-top: 1.5em;
     display: flex;
     justify-content: space-evenly;
+    min-height: 80vh;
 }
 
 @media (max-width: 700px) {
     .cart {
         flex-direction: column;
-        padding: 0 1em;
+        padding: .5em 1em;
     }
 }
