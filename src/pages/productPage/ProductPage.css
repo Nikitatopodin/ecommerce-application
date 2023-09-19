@@ -37,6 +37,11 @@
     font-weight: bold;
 }
 
+.dots > * {
+    border: solid 1px #f5f4f2;
+    border-radius: 1em;
+    background-color: #d3cec5;
+}
 
 @media (max-width: 900px) {
     .wrapper {
