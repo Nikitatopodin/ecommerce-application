@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Modal, Typography } from 'antd';
 import { BaseAddress } from '@commercetools/platform-sdk';
-import AddressesFormFields from '../../../../components/form/userDataForm/AddressesFormFields';
+import AddressesFormFields from '../../../../components/form/AddressesFormFields';
 import formatAddress, {
   IAddressValues,
 } from '../../../../utils/form/formatAddress';

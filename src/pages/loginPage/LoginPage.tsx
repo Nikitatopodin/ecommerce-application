@@ -7,11 +7,13 @@ import {
   errorLayout,
   fieldsProps,
   tailFormItemLayout,
-} from '../../components/form/userDataForm/formProps/fieldsProps';
+} from '../../components/form/formProps/fieldsProps';
 import signInThunk from '../../redux/actions/signInThunk';
 import styles from './LoginPage.module.css';
 
 function LoginPage(): JSX.Element {
+  const SUCCESS_MESSAGE = 'You have successfully signed in';
+
   const [form] = Form.useForm();
   const formRef = React.useRef<FormInstance>(null);
   const [isLoginError, setLoginError] = useState(false);
@@ -27,8 +29,6 @@ function LoginPage(): JSX.Element {
       navigate('/');
     }
   }, [isAuthorized]);
-
-  const SUCCESS_MESSAGE = 'You have successfully signed in';
 
   const onReset = () => formRef.current?.resetFields();
   const onFinish = async (values: CustomerSignin) => {

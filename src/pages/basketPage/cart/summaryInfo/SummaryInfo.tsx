@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { Button, Card, Input, Row, Space, message } from 'antd';
+import { Button, Card, Input, Row, Space } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import styles from './SummaryInfo.module.css';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
-import { usePromoCode } from '../../../../services/customerRequests';
-import { updateCartReducer } from '../../../../redux/slices/cartSlice';
 import removeCartThunk from '../../../../redux/actions/removeCartThunk';
+import applyPromoCodeThunk from '../../../../redux/actions/applyPromoCodeThunk';
 import ModalWindow from '../../../../components/cart/modal/ModalWindow';
 import {
   isOpenCartModalReducer,
@@ -22,18 +21,6 @@ function SummaryInfo() {
   dispatch(
     setCallbackCartModalReducer(removeCartThunk(cart!.version, cart!.id)),
   );
-
-  const useDiscount = () => {
-    usePromoCode(cart!.id, cart!.version, promoCode)
-      .then((response) => {
-        dispatch(updateCartReducer(response.body));
-        setPromoCode('');
-        message.success('Promo code applied');
-      })
-      .catch(() => {
-        message.error('Please enter the current promo code');
-      });
-  };
 
   const memoTotalPrice = useMemo(() => {
     let total = 0;
@@ -79,7 +66,19 @@ function SummaryInfo() {
           value={promoCode}
           onChange={(e) => setPromoCode(e.target.value)}
         />
-        <Button type="primary" onClick={useDiscount}>
+        <Button
+          type="primary"
+          onClick={() =>
+            dispatch(
+              applyPromoCodeThunk({
+                id: cart!.id,
+                version: cart!.version,
+                promoCode,
+                setPromoCode,
+              }),
+            )
+          }
+        >
           <CheckOutlined />
         </Button>
       </Space.Compact>

@@ -5,11 +5,11 @@ import { IRegistrationForm } from '../../types/types';
 import {
   fieldsProps,
   tailFormItemLayout,
-} from '../../components/form/userDataForm/formProps/fieldsProps';
-import AddressesFormFields from '../../components/form/userDataForm/AddressesFormFields';
+} from '../../components/form/formProps/fieldsProps';
+import AddressesFormFields from '../../components/form/AddressesFormFields';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import PersonalDataFormFields from '../../components/form/userDataForm/PersonalDataFormFields';
-import PasswordFields from '../../components/form/userDataForm/PasswordFields';
+import PersonalDataFormFields from '../../components/form/PersonalDataFormFields';
+import PasswordFields from '../../components/form/PasswordFields';
 import signUpThunk from '../../redux/actions/signUpThunk';
 
 function RegistrationForm(): JSX.Element {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, message, Modal, Typography } from 'antd';
 import { Customer } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/customer';
-import { fieldsProps } from '../../../../components/form/userDataForm/formProps/fieldsProps';
-import PersonalDataFormFields from '../../../../components/form/userDataForm/PersonalDataFormFields';
+import { fieldsProps } from '../../../../components/form/formProps/fieldsProps';
+import PersonalDataFormFields from '../../../../components/form/PersonalDataFormFields';
 import { updateProfile } from '../../../../services/customerRequests';
 import { setProfileData } from '../../../../redux/slices/authorizationSlice';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';

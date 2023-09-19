@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Form, Input, Modal, Typography } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 import updatePasswordThunk from '../../../../redux/actions/updatePasswordThunk';
-import PasswordFields from '../../../../components/form/userDataForm/PasswordFields';
-import { fieldsProps } from '../../../../components/form/userDataForm/formProps/fieldsProps';
+import PasswordFields from '../../../../components/form/PasswordFields';
+import { fieldsProps } from '../../../../components/form/formProps/fieldsProps';
 
 interface IProps {
   isModalOpen: boolean;

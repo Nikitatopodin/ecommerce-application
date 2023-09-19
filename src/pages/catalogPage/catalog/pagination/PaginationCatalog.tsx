@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Pagination, PaginationProps } from 'antd';
-import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 import {
   setCardsOnPage,
   setCurrentPage,
-} from '../../../redux/slices/catalogSlice';
+} from '../../../../redux/slices/catalogSlice';
 
 function PaginationCatalog() {
   const { totalCards, cardsOnPage, currentPage } = useAppSelector(
