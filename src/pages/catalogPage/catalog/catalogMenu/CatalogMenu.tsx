@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Button, Checkbox, Input, Slider, Space } from 'antd';
 import type { SliderMarks } from 'antd/es/slider';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/hooks';
 import {
   addSearchString,
   changePrice,
   resetFilter,
   setAttributes,
-} from '../../redux/slices/catalogSlice';
+} from '../../../../redux/slices/catalogSlice';
 
 const { Search } = Input;
 
@@ -17,14 +17,6 @@ function CatalogMenu(): JSX.Element {
   const { dataAttributes, settings } = useAppSelector((state) => state.catalog);
 
   const [searchValue, setSearchValue] = useState(settings.search);
-
-  const onChangeAttributes = (checkedValues: CheckboxValueType[]) => {
-    dispatch(setAttributes(checkedValues));
-  };
-
-  const onChangePrice = (value: [number, number]) => {
-    dispatch(changePrice(value));
-  };
 
   const marks: SliderMarks = {
     [settings.price[0]]: settings.price[0].toLocaleString('en-US', {
@@ -37,6 +29,13 @@ function CatalogMenu(): JSX.Element {
     }),
   };
 
+  const onChangeAttributes = (checkedValues: CheckboxValueType[]) => {
+    dispatch(setAttributes(checkedValues));
+  };
+
+  const onChangePrice = (value: [number, number]) => {
+    dispatch(changePrice(value));
+  };
   const onSearch = (value: string) => dispatch(addSearchString(value));
 
   return (

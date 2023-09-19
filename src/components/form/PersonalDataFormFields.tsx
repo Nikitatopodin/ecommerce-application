@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { DatePicker, Form, Input } from 'antd';
 import { fieldsProps } from './formProps/fieldsProps';
-import { useAppSelector } from '../../../hooks/hooks';
+import { useAppSelector } from '../../hooks/hooks';
 
 function PersonalDataFormFields() {
   const personalData = useAppSelector((state) => state.authorization.userData);

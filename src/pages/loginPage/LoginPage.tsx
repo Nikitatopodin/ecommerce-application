@@ -7,7 +7,7 @@ import {
   errorLayout,
   fieldsProps,
   tailFormItemLayout,
-} from '../../components/form/userDataForm/formProps/fieldsProps';
+} from '../../components/form/formProps/fieldsProps';
 import signInThunk from '../../redux/actions/signInThunk';
 import styles from './LoginPage.module.css';
 

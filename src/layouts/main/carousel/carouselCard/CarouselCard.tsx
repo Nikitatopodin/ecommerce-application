@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Image } from 'antd';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import styles from './CarouselCard.module.css';
 
 interface IProps {
@@ -13,10 +14,22 @@ function CarouselCard({ cardsPack }: IProps) {
   );
   return (
     <div className={styles.cardsWrapper}>
-      <Image src={cardsPack[0]} preview={false} className={styles.picture} />
-      <Image src={cardsPack[1]} preview={false} className={styles.picture} />
+      <LazyLoadImage
+        effect="blur"
+        src={cardsPack[0]}
+        className={styles.picture}
+      />
+      <LazyLoadImage
+        effect="blur"
+        src={cardsPack[1]}
+        className={styles.picture}
+      />
       {isThirdCard && (
-        <Image src={cardsPack[2]} preview={false} className={styles.picture} />
+        <LazyLoadImage
+          effect="blur"
+          src={cardsPack[2]}
+          className={styles.picture}
+        />
       )}
     </div>
   );

@@ -19,7 +19,7 @@ import ProfilePage from '../../pages/profilePage/ProfilePage';
 import ProductPage from '../../pages/productPage/ProductPage';
 import { getProductById } from '../../services/customerRequests';
 import PrivateNonAuthRoute from './PrivateNonAuthRoute';
-import CatalogPage from '../../pages/CatalogPage';
+import CatalogPage from '../../pages/catalogPage/CatalogPage';
 import BasketPage from '../../pages/basketPage/BasketPage';
 import AboutUsPage from '../../pages/aboutUs/AboutUsPage';
 import styles from './index.module.css';

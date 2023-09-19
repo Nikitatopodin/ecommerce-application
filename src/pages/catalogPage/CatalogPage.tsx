@@ -1,6 +1,6 @@
 import React from 'react';
 import { Space } from 'antd';
-import Catalog from '../components/catalog/Catalog';
+import Catalog from './catalog/Catalog';
 
 function CatalogPage(): JSX.Element {
   return (

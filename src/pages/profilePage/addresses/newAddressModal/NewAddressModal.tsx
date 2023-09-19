@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal, Radio } from 'antd';
-import AddressesFormFields from '../../../../components/form/userDataForm/AddressesFormFields';
+import AddressesFormFields from '../../../../components/form/AddressesFormFields';
 import formatAddress, {
   IAddressValues,
 } from '../../../../utils/form/formatAddress';

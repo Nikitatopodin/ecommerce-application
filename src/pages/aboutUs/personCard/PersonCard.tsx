@@ -1,4 +1,6 @@
 import React from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Card, Row } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
 import Title from 'antd/es/typography/Title';
@@ -18,10 +20,12 @@ function PersonCard({ name, role, about, githubLink, picture }: IPerson) {
     <Card
       className={styles.card}
       cover={
-        <img
+        <LazyLoadImage
           alt="teammate"
+          effect="blur"
           src={picture}
           style={{
+            width: '100%',
             borderTopRightRadius: 10,
             borderTopLeftRadius: 10,
             height: 316,

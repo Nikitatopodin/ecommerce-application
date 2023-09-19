@@ -4,9 +4,9 @@ import Text from 'antd/es/typography/Text';
 import Title from 'antd/es/typography/Title';
 import PersonCard from './personCard/PersonCard';
 import styles from './AboutUsPage.module.css';
-import mashaPicture from '../../assets/images/IMG_9893.jpg';
-import ilyaPicture from '../../assets/images/IMG_9892.jpg';
-import nikitaPicture from '../../assets/images/IMG_9907.jpg';
+import mashaPicture from '../../assets/images/aboutUsPhotos/IMG_9893.jpg';
+import ilyaPicture from '../../assets/images/aboutUsPhotos/IMG_9892.jpg';
+import nikitaPicture from '../../assets/images/aboutUsPhotos/IMG_9907.jpg';
 
 function AboutUsPage() {
   const aboutUsInfo = [
