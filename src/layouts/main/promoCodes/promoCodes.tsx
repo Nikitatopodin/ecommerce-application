@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Col, notification, Row } from 'antd';
 import { PercentageOutlined } from '@ant-design/icons';
-import Text from 'antd/es/typography/Text';
 import Title from 'antd/es/typography/Title';
 import { useAppDispatch, useAppSelector } from '../../../hooks/hooks';
 import getPromoCodeThunk from '../../../redux/actions/getPromoCodeThunk';
@@ -18,7 +17,6 @@ function PromoCodes() {
       message: `${promoCodes[0].title}`,
       description: (
         <Row>
-          <Text>{promoCodes[0].description}</Text>
           <Title
             level={5}
             style={{

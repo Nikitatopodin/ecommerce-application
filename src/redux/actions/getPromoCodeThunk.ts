@@ -4,10 +4,9 @@ import { addPromoCodes, IPromoCode } from '../slices/promoCodesSlice';
 
 const getPromoCodeThunk = () => (dispatch: DispatchType) => {
   try {
-    console.log('here');
-
     getDiscountCodes()
       .then((data) => {
+        console.log('DATA', data);
         const promoCodesArr: IPromoCode[] = [];
         data.body.results.forEach((item) => {
           promoCodesArr.push({
