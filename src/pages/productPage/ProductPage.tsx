@@ -117,7 +117,7 @@ function ProductPage() {
               type={currentSize === 0 ? 'primary' : 'default'}
               onClick={(e) => onSizeButtonClick(e.target)}
             >
-              {productData.masterVariant.attributes![1].value.label}
+              {productData.masterVariant.attributes![0].value.label}
             </Button>
           </Col>
           <Col>
@@ -125,7 +125,7 @@ function ProductPage() {
               type={currentSize === 1 ? 'primary' : 'default'}
               onClick={(e) => onSizeButtonClick(e.target)}
             >
-              {productData.variants[0].attributes![1].value.label}
+              {productData.variants[0].attributes![0].value.label}
             </Button>
           </Col>
         </Row>
