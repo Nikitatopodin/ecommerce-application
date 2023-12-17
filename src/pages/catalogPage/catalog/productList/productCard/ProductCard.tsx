@@ -7,6 +7,7 @@ import updateCartThunk from '../../../../../redux/actions/updateCartThunk';
 import removeCartItemThunk from '../../../../../redux/actions/removeCartItemThunk';
 import { useAppDispatch, useAppSelector } from '../../../../../hooks/hooks';
 import styles from '../../Сatalog.module.css';
+import picture from '../../../../../assets/images/mainPageCarousel/carousel-1.jpeg';
 
 const { Meta } = Card;
 
@@ -66,7 +67,7 @@ function ProductCard({ item }: IProps) {
           <LazyLoadImage
             alt="example"
             effect="blur"
-            src={item.masterVariant!.images![0].url}
+            src={picture}
             className={styles.picture}
           />
         )

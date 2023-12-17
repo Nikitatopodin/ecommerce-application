@@ -118,7 +118,7 @@ function Catalog(): JSX.Element {
     if (dataProducts.length) {
       const findAttributes = new Set<string>();
       dataProducts.forEach((item) => {
-        item.variants[0].attributes?.forEach((attr) => {
+        item.masterVariant?.attributes?.forEach((attr) => {
           if (attr.name === 'picture' && attr.value) {
             findAttributes.add('With picture');
           } else if (attr.name === 'color') {
